@@ -9,13 +9,11 @@
 } */
 
 body {
-  scroll-behavior: smooth;
-  background: #000;
+  overflow: hidden;
 }
 
 #root{
-  background-color: aquamarine;
-  width: 100%;
+  overflow: hidden;
 }
 
 
