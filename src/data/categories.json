@@ -1,0 +1,63 @@
+[
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys7",
+        "name": "cars",
+        "description": "This is a collection of cars",
+        "iconName": "car"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys8",
+        "name": "Motorbikes",
+        "description": "This is a collection of bikes",
+        "iconName": "motorcycle"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys12",
+        "name": "tuk-tuks",
+        "description": "This is a collection of three wheelers",
+        "iconName": "tuktuk"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys13",
+        "name": "bicycles",
+        "description": "This is a collection of bicycles",
+        "iconName": "bicycle"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys14",
+        "name": "Vans",
+        "description": "This is a collection of Vans",
+        "iconName": "van"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys10",
+        "name": "buses",
+        "description": "This is a collection of buses",
+        "iconName": "bus"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys9",
+        "name": "trucks & lorries",
+        "description": "This is a collection of trucks & lorries",
+        "iconName": "truck"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys15",
+        "name": "Heavy machinery",
+        "description": "This is a collection of Heavy machinery",
+        "iconName": "heavy"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys16",
+        "name": "tractors",
+        "description": "This is a collection of tractors",
+        "iconName": "tractor"
+    },
+    {
+        "_id": "5f5f5gh7hb7ghsha7ys11",
+        "name": "boats",
+        "description": "This is a collection of boats",
+        "iconName": "boat"
+    }
+
+]
