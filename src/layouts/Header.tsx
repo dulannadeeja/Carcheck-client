@@ -5,15 +5,15 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { AiFillTag } from "react-icons/ai";
-import Container from "../components/ui/Container";
+// import Container from "../components/ui/Container";
 import { RiListSettingsFill } from "react-icons/ri";
 import { IoMdHeartEmpty } from "react-icons/io";
 
 // components
-import ContainerLarge from "../components/ui/ContainerLarge";
+// import ContainerLarge from "../components/ui/ContainerLarge";
 import SearchListingsForm from "../components/SearchListingsForm";
-import CategoriesModal from "../components/CategoriesModal";
-import LocationModal from "../components/LocationModal";
+// import CategoriesModal from "../components/CategoriesModal";
+// import LocationModal from "../components/LocationModal";
 
 function Header() {
   return (

@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-
 import { cn } from "../../utils/mergeClasses";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
+  pending?: boolean;
 }
 
-function Button({ className, disabled, ...props }: ButtonProps) {
-  const [pending, setPending] = useState(false);
+function Button({ className, disabled, pending, ...props }: ButtonProps) {
   return (
     <button
       className={cn("px-4 py-3 text-white bg-gray-500 rounded-md", className, {
