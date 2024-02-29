@@ -1,5 +1,3 @@
-import React from "react";
-
 // components
 import Modal from "./ui/Modal";
 import DivisionsList from "./DivisionsList";

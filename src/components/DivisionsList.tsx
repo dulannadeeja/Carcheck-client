@@ -1,4 +1,3 @@
-import React from "react";
 import divisionsList from "../data/cities-and-postalcode-by-district.json";
 import ListItem from "./ui/ListItem";
 import List from "./ui/List";
