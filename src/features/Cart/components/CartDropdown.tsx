@@ -16,7 +16,7 @@ function CartDropdown({ className, ...rest }: TCartDropdownProps) {
         </h2>
 
         <CartDropdownList />
-        <div className="border-t border-gray-200 pt-6 mt-7 px-4 z-50">
+        <div className="pt-6 mt-7 px-4 z-50">
           <div className="flex justify-between text-base font-medium text-gray-900">
             <p>Subtotal</p>
             <p>$26245.00</p>

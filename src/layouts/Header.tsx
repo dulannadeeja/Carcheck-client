@@ -69,7 +69,7 @@ function Header() {
                 </Button>
                 <CartDropdown
                   className={cn(
-                    "absolute right-0 w-fit max-w-screen-2rem min-w-[20.5rem]",
+                    "absolute right-0 w-fit max-h-screen-5rem max-w-screen-2rem min-w-[20.5rem]",
                     {
                       hidden: !isCartDropdownOpen,
                     }

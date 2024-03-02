@@ -10,7 +10,7 @@ export default {
         'screen-2rem': 'calc(100vh - 2rem)',
         "screen-3rem": "calc(100vh - 3rem)",
         "screen-4rem": "calc(100vh - 4rem)",
-        "screen-5rem": "calc(100vh - 19rem)",
+        "screen-5rem": "calc(100vh - 25rem)",
       },
       colors: {
         gray: {

@@ -26,7 +26,7 @@ const makeList = (products: TProduct[]) => {
   return products.map((product) => {
     return (
       <ListItem key={product._id} className="flex py-2 border-none">
-        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+        <div className="h-20 w-20 flex-shrink-0 overflow-hidden">
           <img
             className="h-full w-full object-cover object-center"
             src={product.imageUrl}
