@@ -64,11 +64,7 @@ function Header() {
                   setIsCartDropdownOpen(false);
                 }}
               >
-                <Button
-                  intent={"iconRound"}
-                  size={"mediumRound"}
-                  className="hidden md:inline-flex"
-                >
+                <Button intent={"iconRound"} size={"mediumRound"} className="">
                   <MdAddShoppingCart />
                 </Button>
                 <CartDropdown
