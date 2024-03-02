@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       maxHeight: {
-        'screen-2rem': 'calc(100vh - 2rem)',
-        "screen-3rem": "calc(100vh - 3rem)",
-        "screen-4rem": "calc(100vh - 4rem)",
-        "screen-5rem": "calc(100vh - 25rem)",
+        'screen-2rem': 'calc(100dvh - 2rem)',
+        "screen-3rem": "calc(100dvh - 3rem)",
+        "screen-4rem": "calc(100dvh - 4rem)",
+        "screen-5rem": "calc(100dvh - 5rem)",
       },
       colors: {
         gray: {

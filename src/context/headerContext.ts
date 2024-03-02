@@ -6,6 +6,8 @@ interface IHeaderContext {
     setIsMobileNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isCartDropdownOpen: boolean;
     setIsCartDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isWishlistDropdownOpen: boolean;
+    setIsWishlistDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const HeaderContext = createContext<undefined | IHeaderContext>(undefined);

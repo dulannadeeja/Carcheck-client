@@ -9,14 +9,14 @@ const buttonVariations = cva(["rounded"], {
           "bg-blue-300",
           "text-white",
           "border-transparent",
-          "hover:bg-blue-600",
+          "hover:bg-blue-400",
         ],
         secondary: [
           "bg-white",
           "text-gray-800",
           "hover:bg-gray-100",
           "border-2",
-          "border-blue-300",
+          "border-gray-800",
           "border-solid",
         ],
         iconRound: [

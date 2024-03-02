@@ -21,10 +21,16 @@ import MobileNavModal from "../components/MobileNavModal";
 import useHeaderContext from "../features/authentication/hooks/useHeaderContext";
 import CartDropdown from "../features/Cart/components/CartDropdown";
 import { cn } from "../utils/mergeClasses";
+import WishlistDropdown from "../features/Wishlist/components/WishlistDropdown";
 
 function Header() {
-  const { setIsMobileNavOpen, setIsCartDropdownOpen, isCartDropdownOpen } =
-    useHeaderContext();
+  const {
+    setIsMobileNavOpen,
+    setIsCartDropdownOpen,
+    isCartDropdownOpen,
+    isWishlistDropdownOpen,
+    setIsWishlistDropdownOpen,
+  } = useHeaderContext();
 
   return (
     <header className="text-sm py-2 w-full shadow-lg">
@@ -52,9 +58,29 @@ function Header() {
               </ul>
             </nav>
             <div className="flex items-center gap-7 text-2xl">
-              <Button intent={"iconRound"} size={"mediumRound"}>
-                <IoMdHeartEmpty />
-              </Button>
+              {/* wishlist */}
+              <div
+                className="relative"
+                onMouseEnter={() => {
+                  setIsWishlistDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  setIsWishlistDropdownOpen(false);
+                }}
+              >
+                <Button intent={"iconRound"} size={"mediumRound"}>
+                  <IoMdHeartEmpty />
+                </Button>
+                <WishlistDropdown
+                  className={cn(
+                    "absolute right-0 w-fit max-h-screen-5rem max-w-screen-2rem min-w-[20.5rem]",
+                    {
+                      hidden: !isWishlistDropdownOpen,
+                    }
+                  )}
+                />
+              </div>
+              {/* cart */}
               <div
                 className="relative"
                 onMouseEnter={() => {
@@ -76,11 +102,18 @@ function Header() {
                   )}
                 />
               </div>
-              <Button intent={"iconRound"} size={"mediumRound"}>
-                <FaRegBell />
-              </Button>
-              <div className="bg-gray-500 md:inline-flex p-2 rounded-full hidden">
-                <p className="text-white font-bold text-sm">DA</p>
+
+              {/* notification */}
+              <div>
+                <Button intent={"iconRound"} size={"mediumRound"}>
+                  <FaRegBell />
+                </Button>
+              </div>
+              {/* profile */}
+              <div>
+                <div className="bg-gray-500 md:inline-flex p-2 rounded-full hidden">
+                  <p className="text-white font-bold text-sm">DA</p>
+                </div>
               </div>
             </div>
           </div>
