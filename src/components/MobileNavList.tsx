@@ -38,7 +38,7 @@ const options: TOptions = {
     ProfileSettings: {
       label: "Profile Settings",
       action: () => {
-        console.log("Profile Settings");
+        console.log("Profile Settingss");
       },
     },
     ProfileInfo: {
