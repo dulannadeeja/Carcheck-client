@@ -1,5 +1,3 @@
-
-
 // assets
 import BrandLogo from "../assets/brand/logo.svg";
 import { MdAddShoppingCart } from "react-icons/md";
@@ -21,19 +19,24 @@ import MobileNavModal from "../components/MobileNavModal";
 
 // context
 import useHeaderContext from "../features/authentication/hooks/useHeaderContext";
+import CartDropdown from "../features/Cart/components/CartDropdown";
+import { cn } from "../utils/mergeClasses";
 
 function Header() {
-  const { setIsMobileNavOpen } = useHeaderContext();
+  const { setIsMobileNavOpen, setIsCartDropdownOpen, isCartDropdownOpen } =
+    useHeaderContext();
 
   return (
     <header className="text-sm py-2 w-full shadow-lg">
       <ContainerLarge>
         {/* top bar start */}
-        <div className="flex justify-between items-center gap-7 border-b-[0.05rem]">
+        <div className="flex justify-between items-center gap-7 border-b-[0.05rem] z-50">
           <div className="md:hidden">
-            <Button intent={"iconRound"} size={"mediumRound"} onClick={
-              () => setIsMobileNavOpen(true)
-            }>
+            <Button
+              intent={"iconRound"}
+              size={"mediumRound"}
+              onClick={() => setIsMobileNavOpen(true)}
+            >
               <IoMenuOutline className="" />
             </Button>
           </div>
@@ -52,13 +55,31 @@ function Header() {
               <Button intent={"iconRound"} size={"mediumRound"}>
                 <IoMdHeartEmpty />
               </Button>
-              <Button
-                intent={"iconRound"}
-                size={"mediumRound"}
-                className="hidden md:inline-flex"
+              <div
+                className="relative"
+                onMouseEnter={() => {
+                  setIsCartDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  setIsCartDropdownOpen(false);
+                }}
               >
-                <MdAddShoppingCart />
-              </Button>
+                <Button
+                  intent={"iconRound"}
+                  size={"mediumRound"}
+                  className="hidden md:inline-flex"
+                >
+                  <MdAddShoppingCart />
+                </Button>
+                <CartDropdown
+                  className={cn(
+                    "absolute right-0 w-fit max-w-screen-2rem min-w-[20.5rem]",
+                    {
+                      hidden: !isCartDropdownOpen,
+                    }
+                  )}
+                />
+              </div>
               <Button intent={"iconRound"} size={"mediumRound"}>
                 <FaRegBell />
               </Button>
