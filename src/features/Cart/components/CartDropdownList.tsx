@@ -66,12 +66,15 @@ const makeList = (products: TProduct[]) => {
   });
 };
 
-function CartDropdownList() {
+type TCartDropdownListProps = React.HTMLAttributes<HTMLUListElement>;
+
+function CartDropdownList({ className, ...rest }: TCartDropdownListProps) {
   return (
     <List
       items={makeList(products)}
       role="list"
-      className="-my-6 divide-y divide-gray-200 overflow-y-scroll max-h-screen-5rem px-4"
+      className={className}
+      {...rest}
     ></List>
   );
 }

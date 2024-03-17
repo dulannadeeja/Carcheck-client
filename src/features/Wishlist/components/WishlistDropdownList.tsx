@@ -78,10 +78,7 @@ function WishlistDropdownList({
       {...rest}
       items={makeList(products)}
       role="list"
-      className={cn(
-        "-my-6 divide-y divide-gray-200 overflow-y-scroll max-h-screen-5rem px-4",
-        className
-      )}
+      className={cn("", className)}
     ></List>
   );
 }

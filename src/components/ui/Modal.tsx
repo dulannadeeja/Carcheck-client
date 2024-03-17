@@ -1,28 +1,27 @@
-// icons
-import { IoClose } from "react-icons/io5";
+import { cn } from "../../utils/mergeClasses";
 
-function Modol({
-  headline,
-  children,
-}: {
-  headline: string;
+type TModalProps = {
   children: React.ReactNode;
-}) {
+  onClose: () => void;
+} & React.HTMLAttributes<HTMLDivElement>;
+
+function Modal({ children, onClose, className }: TModalProps) {
   return (
-    <div className="bg-gray-500 flex justify-center items-center fixed top-0 left-0 w-full h-full bg-opacity-50">
-      <div className="bg-white p-3 rounded-lg max-h-screen-2rem max-w-[97%] overflow-auto">
-        {/* model header */}
-        <div className="flex justify-between gap-10 items-center">
-          <h2 className="text-lg font-medium">{headline}</h2>
-          <button className="text-3xl">
-            <IoClose />
-          </button>
-        </div>
-        {/* model body */}
-        <div>{children}</div>
+    <>
+      <div
+        className={cn(
+          "fixed top-0 md:top-5 left-[50%] translate-x-[-50%] z-50 bg-white p-3 md:rounded-lg overflow-auto",
+          className
+        )}
+      >
+        {children}
       </div>
-    </div>
+      <div
+        onClick={onClose}
+        className="bg-gray-500 flex justify-center items-center fixed top-0 left-0 w-full h-full bg-opacity-50"
+      ></div>
+    </>
   );
 }
 
-export default Modol;
+export default Modal;

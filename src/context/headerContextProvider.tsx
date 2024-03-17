@@ -1,10 +1,15 @@
 import { useState } from "react";
 import HeaderContext from "./headerContext";
 
-const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
+const HeaderContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isCartDropdownOpen, setIsCartDropdownOpen] = useState(false);
-  const [isWishlistDropdownOpen, setIsWishlistDropdownOpen] = useState(true);
+  const [isWishlistDropdownOpen, setIsWishlistDropdownOpen] = useState(false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
+    useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(true);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   // set mobile nav open state to false
   // when the user resize the window to a bigger size (desktop)
@@ -23,6 +28,14 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
         setIsCartDropdownOpen,
         isWishlistDropdownOpen,
         setIsWishlistDropdownOpen,
+        isNotificationDropdownOpen,
+        setIsNotificationDropdownOpen,
+        isProfileDropdownOpen,
+        setIsProfileDropdownOpen,
+        isLocationModalOpen,
+        setIsLocationModalOpen,
+        isCategoryModalOpen,
+        setIsCategoryModalOpen,
       }}
     >
       {children}
@@ -30,4 +43,4 @@ const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default UserContextProvider;
+export default HeaderContextProvider;

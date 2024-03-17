@@ -1,4 +1,4 @@
-import React from "react";
+
 import { createContext } from "react";
 
 interface IHeaderContext {
@@ -8,6 +8,14 @@ interface IHeaderContext {
     setIsCartDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isWishlistDropdownOpen: boolean;
     setIsWishlistDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isNotificationDropdownOpen: boolean;
+    setIsNotificationDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isProfileDropdownOpen: boolean;
+    setIsProfileDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isLocationModalOpen: boolean;
+    setIsLocationModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isCategoryModalOpen: boolean;
+    setIsCategoryModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const HeaderContext = createContext<undefined | IHeaderContext>(undefined);

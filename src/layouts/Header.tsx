@@ -12,16 +12,21 @@ import { IoMenuOutline } from "react-icons/io5";
 // components
 import ContainerLarge from "../components/ui/ContainerLarge";
 import SearchListingsForm from "../components/SearchListingsForm";
-// import CategoriesModal from "../components/CategoriesModal";
-// import LocationModal from "../components/LocationModal";
+import CategoriesModal from "../features/categoryFilter/components/CategoriesModal";
+import LocationModal from "../features/locationFilter/components/LocationModal";
 import Button from "../components/ui/Button";
 import MobileNavModal from "../components/MobileNavModal";
+import CartDropdown from "../features/Cart/components/CartDropdown";
+import WishlistDropdown from "../features/Wishlist/components/WishlistDropdown";
+import NotificationDropdown from "../features/notification/components/NotificationDropdown";
+import ProfileDropdown from "../components/ProfileDropdown";
 
 // context
 import useHeaderContext from "../features/authentication/hooks/useHeaderContext";
-import CartDropdown from "../features/Cart/components/CartDropdown";
+
+// utils
 import { cn } from "../utils/mergeClasses";
-import WishlistDropdown from "../features/Wishlist/components/WishlistDropdown";
+import LocationContextProvider from "../features/locationFilter/context/locationContextProvider";
 
 function Header() {
   const {
@@ -30,6 +35,14 @@ function Header() {
     isCartDropdownOpen,
     isWishlistDropdownOpen,
     setIsWishlistDropdownOpen,
+    isNotificationDropdownOpen,
+    setIsNotificationDropdownOpen,
+    isProfileDropdownOpen,
+    setIsProfileDropdownOpen,
+    isLocationModalOpen,
+    setIsLocationModalOpen,
+    isCategoryModalOpen,
+    setIsCategoryModalOpen,
   } = useHeaderContext();
 
   return (
@@ -72,12 +85,9 @@ function Header() {
                   <IoMdHeartEmpty />
                 </Button>
                 <WishlistDropdown
-                  className={cn(
-                    "absolute right-0 w-fit max-h-screen-5rem max-w-screen-2rem min-w-[20.5rem]",
-                    {
-                      hidden: !isWishlistDropdownOpen,
-                    }
-                  )}
+                  className={cn({
+                    hidden: !isWishlistDropdownOpen,
+                  })}
                 />
               </div>
               {/* cart */}
@@ -94,26 +104,51 @@ function Header() {
                   <MdAddShoppingCart />
                 </Button>
                 <CartDropdown
-                  className={cn(
-                    "absolute right-0 w-fit max-h-screen-5rem max-w-screen-2rem min-w-[20.5rem]",
-                    {
-                      hidden: !isCartDropdownOpen,
-                    }
-                  )}
+                  className={cn({
+                    hidden: !isCartDropdownOpen,
+                  })}
                 />
               </div>
 
               {/* notification */}
-              <div>
+
+              <div
+                className="relative"
+                onMouseEnter={() => {
+                  setIsNotificationDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  setIsNotificationDropdownOpen(false);
+                }}
+              >
                 <Button intent={"iconRound"} size={"mediumRound"}>
                   <FaRegBell />
                 </Button>
+                <NotificationDropdown
+                  className={cn({
+                    hidden: !isNotificationDropdownOpen,
+                  })}
+                />
               </div>
+
               {/* profile */}
-              <div>
+              <div
+                className="relative"
+                onMouseEnter={() => {
+                  setIsProfileDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  setIsProfileDropdownOpen(false);
+                }}
+              >
                 <div className="bg-gray-500 md:inline-flex p-2 rounded-full hidden">
                   <p className="text-white font-bold text-sm">DA</p>
                 </div>
+                <ProfileDropdown
+                  className={cn({
+                    hidden: !isProfileDropdownOpen,
+                  })}
+                />
               </div>
             </div>
           </div>
@@ -124,6 +159,7 @@ function Header() {
         <Container>
           <div className="grid grid-cols-12 py-3 gap-5 md:flex md:justify-between">
             <Button
+              onClick={() => setIsLocationModalOpen(true)}
               intent={"iconText"}
               size={"none"}
               className="shrink-0 order-3 col-span-5 hover:text-blue-300 md:order-1"
@@ -134,6 +170,7 @@ function Header() {
               <span>All of Srilanka</span>
             </Button>
             <Button
+              onClick={() => setIsCategoryModalOpen(true)}
               intent={"iconText"}
               size={"none"}
               className=" order-2 col-span-5 hover:text-blue-300 md:order-2"
@@ -169,9 +206,24 @@ function Header() {
       <MobileNavModal />
 
       {/* categories modal */}
-      {/* <CategoriesModal /> */}
+      <>
+        {isCategoryModalOpen && (
+          <CategoriesModal onClose={() => setIsCategoryModalOpen(false)} />
+        )}
+      </>
       {/* location modal */}
-      {/* <LocationModal /> */}
+      <>
+        {isLocationModalOpen && (
+          <LocationContextProvider
+          >
+            <LocationModal
+              onClose={() => {
+                setIsLocationModalOpen(false);
+              }}
+            />
+          </LocationContextProvider>
+        )}
+      </>
     </header>
   );
 }

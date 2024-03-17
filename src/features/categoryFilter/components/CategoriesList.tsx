@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import categoriesList from "../data/categories.json";
-import ListItem from "./ui/ListItem";
-import List from "./ui/List";
+import categoriesList from "../../../data/categories.json";
+import ListItem from "../../../components/ui/ListItem";
+import List from "../../../components/ui/List";
 
 const makeCategoryItemsArray = async () => {
   // Map over the categories and dynamically import each SVG icon
   const listItemsPromises = categoriesList.map(async (category, index) => {
     try {
       // Dynamically import the SVG icon
-      const icon = await import(`../assets/svg/${category.iconName}.svg`);
+      const icon = await import(`../../../assets/svg/${category.iconName}.svg`);
       // Return the ListItem component once the icon is loaded
       return (
         <ListItem
@@ -51,7 +51,12 @@ function CategoriesList() {
     fetchData();
   }, []);
 
-  return <List items={items} className="grid grid-cols-2 gap-0 gap-x-7 px-2" />;
+  return (
+    <List
+      items={items}
+      className="md:grid md:grid-cols-2 md:gap-0 md:gap-x-7 px-2"
+    />
+  );
 }
 
 export default CategoriesList;
