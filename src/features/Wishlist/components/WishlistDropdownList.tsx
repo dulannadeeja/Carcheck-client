@@ -7,7 +7,7 @@ import List from "../../../components/ui/List";
 
 //utils
 import { makeShort } from "../../../utils/strings";
-import { formatCurrency } from "../../../utils/price";
+import { formatCurrency } from "../../../utils/format";
 import ListItem from "../../../components/ui/ListItem";
 
 //data

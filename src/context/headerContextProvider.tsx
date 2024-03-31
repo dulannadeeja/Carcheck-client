@@ -8,7 +8,7 @@ const HeaderContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
     useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [isLocationModalOpen, setIsLocationModalOpen] = useState(true);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   // set mobile nav open state to false

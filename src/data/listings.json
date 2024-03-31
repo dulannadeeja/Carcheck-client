@@ -1,0 +1,172 @@
+{
+  "listings": [
+    {
+      "_id": "1",
+      "title": "2002 BMW M3 BMW M3 2002 Phoenix Yellow Carbon Roof Manual 74k Miles Clean Runes Great! Must See!",
+      "price": 23000000,
+      "mileage": 53000,
+      "manufacturedYear": 2020,
+      "make": "BMW",
+      "condition": "Used",
+      "isOffersEligible": true,
+      "listingType": "fixed-vehicle",
+      "city": "Ambalangoda",
+      "division": "Galle",
+      "watchers": 10,
+      "seller": {
+        "username": "silva_car_sales",
+        "feedbacks": 100,
+        "precentage": 98,
+        "isVerifiedBusiness": true
+      },
+      "auction": {
+        "isAuction": false,
+        "bidders": 0,
+        "endDateTime": "2024-03-18T08:00:00Z",
+        "currentBid": 0,
+        "startingBid": 0,
+        "reservePrice": 0,
+        "isReserveEligible": false
+      },
+      "sparepart": {
+        "isSparepart": false,
+        "warrenty": "",
+        "isPickupEligible": false,
+        "soldCount": 0,
+        "isAllMostGone": false,
+        "isFreeReturnEligible": false,
+        "isFreeDeliveryEligible": false
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "createdAt": "2024-03-16T10:00:00Z",
+      "images": [
+        "https://i.ebayimg.com/images/g/onoAAOSw2FRl8kYT/s-l1600.jpg",
+        "https://i.ebayimg.com/images/g/IMoAAOSwjzll8kav/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/pioAAOSwDSZl8kau/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/OeQAAOSwT6Fl8ka6/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/zRgAAOSwp65l8keI/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/bVQAAOSwSBJl8keF/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/dy0AAOSwdrJl8kdo/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/1sgAAOSw7U1l8keI/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/sLgAAOSw8mhl8kdw/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/iJkAAOSw9WBl8kd4/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/aycAAOSwnbFl8kgO/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/-r8AAOSwmMxl8kgi/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/JIEAAOSwNztl8kgh/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/YH0AAOSwKMll8kiT/s-l960.jpg"
+      ]
+    },
+    {
+      "_id": "2",
+      "title": "2022 BMW X5 Base AWD 4dr Sports Activity Vehicle",
+      "price": 750000,
+      "mileage": 211000,
+      "manufacturedYear": 2021,
+      "make": "BMW",
+      "condition": "Used",
+      "isOffersEligible": true,
+      "listingType": "auction-vehicle",
+      "city": "Colombo",
+      "division": "Homagama",
+      "watchers": 0,
+      "seller": {
+        "username": "autolankadealers",
+        "feedbacks": 150,
+        "precentage": 99,
+        "isVerifiedBusiness": true
+      },
+      "auction": {
+        "isAuction": true,
+        "bidders": 3,
+        "endDateTime": "2024-03-20T08:00:00Z",
+        "currentBid": 6000000,
+        "startingBid": 6000000,
+        "reservePrice": 6500000,
+        "isReserveEligible": true
+      },
+      "sparepart": {
+        "isSparepart": false,
+        "warrenty": "",
+        "isPickupEligible": false,
+        "soldCount": 0,
+        "isAllMostGone": false,
+        "isFreeReturnEligible": false,
+        "isFreeDeliveryEligible": false
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "createdAt": "2024-03-14T11:00:00Z",
+      "images": [
+        "https://i.ebayimg.com/images/g/onoAAOSw2FRl8kYT/s-l1600.jpg",
+        "https://i.ebayimg.com/images/g/IMoAAOSwjzll8kav/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/pioAAOSwDSZl8kau/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/OeQAAOSwT6Fl8ka6/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/zRgAAOSwp65l8keI/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/bVQAAOSwSBJl8keF/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/dy0AAOSwdrJl8kdo/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/1sgAAOSw7U1l8keI/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/sLgAAOSw8mhl8kdw/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/iJkAAOSw9WBl8kd4/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/aycAAOSwnbFl8kgO/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/-r8AAOSwmMxl8kgi/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/JIEAAOSwNztl8kgh/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/YH0AAOSwKMll8kiT/s-l960.jpg"
+      ]
+    },
+    {
+      "_id": "3",
+      "title": "BMW Engine Sparepart",
+      "price": 25000,
+      "mileage": 0,
+      "manufacturedYear": 2023,
+      "make": "BMW",
+      "condition": "New",
+      "isOffersEligible": false,
+      "listingType": "fixed-sparepart",
+      "city": "Example City",
+      "division": "Example Division",
+      "watchers": 3,
+      "seller": {
+        "username": "user3",
+        "feedbacks": 80,
+        "precentage": 95,
+        "isVerifiedBusiness": false
+      },
+      "auction": {
+        "isAuction": false,
+        "bidders": 0,
+        "endDateTime": null,
+        "currentBid": 0,
+        "startingBid": 0,
+        "reservePrice": 0,
+        "isReserveEligible": false
+      },
+      "sparepart": {
+        "isSparepart": true,
+        "warrenty": "6 months checkings warrenty",
+        "isPickupEligible": true,
+        "soldCount": 14,
+        "isAllMostGone": true,
+        "isFreeReturnEligible": true,
+        "isFreeDeliveryEligible": true
+      },
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "createdAt": "2024-03-16T12:00:00Z",
+      "images": [
+        "https://i.ebayimg.com/images/g/onoAAOSw2FRl8kYT/s-l1600.jpg",
+        "https://i.ebayimg.com/images/g/IMoAAOSwjzll8kav/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/pioAAOSwDSZl8kau/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/OeQAAOSwT6Fl8ka6/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/zRgAAOSwp65l8keI/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/bVQAAOSwSBJl8keF/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/dy0AAOSwdrJl8kdo/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/1sgAAOSw7U1l8keI/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/sLgAAOSw8mhl8kdw/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/iJkAAOSw9WBl8kd4/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/aycAAOSwnbFl8kgO/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/-r8AAOSwmMxl8kgi/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/JIEAAOSwNztl8kgh/s-l960.jpg",
+        "https://i.ebayimg.com/images/g/YH0AAOSwKMll8kiT/s-l960.jpg"
+      ]
+    }
+  ]
+}
