@@ -32,8 +32,13 @@ function formatTimeLeft(endDate: Date): string {
   };
   const formattedDate = new Intl.DateTimeFormat('en-US', options).format(endDate);
 
-  // Format the output
-  return `${hoursLeft}h ${minutesLeft}m left (${formattedDate})`;
+  // if there are hours and minutes left return the time left or if the auction has ended return 'Auction ended'
+  if (hoursLeft > 0 || minutesLeft > 0) {
+    return `${hoursLeft}h ${minutesLeft}m left (${formattedDate})`;
+  }else{
+    return 'Ended';
+  }
+  
 }
 
 // format strings by limiting the number of characters

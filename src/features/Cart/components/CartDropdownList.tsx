@@ -10,8 +10,6 @@ import { makeShort } from "../../../utils/strings";
 import { formatCurrency } from "../../../utils/format";
 import ListItem from "../../../components/ui/ListItem";
 
-//data
-import products from "../../../data/products.json";
 
 type TProduct = {
   _id: string;
@@ -21,6 +19,8 @@ type TProduct = {
   imageUrl: string;
   shippingCost: number;
 };
+
+const products: TProduct[] = [];
 
 const makeList = (products: TProduct[]) => {
   return products.map((product) => {

@@ -9,13 +9,13 @@
 } */
 
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   height: 100vh; /* Fallback for browsers that do not support Custom Properties */
   height: 100dvh;
 }
 
 #root{
-  overflow: hidden;
+  overflow-x: hidden;
   height: 100vh; /* Fallback for browsers that do not support Custom Properties */
   height: 100dvh;
 }

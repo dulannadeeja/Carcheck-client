@@ -9,9 +9,6 @@ import List from "../../../components/ui/List";
 import { makeShort } from "../../../utils/strings";
 import { formatCurrency } from "../../../utils/format";
 import ListItem from "../../../components/ui/ListItem";
-
-//data
-import products from "../../../data/products.json";
 import { cn } from "../../../utils/mergeClasses";
 
 type TProduct = {
@@ -22,6 +19,7 @@ type TProduct = {
   imageUrl: string;
   shippingCost: number;
 };
+const products: TProduct[] = [];
 
 const makeList = (products: TProduct[]) => {
   return products.map((product) => {
