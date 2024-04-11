@@ -107,21 +107,24 @@ function PredictedPrice() {
   ]);
 
   return (
-    <div>
-      <h3 className="text-lg uppercase font-medium mb-4">Predicted price</h3>
-      <p className="text-gray-300">
-        We give you a value of your car based on the information you provide,
-        this is just an estimate and the actual price may vary. carcheck
-        empowers you to make an informed decision when buying or selling a car.
-      </p>
-      <div className="flex gap-4 items-center mt-4">
-        {PredictedPrice > 0 ? (
-          <p className="text-green-600 text-lg font-medium">
-            {formatCurrency(PredictedPrice, "LKR")}
-          </p>
-        ) : (
-          <p className="text-gray-300">Calculating...</p>
-        )}
+    <div className="flex flex-col gap-10">
+      <h3 className="text-lg uppercase font-medium">Predicted price</h3>
+      <div>
+        <p className="text-gray-300">
+          We give you a value of your car based on the information you provide,
+          this is just an estimate and the actual price may vary. carcheck
+          empowers you to make an informed decision when buying or selling a
+          car.
+        </p>
+        <div className="flex gap-4 items-center mt-4">
+          {PredictedPrice > 0 ? (
+            <p className="text-green-600 text-lg font-medium">
+              {formatCurrency(PredictedPrice, "LKR")}
+            </p>
+          ) : (
+            <p className="text-gray-300">Calculating...</p>
+          )}
+        </div>
       </div>
     </div>
   );

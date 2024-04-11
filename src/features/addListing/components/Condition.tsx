@@ -15,8 +15,8 @@ function Condition() {
   };
 
   return (
-    <div>
-      <h3 className="text-lg uppercase font-medium my-4">Condition</h3>
+    <div className="flex flex-col gap-10">
+      <h3 className="text-lg uppercase font-medium">Condition</h3>
       <div className="flex flex-col gap-4">
         <label className="flex items-start gap-4">
           <RadioButton

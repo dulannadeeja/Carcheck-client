@@ -13,7 +13,7 @@ const initialState: ListingState = {
         vehicleModel: "",
         manufacturedYear: 0,
         registeredYear: 0,
-        photos: [],
+        images: [],
         title: "",
         condition: "",
         mileage: 0,
@@ -48,14 +48,16 @@ const initialState: ListingState = {
         offer: {
             minimumOffer: 0,
             autoAcceptOffer: 0,
-        }
+        },
+        numberOfDoors: 0,
+        numberOfSeats : 0,
     },
     errors: {
         make: "",
         vehicleModel: "",
         manufacturedYear: "",
         registeredYear: "",
-        photos: "",
+        images: "",
         title: "",
         condition: "",
         mileage: "",

@@ -17,8 +17,8 @@ function UploadImages() {
 
   useEffect(() => {
     if (touched) {
-      dispatch(updateFieldHandler({ field: "photos", value: droppedImages }));
-      dispatch(validateFieldHandler({ field: "photos", value: droppedImages }));
+      dispatch(updateFieldHandler({ field: "images", value: droppedImages }));
+      dispatch(validateFieldHandler({ field: "images", value: droppedImages }));
     }
   }, [droppedImages, dispatch, touched]);
 
@@ -77,9 +77,9 @@ function UploadImages() {
   };
 
   return (
-    <section className="my-10">
+    <section className="">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg uppercase font-medium my-4">photos</h3>
+        <h3 className="text-lg uppercase font-medium">photos</h3>
         <Button
           intent="iconText"
           size="none"
@@ -91,7 +91,7 @@ function UploadImages() {
         </Button>
       </div>
       <div>
-        <p className="mb-1">
+        <p className="mb-1 mt-2">
           <span>{droppedImages.length}</span> of {MAX_PHOTOS} photos
         </p>
         {droppedImages.length === 0 && (
@@ -161,8 +161,8 @@ function UploadImages() {
           )}
         </div>
       </div>
-      {errors.photos && (
-        <p className="text-red-300 text-sm mt-1">{errors.photos}</p>
+      {errors.images && (
+        <p className="text-red-300 text-sm mt-1">{errors.images}</p>
       )}
     </section>
   );

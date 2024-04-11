@@ -36,15 +36,15 @@ function ListingFormatAndPricing() {
   };
 
   return (
-    <div>
-      <h3 className="text-lg uppercase font-medium my-4">
+    <div className="flex flex-col gap-10">
+      <h3 className="text-lg uppercase font-medium">
         Listing Format & Pricing
       </h3>
-      <div className="mt-6">
+      <div className="">
         <p className="text-sm font-medium mb-2">Format</p>
         <div className="relative">
           <div
-            className="flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100 cursor-pointer"
+            className="flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-50 h-10 cursor-pointer"
             onClick={() => setShowFormatDropdown(!showFormatDropdown)}
           >
             <p>{listingType}</p>
@@ -72,29 +72,31 @@ function ListingFormatAndPricing() {
         )}
       </div>
       {listingType === ListingType.fixedPrice && (
-        <div className="mt-6">
+        <div className="">
           <p className="text-sm font-medium mb-2">Price</p>
-          <Input
-            type="number"
-            value={fixedPrice === 0 ? "" : fixedPrice}
-            onChange={(e) => {
-              handleChange("fixedPrice", parseInt(e.target.value));
-            }}
-            className="border border-gray-200 rounded-md p-2 w-full"
-            placeholder="Enter price"
-          />
+          <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50">
+                <span className="text-gray-300 font-medium">LKR</span>
+                <Input
+                  type="number"
+                  className="border-none rounded-md p-0 pl-3 focus:outline-none"
+                  onChange={(e) => {
+                    handleChange("fixedPrice", parseInt(e.target.value));
+                  }}
+                  value={fixedPrice === 0 ? "" : fixedPrice}
+                />
+              </label>
           {errors.fixedPrice && (
             <p className="text-red-300 text-sm mt-1">{errors.fixedPrice}</p>
           )}
         </div>
       )}
       {listingType === ListingType.auction && (
-        <div className="mt-6">
-          <div>
+        <div className="flex gap-20 justify-between">
+          <div className="">
             <p className="text-sm font-medium mb-2">Auction duration</p>
             <div className="relative">
               <div
-                className="flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100 cursor-pointer"
+                className="flex w-48 h-10 justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-50 cursor-pointer"
                 onClick={() =>
                   setShowAuctionDurationDropdown(!showAuctionDurationDropdown)
                 }
@@ -125,13 +127,13 @@ function ListingFormatAndPricing() {
               </p>
             )}
           </div>
-          <div>
+          <div className="flex gap-10">
             <div>
-              <p className="font-medium">
+              <p className="font-medium mb-2">
                 Starting bid{" "}
                 <span className="font-normal text-gray-300"> (required)</span>
               </p>
-              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50">
+              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50 h-10">
                 <span className="text-gray-300 font-medium">LKR</span>
                 <Input
                   type="number"
@@ -152,11 +154,11 @@ function ListingFormatAndPricing() {
               )}
             </div>
             <div>
-              <p className="font-medium">
+              <p className="font-medium mb-2">
                 Reserve price{" "}
                 <span className="font-normal text-gray-300"> (optional)</span>
               </p>
-              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50">
+              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50 h-10">
                 <span className="text-gray-300 font-medium">LKR</span>
                 <Input
                   value={
@@ -181,7 +183,7 @@ function ListingFormatAndPricing() {
           </div>
         </div>
       )}
-      <div className="mt-6 border-gray-150 border p-4 rounded-md">
+      <div className="border-gray-150 border p-4 flex flex-col gap-3 rounded-md">
         <div className="flex justify-between items-center  ">
           <div className="mb-5">
             <p className="text-base font-medium">Allow offers</p>
@@ -223,7 +225,7 @@ function ListingFormatAndPricing() {
               <p className="text-gray-300 pb-2">
                 Enter the minimum offer you're willing to accept for your item.
               </p>
-              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50">
+              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50 h-10">
                 <span className="text-gray-300 font-medium">LKR</span>
                 <Input
                   value={offer?.minimumOffer === 0 ? "" : offer?.minimumOffer}
@@ -249,7 +251,7 @@ function ListingFormatAndPricing() {
                 Enter the price at which you'd like to automatically accept
                 offers.
               </p>
-              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50">
+              <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50 h-10">
                 <span className="text-gray-300 font-medium">LKR</span>
                 <Input
                   value={
