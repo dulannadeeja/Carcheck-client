@@ -11,7 +11,7 @@ function NumberOfSeats() {
   const { numberOfSeats } = data;
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: number) => {
     dispatch(updateFieldHandler({ field: "numberOfSeats", value }));
     dispatch(validateFieldHandler({ field: "numberOfSeats", value }));
     setShowDropdown(false);
@@ -33,7 +33,7 @@ function NumberOfSeats() {
                 key={option.name}
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
                 onClick={() => {
-                  handleChange(option.value);
+                  handleChange(parseInt(option.value, 10));
                 }}
               >
                 {option.name}

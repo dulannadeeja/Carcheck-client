@@ -38,6 +38,7 @@ function VehicleItemSpecifics() {
         <DriveType />
         <NumberOfPreviousOwners />
         <EngineCapacity />
+        <ExteriorColor />
       </div>
 
       <div className="my-4">
@@ -51,7 +52,6 @@ function VehicleItemSpecifics() {
       <div className="md:w-[60%]">
         <NumberOfSeats />
         <NumberOfDoors />
-        <ExteriorColor />
         <InteriorColor />
         <FuelConsumption />
       </div>

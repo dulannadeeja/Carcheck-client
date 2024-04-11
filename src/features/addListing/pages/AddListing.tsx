@@ -17,9 +17,17 @@ import { clearAllErrors, setErrors } from "../listingSlice";
 import { ZodIssue } from "zod";
 import ItemLocation from "../components/ItemLocation";
 import PredictedPrice from "../components/PredictedPrice";
+import {
+  useCreateListingMutation,
+  useUploadImagesMutation,
+} from "../listingApiSlice";
+import { ListingType } from "../listing";
+import { forEach } from "lodash";
 
 function AddListing() {
   const dispatch = useDispatch();
+  const [createListing] = useCreateListingMutation();
+  const [uploadImages] = useUploadImagesMutation(); // Remove 'data' and 'error' from the destructured array
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data, errors } = useSelector((state: RootState) => state.listing);
   const { photos } = data;
@@ -37,20 +45,41 @@ function AddListing() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    console.log("submitting");
-
     try {
       const result = listingSchema.safeParse(data);
 
       if (result.success) {
         // Form is valid
-        // await handleSignup(result.data);
-        console.log("Form is valid");
+        toast.success("Saving images...");
+        const formData = new FormData();
+        photos.forEach((image) => {
+          formData.append("listing_images", image);
+        });
+        console.log(formData.getAll("listing_images"));
+        type ImageResponse = {
+          data: {
+            fileNames: string[];
+            message: string;
+          };
+        };
+        const response: ImageResponse = (await uploadImages(
+          formData
+        )) as ImageResponse;
+        if (response.data.fileNames.length > 0) {
+          toast.success(response.data.message);
+        }
+        toast.success("Saving listing...");
+        const response2 = await createListing({
+          ...result.data,
+          images: response.data.fileNames,
+        });
+        console.log(response2);
       } else {
+        toast.error(
+          "There are some errors in your listing. Please fix them before submitting."
+        );
         // Form is invalid, map Zod errors to the state
         dispatch(clearAllErrors());
-        console.log("Form is invalid");
-        console.log(result.error.issues);
         const newErrors: ListingErrors = { ...errors };
         result.error.issues.forEach((issue: ZodIssue) => {
           if (issue.path.length > 1) {
@@ -71,23 +100,13 @@ function AddListing() {
         });
         dispatch(setErrors(newErrors));
         result.error.issues.forEach((issue: ZodIssue) => {
-          console.log({
-            path: issue.path,
-            message: issue.message,
-          });
+          console.log(issue.path.join(), issue.message);
         });
-        console.log(newErrors);
       }
-
-      // await signup(data).unwrap();
-      toast.success("Account created successfully");
-      // const response = await signIn(data).unwrap();
-      // dispatch(setUser({ ...response }));
-      // navigate("/");
     } catch (error) {
       const errorResponse = error as ErrorResponse;
       console.error(errorResponse);
-      // toast.error(errorResponse);
+      toast.error(errorResponse.data.message);
     } finally {
       setIsSubmitting(false);
     }

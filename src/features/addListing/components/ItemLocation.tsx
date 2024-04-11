@@ -80,7 +80,7 @@ function ItemLocation() {
   return (
     <>
       {/* division */}
-      <div className="mt-6 grid grid-cols-12 border-red-300 border-solid border-2">
+      <div className="mt-6 grid grid-cols-12">
         <p className="text-sm font-medium col-span-5">Division</p>
         <div
           className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100"

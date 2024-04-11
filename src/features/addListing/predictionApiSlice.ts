@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PREDICTION_URL } from "../../../utils/constants";
+import { PREDICTION_URL } from "../../utils/constants";
 
 export const predictionApi = createApi({
   reducerPath: "predictionApi",
-  baseQuery: fetchBaseQuery({ baseUrl: `${ PREDICTION_URL }` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${PREDICTION_URL}` }),
   tagTypes: ["Prediction"],
   endpoints: (builder) => ({
     predict: builder.mutation({

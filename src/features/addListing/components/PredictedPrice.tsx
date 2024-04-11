@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { usePredictMutation } from "../../listing/services/predictionApiSlice";
+import { usePredictMutation } from "../predictionApiSlice";
 import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { formatCurrency } from "../../../utils/format";
@@ -39,21 +39,6 @@ function PredictedPrice() {
 
   const handlePredict = useCallback(async () => {
     try {
-      console.log("Predicting price...");
-      console.log({
-        make,
-        model: vehicleModel,
-        manufacturedYear,
-        registeredYear,
-        mileage,
-        previousOwners: numberOfPreviousOwners,
-        exteriorColor,
-        condition,
-        bodyType,
-        engineCapacity,
-        fuelType,
-        transmission,
-      });
       const response = await predict({
         make,
         model: vehicleModel,
@@ -69,15 +54,26 @@ function PredictedPrice() {
         transmission,
       }).unwrap();
       const noDecimals = response.predicted_price.toFixed(0);
-        setPredictedPrice(noDecimals);
-      console.log(response);
+      setPredictedPrice(noDecimals);
     } catch (error) {
-      console.error(error);
+      return;
     }
-  }, [make, vehicleModel, manufacturedYear, registeredYear, mileage, numberOfPreviousOwners, exteriorColor, condition, bodyType, engineCapacity, fuelType, transmission, predict]);
+  }, [
+    bodyType,
+    engineCapacity,
+    exteriorColor,
+    fuelType,
+    make,
+    manufacturedYear,
+    mileage,
+    numberOfPreviousOwners,
+    predict,
+    registeredYear,
+    transmission,
+    vehicleModel,
+  ]);
 
   useEffect(() => {
-    console.log(data);
     // check if all fields are valid
     handlePredict();
   }, [
@@ -119,11 +115,13 @@ function PredictedPrice() {
         empowers you to make an informed decision when buying or selling a car.
       </p>
       <div className="flex gap-4 items-center mt-4">
-        
-        {
-            PredictedPrice>0 ? (<p className="text-green-600 text-lg font-medium">{formatCurrency(PredictedPrice,"LKR")}</p>)
-            : (<p className="text-gray-300">Calculating...</p>)
-        }
+        {PredictedPrice > 0 ? (
+          <p className="text-green-600 text-lg font-medium">
+            {formatCurrency(PredictedPrice, "LKR")}
+          </p>
+        ) : (
+          <p className="text-gray-300">Calculating...</p>
+        )}
       </div>
     </div>
   );

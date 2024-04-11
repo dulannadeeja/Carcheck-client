@@ -5,7 +5,7 @@ import listingReducer from "../features/addListing/listingSlice";
 import { authApi } from "../features/authentication/authApiSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { vehicleApi } from "../features/addListing/vehicleApiSlice";
-import { predictionApi } from "../features/listing/services/predictionApiSlice";
+import { predictionApi } from "../features/addListing/predictionApiSlice";
 
 export const store = configureStore({
   reducer: {

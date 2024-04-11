@@ -11,7 +11,7 @@ function NumberOfDoors() {
   const { numberOfDoors } = data;
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: number) => {
     dispatch(updateFieldHandler({ field: "numberOfDoors", value }));
     dispatch(validateFieldHandler({ field: "numberOfDoors", value }));
     setShowDropdown(false);
@@ -32,7 +32,7 @@ function NumberOfDoors() {
               <p
                 key={option.name}
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
-                onClick={() => handleChange(option.value)}
+                onClick={() => handleChange(parseInt(option.name, 10))}
               >
                 {option.name}
               </p>
