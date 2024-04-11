@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
+import { RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
 
-const START_YEAR = 1900;
+const START_YEAR = 1989;
 const CURRENT_YEAR = new Date().getFullYear();
 
 const years = Array.from(
@@ -10,7 +13,9 @@ const years = Array.from(
 );
 
 function ManufacturedYear() {
-  const [selectedYear, setSelectedYear] = useState<number>(0);
+  const dispatch = useDispatch();
+  const { data, errors } = useSelector((state: RootState) => state.listing);
+  const { manufacturedYear } = data;
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   return (
     <div className="mt-6 grid grid-cols-12">
@@ -19,7 +24,7 @@ function ManufacturedYear() {
         className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <p>{selectedYear === 0 ? "" : selectedYear}</p>
+        <p>{manufacturedYear === 0 ? "" : manufacturedYear}</p>
         <IoChevronDownOutline className="text-base" />
         {showDropdown && (
           <div className="flex-col bg-white absolute left-0 shadow-lg border right-0 top-8 rounded-md flex max-h-[20rem] overflow-auto">
@@ -28,7 +33,18 @@ function ManufacturedYear() {
                 key={year}
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
                 onClick={() => {
-                  setSelectedYear(year);
+                  dispatch(
+                    updateFieldHandler({
+                      field: "manufacturedYear",
+                      value: year,
+                    })
+                  );
+                  dispatch(
+                    validateFieldHandler({
+                      field: "manufacturedYear",
+                      value: year,
+                    })
+                  );
                 }}
               >
                 {year}
@@ -37,6 +53,11 @@ function ManufacturedYear() {
           </div>
         )}
       </div>
+      {errors.manufacturedYear && (
+        <p className="text-red-300 text-sm col-span-12">
+          {errors["manufacturedYear"]}
+        </p>
+      )}
     </div>
   );
 }

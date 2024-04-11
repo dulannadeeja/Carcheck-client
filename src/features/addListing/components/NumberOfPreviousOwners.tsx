@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
-
-const ownerOptions = ["0", "1", "2", "3", "4", "5 or more"];
+import { useDispatch, useSelector } from "react-redux";
+import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { RootState } from "../../../store/store";
+import { numberOfPreviousOwnersOptions } from "../listing";
 
 function NumberOfPreviousOwners() {
-  const [selectedOwners, setSelectedOwners] = useState<string | null>(null);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { data, errors } = useSelector((state: RootState) => state.listing);
+  const { numberOfPreviousOwners } = data;
+
+  const handleChange = (value: number) => {
+    dispatch(updateFieldHandler({ field: "numberOfPreviousOwners", value }));
+    dispatch(validateFieldHandler({ field: "numberOfPreviousOwners", value }));
+    setShowDropdown(false);
+  };
 
   return (
     <div className="mt-6 grid grid-cols-12">
@@ -16,25 +26,27 @@ function NumberOfPreviousOwners() {
         className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <p>{selectedOwners || ""}</p>
+        <p>{numberOfPreviousOwners < 0 ? "" : numberOfPreviousOwners}</p>
         <IoChevronDownOutline className="text-base" />
         {showDropdown && (
           <div className="flex-col bg-white absolute left-0 shadow-lg border right-0 top-8 rounded-md flex max-h-[20rem] overflow-auto">
-            {ownerOptions.map((option) => (
+            {numberOfPreviousOwnersOptions.map((option) => (
               <p
-                key={option}
+                key={option.name}
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
-                onClick={() => {
-                  setSelectedOwners(option);
-                  setShowDropdown(false);
-                }}
+                onClick={() => handleChange(option.value)}
               >
-                {option}
+                {option.name}
               </p>
             ))}
           </div>
         )}
       </div>
+      {errors.numberOfPreviousOwners && (
+        <p className="text-red-300 text-sm col-span-12">
+          {errors["numberOfPreviousOwners"]}
+        </p>
+      )}
     </div>
   );
 }

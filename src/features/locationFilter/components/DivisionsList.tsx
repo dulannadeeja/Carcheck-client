@@ -4,7 +4,7 @@ import List from "../../../components/ui/List";
 // icons
 import { MdNavigateNext } from "react-icons/md";
 import useLocationContext from "../hooks/useLocationContext";
-import { TDivision } from "../location";
+import { divisionsOfSrilanka, TDivision } from "../location";
 
 type TDivisionsListProps = React.HTMLAttributes<HTMLUListElement>;
 
@@ -12,8 +12,7 @@ function DivisionsList({ className }: TDivisionsListProps) {
   const { divisionsList, setSelectedDivision } = useLocationContext();
 
   const makeDivisionItemsArray = () => {
-    const divisions = Object.keys(divisionsList);
-    return divisions.map((division, index) => {
+    return divisionsOfSrilanka.map((division, index) => {
       return (
         <ListItem
           onClick={() => {

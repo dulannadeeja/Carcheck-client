@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import Button from "../../../components/ui/Button";
 import { FiTrash } from "react-icons/fi";
 import { cn } from "../../../utils/mergeClasses";
+import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { RootState } from "../../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 
 const MAX_PHOTOS = 12; // Define the maximum number of photos
 
 function UploadImages() {
+  const dispatch = useDispatch();
+  const [touched, setTouched] = useState(false);
+  const { errors } = useSelector((state: RootState) => state.listing);
   const [droppedImages, setDroppedImages] = useState<File[]>([]);
+
+  useEffect(() => {
+    if (touched) {
+      dispatch(updateFieldHandler({ field: "photos", value: droppedImages }));
+      dispatch(validateFieldHandler({ field: "photos", value: droppedImages }));
+    }
+  }, [droppedImages, dispatch, touched]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -41,6 +54,7 @@ function UploadImages() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTouched(true);
     if (e.target.files) {
       const files = Array.from(e.target.files);
 
@@ -113,7 +127,14 @@ function UploadImages() {
                 alt="uploaded"
                 className="w-full aspect-square object-contain "
               />
-              <button className="absolute top-1 right-1 bg-white p-1 rounded-full">
+              <button
+                className="absolute top-1 right-1 bg-white p-1 rounded-full"
+                onClick={() => {
+                  setDroppedImages((prevImages) =>
+                    prevImages.filter((_, i) => i !== index)
+                  );
+                }}
+              >
                 <FiTrash />
               </button>
             </div>
@@ -140,6 +161,9 @@ function UploadImages() {
           )}
         </div>
       </div>
+      {errors.photos && (
+        <p className="text-red-300 text-sm mt-1">{errors.photos}</p>
+      )}
     </section>
   );
 }

@@ -13,7 +13,6 @@ import FuelType from "./FuelType";
 import DriveType from "./DriveType";
 import NumberOfPreviousOwners from "./NumberOfPreviousOwners";
 import FuelConsumption from "./FuelConsumption";
-import Engine from "./Engine";
 import EngineCapacity from "./EngineCapacity";
 
 function VehicleItemSpecifics() {
@@ -35,6 +34,10 @@ function VehicleItemSpecifics() {
         <Mileage />
         <Transmission />
         <FuelType />
+        <BodyType />
+        <DriveType />
+        <NumberOfPreviousOwners />
+        <EngineCapacity />
       </div>
 
       <div className="my-4">
@@ -46,17 +49,13 @@ function VehicleItemSpecifics() {
         </p>
       </div>
       <div className="md:w-[60%]">
-        <BodyType />
-        <DriveType />
         <NumberOfSeats />
         <NumberOfDoors />
         <ExteriorColor />
         <InteriorColor />
-        <NumberOfPreviousOwners />
         <FuelConsumption />
-        <EngineCapacity />
-        <Engine />
       </div>
+      
     </div>
   );
 }

@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
-
-const bodyTypes = [
-  "Sedan",
-  "SUV",
-  "Truck",
-  "Hatchback",
-  "Coupe",
-  "Convertible",
-  "Van",
-  "Wagon",
-];
+import { vehicleCategoryArray } from "../listing";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
 
 function BodyType() {
-  const [selectedBodyType, setSelectedBodyType] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const { data, errors } = useSelector((state: RootState) => state.listing);
+  const { bodyType } = data;
+
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+
+  const handleChange = (value: string) => {
+    dispatch(updateFieldHandler({ field: "bodyType", value }));
+    dispatch(validateFieldHandler({ field: "bodyType", value }));
+    setShowDropdown(false);
+  };
 
   return (
     <div className="mt-6 grid grid-cols-12">
@@ -23,17 +25,16 @@ function BodyType() {
         className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <p>{selectedBodyType || ""}</p>
+        <p>{bodyType || ""}</p>
         <IoChevronDownOutline className="text-base" />
         {showDropdown && (
           <div className="flex-col z-10 bg-white absolute left-0 shadow-lg border right-0 top-8 rounded-md flex max-h-[20rem] overflow-auto">
-            {bodyTypes.map((bodyType) => (
+            {vehicleCategoryArray.map((bodyType) => (
               <p
                 key={bodyType}
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
                 onClick={() => {
-                  setSelectedBodyType(bodyType);
-                  setShowDropdown(false);
+                  handleChange(bodyType);
                 }}
               >
                 {bodyType}
@@ -42,6 +43,9 @@ function BodyType() {
           </div>
         )}
       </div>
+      {errors.bodyType && (
+        <p className="text-red-300 text-sm col-span-12">{errors["bodyType"]}</p>
+      )}
     </div>
   );
 }

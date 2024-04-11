@@ -14,6 +14,11 @@ import {
   Signup,
   Summary,
 } from "./Routes.ts";
+import { Provider } from "react-redux";
+import { store } from "./store/store.ts";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import BuyerProtectedRoute from "./components/BuyerProtectedRoutes.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +36,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/addlisting",
-    element: <AddListing />,
+    element: (
+      <BuyerProtectedRoute>
+        <AddListing />
+      </BuyerProtectedRoute>
+    ),
   },
   {
     path: "/signin",
@@ -63,6 +72,22 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

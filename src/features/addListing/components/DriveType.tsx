@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store"; 
+import { updateFieldHandler, validateFieldHandler } from "../listingSlice"; 
 import { IoChevronDownOutline } from "react-icons/io5";
-
-const driveTypes = [
-  "Front-Wheel Drive (FWD)",
-  "Rear-Wheel Drive (RWD)",
-  "All-Wheel Drive (AWD)",
-  "Four-Wheel Drive (4WD)",
-];
+import { driveTypesArray } from "../listing";
 
 function DriveType() {
-  const [selectedDriveType, setSelectedDriveType] = useState<string | null>(
-    null
-  );
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  
+  const { data, errors } = useSelector((state: RootState) => state.listing);
+  const { driveType } = data; 
+  const handleChange = (value: string) => {
+    dispatch(updateFieldHandler({ field: "driveType", value }));
+    dispatch(validateFieldHandler({ field: "driveType", value }));
+    setShowDropdown(false);
+  };
 
   return (
     <div className="mt-6 grid grid-cols-12">
@@ -21,25 +25,25 @@ function DriveType() {
         className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <p>{selectedDriveType || ""}</p>
+        <p>{driveType || ""}</p>
         <IoChevronDownOutline className="text-base" />
         {showDropdown && (
           <div className="flex-col bg-white z-10 absolute left-0 shadow-lg border right-0 top-8 rounded-md flex max-h-[20rem] overflow-auto">
-            {driveTypes.map((driveType) => (
+            {driveTypesArray.map((type) => (
               <p
-                key={driveType}
+                key={type}
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
-                onClick={() => {
-                  setSelectedDriveType(driveType);
-                  setShowDropdown(false);
-                }}
+                onClick={() => handleChange(type)}
               >
-                {driveType}
+                {type}
               </p>
             ))}
           </div>
         )}
       </div>
+      {errors.driveType && (
+        <p className="text-red-300 text-sm col-span-12">{errors["driveType"]}</p>
+      )}
     </div>
   );
 }
