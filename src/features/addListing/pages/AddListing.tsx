@@ -37,20 +37,19 @@ function AddListing() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    console.log("submitting");
-
     try {
       const result = listingSchema.safeParse(data);
 
       if (result.success) {
         // Form is valid
         // await handleSignup(result.data);
-        console.log("Form is valid");
+        toast.success("Saving listing...");
       } else {
+        toast.error(
+          "There are some errors in your listing. Please fix them before submitting."
+        );
         // Form is invalid, map Zod errors to the state
         dispatch(clearAllErrors());
-        console.log("Form is invalid");
-        console.log(result.error.issues);
         const newErrors: ListingErrors = { ...errors };
         result.error.issues.forEach((issue: ZodIssue) => {
           if (issue.path.length > 1) {
@@ -71,16 +70,11 @@ function AddListing() {
         });
         dispatch(setErrors(newErrors));
         result.error.issues.forEach((issue: ZodIssue) => {
-          console.log({
-            path: issue.path,
-            message: issue.message,
-          });
+          console.log(issue.path.join(), issue.message);
         });
-        console.log(newErrors);
       }
 
       // await signup(data).unwrap();
-      toast.success("Account created successfully");
       // const response = await signIn(data).unwrap();
       // dispatch(setUser({ ...response }));
       // navigate("/");

@@ -21,8 +21,6 @@ const initialState: ListingState = {
         fuelType: "",
         bodyType: "",
         driveType: "",
-        numberOfDoors: '',
-        numberOfSeats: '',
         exteriorColor: "",
         interiorColor: "",
         numberOfPreviousOwners: -1,
@@ -46,11 +44,8 @@ const initialState: ListingState = {
             maxBid: 0,
             maxBidder: ""
         },
-        inspectionReport: "",
-        numberOfWatchers: 0,
-        watchers: [],
         isAllowedOffer: false,
-        offer:{
+        offer: {
             minimumOffer: 0,
             autoAcceptOffer: 0,
         }
@@ -81,13 +76,13 @@ const initialState: ListingState = {
         fixedPrice: "",
         auction: {
             duration: "",
-        startingBid: "",
-        startDate: "",
-        endDate: "",
-        reservePrice: "",
-        currentBid: "",
-        bidders: "",
-        maxBid: "",
+            startingBid: "",
+            startDate: "",
+            endDate: "",
+            reservePrice: "",
+            currentBid: "",
+            bidders: "",
+            maxBid: "",
         }
         ,
         location: {
@@ -126,8 +121,6 @@ export const listingSlice = createSlice({
             }
 
             const fieldName = field as keyof ListingSchema;
-            console.log(fieldName);
-            console.log(value);
             state.data[fieldName] = value as never;
         },
         validateFieldHandler: (state, action) => {
@@ -135,13 +128,15 @@ export const listingSlice = createSlice({
 
             const error = validateField(field, value);
 
-            if(field.includes(".")) {
+            console.log("error", error);
+
+            if (field.includes(".")) {
                 const [parent, child] = field.split(".");
                 const parentObject = state.errors[parent as keyof ListingErrors];
                 if (parentObject) {
                     parentObject[child as keyof typeof parentObject] = error ? error as never : "" as never;
                 }
-            }else{
+            } else {
                 state.errors[field as keyof ListingErrors] = error ? error as never : "" as never;
             }
         },

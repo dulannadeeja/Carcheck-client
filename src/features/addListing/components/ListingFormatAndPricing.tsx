@@ -40,9 +40,6 @@ function ListingFormatAndPricing() {
       <h3 className="text-lg uppercase font-medium my-4">
         Listing Format & Pricing
       </h3>
-      {errors.listingType && (
-        <p className="text-red-300 text-sm mt-1">{errors.listingType}</p>
-      )}
       <div className="mt-6">
         <p className="text-sm font-medium mb-2">Format</p>
         <div className="relative">
@@ -255,7 +252,9 @@ function ListingFormatAndPricing() {
               <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50">
                 <span className="text-gray-300 font-medium">LKR</span>
                 <Input
-                  value={offer?.autoAcceptOffer === 0 ? "" : offer?.autoAcceptOffer}
+                  value={
+                    offer?.autoAcceptOffer === 0 ? "" : offer?.autoAcceptOffer
+                  }
                   onChange={(e) =>
                     handleChange(
                       "offer.autoAcceptOffer",
