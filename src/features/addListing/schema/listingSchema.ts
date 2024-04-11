@@ -6,7 +6,7 @@ export type ListingErrors = {
     vehicleModel: string;
     manufacturedYear: string;
     registeredYear: string;
-    photos: string;
+    images: string;
     title: string;
     condition: string;
     mileage: string;
@@ -118,7 +118,7 @@ const listingTypeValidator = z.string().refine((type) => listingTypeArray.includ
     message: "Please select the format of the listing, it may Fixed price or auction.",
 })
 
-const photoValidator = z.array(z.instanceof(File)).min(1, "At least one photo is required.");
+const imagesValidator = z.array(z.instanceof(File)).min(1, "At least one photo is required.");
 
 const auctionSchema = z.object({
     duration: z.number().optional().default(0),
@@ -146,7 +146,7 @@ const bodySchema = z.object({
     manufacturedYear: yearValidator,
     registeredYear: yearValidator,
     mileage: mileageValidator,
-    photos: photoValidator,
+    images: imagesValidator,
     transmission: transmissionValidator,
     fuelType: fuelTypeValidator,
     bodyType: vehicleCategoryValidator,
@@ -311,6 +311,24 @@ const createListingSchema = bodySchema.superRefine((data, ctx) => {
         ctx.addIssue({
             path: ["mileage"],
             message: "Please enter the mileage of the vehicle.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    // if starting bid is provided, reserve price should be greater than starting bid
+    if (data.auction?.reservePrice && data.auction?.startingBid && data.auction?.reservePrice < data.auction?.startingBid) {
+        ctx.addIssue({
+            path: ["auction", "reservePrice"],
+            message: "Reserve price should be higher than starting bid.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    // is offer is allowed, auto accept offer should be greater than minimum offer
+    if (data.isAllowedOffer && data.offer?.autoAcceptOffer && data.offer?.autoAcceptOffer < data.offer?.minimumOffer) {
+        ctx.addIssue({
+            path: ["offer", "autoAcceptOffer"],
+            message: "Auto accept offer should be higher than minimum offer.",
             code: z.ZodIssueCode.custom,
         });
     }

@@ -24,7 +24,7 @@ function Title() {
       <h3 className="text-lg uppercase font-medium my-4">title</h3>
       <Input
         placeholder="Title"
-        className="border-gray-200 bg-gray-100 mb-1"
+        className="border-gray-200 bg-gray-50 h-10 mb-1"
         onChange={handleTitleChange}
         value={title}
       />

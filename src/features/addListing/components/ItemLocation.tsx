@@ -78,12 +78,12 @@ function ItemLocation() {
   };
 
   return (
-    <>
+    <div className="flex gap-10">
       {/* division */}
-      <div className="mt-6 grid grid-cols-12">
-        <p className="text-sm font-medium col-span-5">Division</p>
+      <div className="flex-1 flex gap-2 flex-col">
+        <p className="text-sm font-medium">Division</p>
         <div
-          className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100"
+          className="relative flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-50 h-10"
           onClick={() => {
             setShowDivisionDropdown(!showDivisionDropdown);
             setShowCityDropdown(false);
@@ -108,17 +108,17 @@ function ItemLocation() {
           )}
         </div>
         {errors.location.division && (
-          <p className="text-red-300 text-sm col-span-12">
+          <p className="text-red-300 text-sm">
             {errors["location"]["division"]}
           </p>
         )}
       </div>
 
       {/* city */}
-      <div className="mt-6 grid grid-cols-12">
-        <p className="text-sm font-medium col-span-5">City</p>
+      <div className="flex-1 flex gap-2 flex-col">
+        <p className="text-sm font-medium ">City</p>
         <div
-          className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100"
+          className="relative flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-50 h-10"
           onClick={() => {
             setShowDivisionDropdown(false);
             setShowCityDropdown(!showCityDropdown);
@@ -146,25 +146,25 @@ function ItemLocation() {
           )}
         </div>
         {errors.location.city && (
-          <p className="text-red-300 text-sm col-span-12">
+          <p className="text-red-300 text-sm">
             {errors["location"]["city"]}
           </p>
         )}
       </div>
 
       {/* zip code */}
-      <div className="mt-6 grid grid-cols-12">
-        <p className="text-sm font-medium col-span-5">Zip</p>
-        <div className="relative col-span-7 flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-100 pointer-events-none">
+      <div className="flex-1 flex gap-2 flex-col">
+        <p className="text-sm font-medium ">Zip</p>
+        <div className="relative  flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-50 pointer-events-none h-10">
           <p>{zipCode || ""}</p>
         </div>
         {errors.location.zipCode && (
-          <p className="text-red-300 text-sm col-span-12">
+          <p className="text-red-300 text-sm">
             {errors["location"]["zipCode"]}
           </p>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
