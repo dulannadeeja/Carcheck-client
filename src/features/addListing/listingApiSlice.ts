@@ -12,8 +12,15 @@ export const listingApi = createApi({
                 method: "POST",
                 body: data
             }),
-        })
+        }),
+        uploadImages: builder.mutation({
+            query: (data) => ({
+                url: `/listings/images`,
+                method: "POST",
+                body: data
+            }),
+        }),
     }),
 });
 
-export const { useCreateListingMutation } = listingApi;
+export const { useCreateListingMutation, useUploadImagesMutation } = listingApi;
