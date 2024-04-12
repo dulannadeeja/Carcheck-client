@@ -55,10 +55,10 @@ function Selling() {
                   Overview
                 </Link>
                 <Link
-                  to="/selling/recentlyViewed"
+                  to="/selling/active"
                   className={cn("px-3 py-2 font-medium", {
                     "text-blue-300 bg-gray-150":
-                      pathName === "/selling/recentlyViewed",
+                      pathName === "/selling/active",
                   })}
                 >
                   Active

@@ -21,7 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import BuyerProtectedRoute from "./components/BuyerProtectedRoutes.tsx";
 import Selling from "./features/Selling/pages/Selling.tsx";
 import Drafts from "./features/Selling/components/Drafts.tsx";
-
+import Active from "./features/Selling/components/Active.tsx";
 
 const router = createBrowserRouter([
   {
@@ -84,8 +84,8 @@ const router = createBrowserRouter([
         element: <Drafts />,
       },
       {
-        path: "bidsAndOffers",
-        element: <BidsAndOffers />,
+        path: "active",
+        element: <Active />,
       },
     ],
   },

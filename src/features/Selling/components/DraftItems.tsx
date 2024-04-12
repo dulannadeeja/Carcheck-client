@@ -5,8 +5,6 @@ import {
 } from "../../../utils/format";
 import Button from "../../../components/ui/Button";
 import { useGetDraftsQuery } from "../SellerApiSlice";
-import { useEffect, useState } from "react";
-import { ListingResponseType} from "../../listing/listing";
 import { SERVER_URL } from "../../../utils/constants";
 
 
