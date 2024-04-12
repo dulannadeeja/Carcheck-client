@@ -3,7 +3,7 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
-import { fuelTypeArray } from "../listing";
+import { fuelTypeArray } from "../../listing/listing";
 
 function FuelType() {
   const dispatch = useDispatch();

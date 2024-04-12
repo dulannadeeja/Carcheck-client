@@ -19,6 +19,9 @@ import { store } from "./store/store.ts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BuyerProtectedRoute from "./components/BuyerProtectedRoutes.tsx";
+import Selling from "./features/Selling/pages/Selling.tsx";
+import Drafts from "./features/Selling/components/Drafts.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -61,6 +64,24 @@ const router = createBrowserRouter([
       {
         path: "recentlyViewed",
         element: <RecentlyViewed />,
+      },
+      {
+        path: "bidsAndOffers",
+        element: <BidsAndOffers />,
+      },
+    ],
+  },
+  {
+    path: "/selling",
+    element: <Selling />,
+    children: [
+      {
+        path: "",
+        element: <Summary />,
+      },
+      {
+        path: "drafts",
+        element: <Drafts />,
       },
       {
         path: "bidsAndOffers",

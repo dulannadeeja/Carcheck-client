@@ -1,18 +1,18 @@
 import ListItem from "../../../components/ui/ListItem";
 import placeholderImage from "../../../assets/images/fitted.jpg";
-import { isNewListing, listingType } from "../listing";
 import {
   formatCurrency,
-  formatFeedbackPercentage,
-  formatMileage,
+  // formatFeedbackPercentage,
+  // formatMileage,
   formatTimeLeft,
   limitString,
 } from "../../../utils/format";
-import { Fragment } from "react";
-import verifiedSvg from "../../../assets/svg/verifiedBadge.svg";
-import verifiedSellerSvg from "../../../assets/svg/verifiedSellerBadge.svg";
+// import { Fragment } from "react";
+// import verifiedSvg from "../../../assets/svg/verifiedBadge.svg";
+// import verifiedSellerSvg from "../../../assets/svg/verifiedSellerBadge.svg";
+import { ListingResponseType } from "../listing";
 
-function ListingCard({ listing }: { listing: listingType }) {
+function ListingCard({ listing }: { listing: ListingResponseType }) {
   const isVehicle =
     listing.listingType === "fixed-vehicle" ||
     listing.listingType === "auction-vehicle"
@@ -37,11 +37,11 @@ function ListingCard({ listing }: { listing: listingType }) {
       {/* listing details */}
       <div className="flex-1 shrink-0 lg:ml-3 text-gray-300">
         <h3 className="font-medium text-gray-600 text-base lg:text-lg">
-          {isNewListing(new Date(listing.createdAt)) && (
+          {/* {isNewListing(new Date(listing.createdAt)) && (
             <span className="text-gray-300 bg-gray-150 shrink-0 inline-flex text-sm mr-1">
               NEW LISTING
             </span>
-          )}
+          )} */}
           {limitString(listing.title, 80)}
         </h3>
         <p>{listing.condition}</p>
@@ -49,24 +49,24 @@ function ListingCard({ listing }: { listing: listingType }) {
           <div className="md:col-span-6 flex gap-1 flex-col">
             <p className="text-gray-600 font-medium text-lg lg:text-2xl">
               {!isAuction
-                ? formatCurrency(listing.price, "LKR")
+                ? formatCurrency(listing.fixedPrice, "LKR")
                 : formatCurrency(listing.auction.currentBid, "LKR")}
             </p>
-            {!isAuction && listing.isOffersEligible && (
+            {!isAuction && listing.isAllowedOffer && (
               <p className="">or Best Offer</p>
             )}
 
             {isAuction && (
               <p>
                 {listing.auction.bidders} bids ·{" "}
-                {formatTimeLeft(new Date(listing.auction.endDateTime))}
+                {formatTimeLeft(new Date(listing.createdAt))}
               </p>
             )}
             <p>
-              {listing.city}, {listing.division}
+              {listing.location.city}, {listing.location.division}
             </p>
-            {listing.watchers > 0 && <p>{listing.watchers} watchers</p>}
-            {!isVehicle && (
+            {/* {listing.watchers > 0 && <p>{listing.watchers} watchers</p>} */}
+            {/* {!isVehicle && (
               <Fragment>
                 {listing.sparepart.isFreeReturnEligible && (
                   <p>
@@ -84,9 +84,9 @@ function ListingCard({ listing }: { listing: listingType }) {
                   </p>
                 )}
               </Fragment>
-            )}
+            )} */}
           </div>
-          <div className="md:col-span-6 md:gap-1 flex-col hidden md:flex">
+          {/* <div className="md:col-span-6 md:gap-1 flex-col hidden md:flex">
             {isVehicle && (
               <Fragment>
                 <p>
@@ -124,7 +124,7 @@ function ListingCard({ listing }: { listing: listingType }) {
             {listing.seller.isVerifiedBusiness && (
               <img src={verifiedSellerSvg} alt="" className="w-[7rem]" />
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </ListItem>

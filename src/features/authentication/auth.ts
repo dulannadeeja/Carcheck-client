@@ -19,7 +19,6 @@ export interface User {
     email: string;
     password: string;
     accountType: AccountType;
-
 }
 
 export interface BuyerPersonal extends User {

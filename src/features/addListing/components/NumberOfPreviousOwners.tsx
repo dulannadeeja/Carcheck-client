@@ -3,7 +3,7 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
 import { RootState } from "../../../store/store";
-import { numberOfPreviousOwnersOptions } from "../listing";
+import { numberOfPreviousOwnersOptions } from "../../listing/listing";
 
 function NumberOfPreviousOwners() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);

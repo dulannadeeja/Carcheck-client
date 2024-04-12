@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store/store"; 
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice"; 
+import { RootState } from "../../../store/store";
+import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { driveTypesArray } from "../listing";
+import { driveTypesArray } from "../../listing/listing";
 
 function DriveType() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  
   const { data, errors } = useSelector((state: RootState) => state.listing);
-  const { driveType } = data; 
+  const { driveType } = data;
   const handleChange = (value: string) => {
     dispatch(updateFieldHandler({ field: "driveType", value }));
     dispatch(validateFieldHandler({ field: "driveType", value }));
@@ -42,7 +41,9 @@ function DriveType() {
         )}
       </div>
       {errors.driveType && (
-        <p className="text-red-300 text-sm col-span-12">{errors["driveType"]}</p>
+        <p className="text-red-300 text-sm col-span-12">
+          {errors["driveType"]}
+        </p>
       )}
     </div>
   );

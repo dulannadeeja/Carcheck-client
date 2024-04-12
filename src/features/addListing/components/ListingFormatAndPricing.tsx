@@ -6,7 +6,7 @@ import {
   auctionDurationOptionsArray,
   ListingType,
   listingTypeArray,
-} from "../listing";
+} from "../../listing/listing";
 import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
@@ -75,16 +75,16 @@ function ListingFormatAndPricing() {
         <div className="">
           <p className="text-sm font-medium mb-2">Price</p>
           <label className="max-w-48 border border-gray-150 flex items-center p-2 rounded-md bg-gray-50">
-                <span className="text-gray-300 font-medium">LKR</span>
-                <Input
-                  type="number"
-                  className="border-none rounded-md p-0 pl-3 focus:outline-none"
-                  onChange={(e) => {
-                    handleChange("fixedPrice", parseInt(e.target.value));
-                  }}
-                  value={fixedPrice === 0 ? "" : fixedPrice}
-                />
-              </label>
+            <span className="text-gray-300 font-medium">LKR</span>
+            <Input
+              type="number"
+              className="border-none rounded-md p-0 pl-3 focus:outline-none"
+              onChange={(e) => {
+                handleChange("fixedPrice", parseInt(e.target.value));
+              }}
+              value={fixedPrice === 0 ? "" : fixedPrice}
+            />
+          </label>
           {errors.fixedPrice && (
             <p className="text-red-300 text-sm mt-1">{errors.fixedPrice}</p>
           )}

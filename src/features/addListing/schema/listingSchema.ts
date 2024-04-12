@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { colorOptions, Conditions, conditionsArray, DriveTypes, driveTypesArray, fuelTypeArray, FuelTypes, ListingType, listingTypeArray, transmissionArray, Transmissions, vehicleCategoryArray, vehicleMakeArray } from "../listing";
+import { colorOptions, Conditions, conditionsArray, DriveTypes, driveTypesArray, fuelTypeArray, FuelTypes, ListingType, listingTypeArray, transmissionArray, Transmissions, vehicleCategoryArray, vehicleMakeArray } from "../../listing/listing";
 
 export type ListingErrors = {
     make: string;

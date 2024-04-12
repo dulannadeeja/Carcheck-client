@@ -3,11 +3,11 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
-import { vehicleMakeArray } from "../listing";
+import { vehicleMakeArray } from "../../listing/listing";
 
 function Make() {
   const dispatch = useDispatch();
-  const { data,errors } = useSelector((state: RootState) => state.listing);
+  const { data, errors } = useSelector((state: RootState) => state.listing);
   const { make } = data;
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
@@ -28,7 +28,9 @@ function Make() {
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
                 onClick={() => {
                   dispatch(updateFieldHandler({ field: "make", value: make }));
-                  dispatch(validateFieldHandler({ field: "make", value: make }));
+                  dispatch(
+                    validateFieldHandler({ field: "make", value: make })
+                  );
                   setShowDropdown(false);
                 }}
               >
@@ -39,8 +41,8 @@ function Make() {
         )}
       </div>
       {errors.make && (
-          <p className="text-red-300 text-sm col-span-12">{errors["make"]}</p>
-        )}
+        <p className="text-red-300 text-sm col-span-12">{errors["make"]}</p>
+      )}
     </div>
   );
 }

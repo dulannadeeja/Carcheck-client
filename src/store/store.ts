@@ -6,6 +6,7 @@ import { authApi } from "../features/authentication/authApiSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { vehicleApi } from "../features/addListing/vehicleApiSlice";
 import { predictionApi } from "../features/addListing/predictionApiSlice";
+import { sellerApi } from "../features/Selling/SellerApiSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,14 +14,16 @@ export const store = configureStore({
     listing: listingReducer,
     [authApi.reducerPath]: authApi.reducer,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
-    [predictionApi.reducerPath]: predictionApi.reducer
+    [predictionApi.reducerPath]: predictionApi.reducer,
+    [sellerApi.reducerPath]: sellerApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(
         authApi.middleware,
         vehicleApi.middleware,
-        predictionApi.middleware
+        predictionApi.middleware,
+        sellerApi.middleware
       )
 });
 
