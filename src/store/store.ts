@@ -8,6 +8,7 @@ import { vehicleApi } from "../features/addListing/vehicleApiSlice";
 import { predictionApi } from "../features/addListing/predictionApiSlice";
 import { sellerApi } from "../features/Selling/SellerApiSlice";
 import inspectionReqReducer from "../features/Selling/inspectionReqSlice";
+import { inspectionApi } from "../features/Selling/inspectionReqApiSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,
-    [sellerApi.reducerPath]: sellerApi.reducer
+    [sellerApi.reducerPath]: sellerApi.reducer,
+    [inspectionApi.reducerPath]: inspectionApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -25,7 +27,8 @@ export const store = configureStore({
         authApi.middleware,
         vehicleApi.middleware,
         predictionApi.middleware,
-        sellerApi.middleware
+        sellerApi.middleware,
+        inspectionApi.middleware
       )
 });
 
