@@ -17,7 +17,7 @@ export const inspectionRequestSchema = z.object({
     message: "Please select a time in the future",
     
   }),
-  contactNumber: z.string().min(1,"Please enter 9 digit contact number.").max(
+  contactNumber: z.string().min(9,"Please enter 9 digit contact number.").max(
     9,
     "Mobile Can't have more than 9 digits."
   ),
