@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./styles/index.css";
+import 'react-calendar/dist/Calendar.css';
+import "./styles/Calendar.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   AddListing,
@@ -22,6 +24,8 @@ import BuyerProtectedRoute from "./components/BuyerProtectedRoutes.tsx";
 import Selling from "./features/Selling/pages/Selling.tsx";
 import Drafts from "./features/Selling/components/Drafts.tsx";
 import Active from "./features/Selling/components/Active.tsx";
+import ScheduledInspections from "./features/Selling/components/ScheduledInspections.tsx";
+import RequestInspection from "./features/Selling/pages/RequestInspection.tsx";
 
 const router = createBrowserRouter([
   {
@@ -87,8 +91,16 @@ const router = createBrowserRouter([
         path: "active",
         element: <Active />,
       },
+      {
+        path: "inspection/scheduled",
+        element: <ScheduledInspections />,
+      },
     ],
   },
+  {
+    path: "/selling/inspection/request/:listingId",
+    element: <RequestInspection />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

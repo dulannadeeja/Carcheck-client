@@ -7,11 +7,13 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { vehicleApi } from "../features/addListing/vehicleApiSlice";
 import { predictionApi } from "../features/addListing/predictionApiSlice";
 import { sellerApi } from "../features/Selling/SellerApiSlice";
+import inspectionReqReducer from "../features/Selling/inspectionReqSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     listing: listingReducer,
+    inspectionReq: inspectionReqReducer,
     [authApi.reducerPath]: authApi.reducer,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,

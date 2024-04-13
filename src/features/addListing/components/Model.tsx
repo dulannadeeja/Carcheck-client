@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { useGetVehicleModelsQuery } from "../vehicleApiSlice";
 import { useDispatch, useSelector } from "react-redux";

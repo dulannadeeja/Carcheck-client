@@ -1,3 +1,5 @@
+import { numberOfPreviousOwnersOptions } from "../features/listing/listing";
+
 const formatCurrency = (value: number, currency: "LKR" | "$" ) => {
   // add commas to the value
   const modifiedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -49,4 +51,16 @@ function limitString(str: string, limit: number): string {
   return str;
 }
 
-export { formatCurrency, formatMileage, formatFeedbackPercentage,formatTimeLeft,limitString};
+
+// format engine capacity by adding cc
+function formatEngineCapacity(capacity: number): string {
+  return `${capacity}cc`;
+}
+
+// Mapping the number of previous owners to the corresponding string
+export function mapOwners(value: number): string {
+  const mappedValue = numberOfPreviousOwnersOptions.find((option) => option.value === value);
+  return mappedValue?.name || "";
+}
+
+export { formatCurrency, formatMileage, formatFeedbackPercentage,formatTimeLeft,limitString , formatEngineCapacity};

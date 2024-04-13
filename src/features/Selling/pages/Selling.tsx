@@ -45,7 +45,7 @@ function Selling() {
           </div>
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-2">
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-3">
                 <Link
                   to="/selling"
                   className={cn("px-3 py-2 font-medium", {
@@ -57,8 +57,7 @@ function Selling() {
                 <Link
                   to="/selling/active"
                   className={cn("px-3 py-2 font-medium", {
-                    "text-blue-300 bg-gray-150":
-                      pathName === "/selling/active",
+                    "text-blue-300 bg-gray-150": pathName === "/selling/active",
                   })}
                 >
                   Active
@@ -71,15 +70,41 @@ function Selling() {
                 >
                   Drafts
                 </Link>
-                <Link
-                  to="/selling/purchases"
-                  className={cn("px-3 py-2 font-medium", {
-                    "text-blue-300 bg-gray-150":
-                      pathName === "/selling/purchases",
-                  })}
-                >
-                  Inspections
-                </Link>
+                <div className="flex flex-col gap2">
+                  <Link
+                    to="/selling/purchases"
+                    className={cn("px-3 py-2 font-medium", {
+                      "text-blue-300 bg-gray-150":
+                        pathName === "/selling/purchases",
+                    })}
+                  >
+                    Inspections
+                  </Link>
+                  <ul className="text-gray-300 pl-4 flex flex-col gap-1">
+                    <li>
+                      <Link
+                        to="/selling/inspection/scheduled"
+                        className={cn("px-3 py-2", {
+                          "text-blue-300 bg-gray-150":
+                            pathName === "/selling/inspection/scheduled",
+                        })}
+                      >
+                        Scheduled
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/selling/inspection/request"
+                        className={cn("px-3 py-2", {
+                          "text-blue-300 bg-gray-150":
+                            pathName === "/selling/inspection/request",
+                        })}
+                      >
+                        Request new
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
                 <Link
                   to="/selling/Wishlist"
                   className={cn("px-3 py-2 font-medium", {

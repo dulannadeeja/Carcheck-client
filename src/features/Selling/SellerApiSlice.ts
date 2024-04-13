@@ -28,7 +28,13 @@ export const sellerApi = createApi({
                 method: "GET",
             }),
         }),
+        getListing: builder.query<ListingResponseType, string>({
+            query: (id) => ({
+                url: `/seller/listing/${id}`,
+                method: "GET",
+            }),
+        }),
     }),
 });
 
-export const { useGetDraftsQuery } = sellerApi;
+export const { useGetDraftsQuery,useGetListingQuery } = sellerApi;
