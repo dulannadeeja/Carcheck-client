@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { colorOptions } from "../listing";
+import { colorOptions } from "../../listing/listing";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";

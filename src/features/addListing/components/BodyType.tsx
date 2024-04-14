@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { vehicleCategoryArray } from "../listing";
+import { vehicleCategoryArray } from "../../listing/listing";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";

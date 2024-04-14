@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { numberOfSeatsOptions } from "../listing";
+import { numberOfSeatsOptions } from "../../listing/listing";
 import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";

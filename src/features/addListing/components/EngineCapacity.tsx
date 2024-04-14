@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { capacityOptions } from "../listing";
+import { capacityOptions } from "../../listing/listing";
 import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
-
-
 
 function EngineCapacity() {
   const dispatch = useDispatch();
@@ -17,7 +15,7 @@ function EngineCapacity() {
     dispatch(updateFieldHandler({ field: "engineCapacity", value }));
     dispatch(validateFieldHandler({ field: "engineCapacity", value }));
     setShowDropdown(false);
-  }
+  };
 
   return (
     <div className="mt-6 grid grid-cols-12">
@@ -45,7 +43,9 @@ function EngineCapacity() {
         )}
       </div>
       {errors.engineCapacity && (
-        <p className="text-red-300 text-sm col-span-12">{errors["engineCapacity"]}</p>
+        <p className="text-red-300 text-sm col-span-12">
+          {errors["engineCapacity"]}
+        </p>
       )}
     </div>
   );
