@@ -9,8 +9,8 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
+            if (action.payload.staySignedIn) localStorage.setItem('user', JSON.stringify(action.payload.user));
             state.user = action.payload.user;
-            localStorage.setItem('user', JSON.stringify(action.payload.user));
         },
         logout: (state) => {
             state.user = null;

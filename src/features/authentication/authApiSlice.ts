@@ -20,7 +20,18 @@ export const authApi = createApi({
         body: credentials,
       }),
     }),
+    searchUser: builder.mutation(
+      {
+        query: (emailOrUsername: string) => ({
+          url: `/users/search`,
+          method: "POST",
+          body: {
+            emailOrUsername,
+          },
+        }),
+      }
+    )
   }),
 });
 
-export const { useSigninMutation, useSignupMutation } = authApi;
+export const { useSigninMutation, useSignupMutation, useSearchUserMutation } = authApi;

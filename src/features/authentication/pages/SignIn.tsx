@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../assets/brand/logo.svg";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
@@ -10,15 +10,73 @@ import facebookLogo from "../../../assets/images/facebook.png";
 import appleLogo from "../../../assets/images/apple-logo.png";
 import { ClipLoader } from "react-spinners";
 import { cn } from "../../../utils/mergeClasses";
+import { useSearchUserMutation, useSigninMutation } from "../authApiSlice";
+import { useDispatch } from "react-redux";
+import { setUser } from "../authSlice";
 
 function SignIn() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [searchUser] = useSearchUserMutation();
+  const [signin] = useSigninMutation();
+  const [usernameError, setUsernameError] = useState("");
   const [loading, setLoading] = useState(false);
   const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [password, setPassword] = useState("");
   const [staySignedIn, setStaySignedIn] = useState(false);
-  const [isSecondStep, setIsSecondStep] = useState(true);
+  const [isSecondStep, setIsSecondStep] = useState(false);
   const [isContinueDisabled, setIsContinueDisabled] = useState(true);
   const [isSignInDisabled, setIsSignInDisabled] = useState(true);
+
+  const onUsernameSubmit = async () => {
+    try {
+      // post email or username to the server
+      await searchUser(emailOrUsername).unwrap();
+      setIsSecondStep(true);
+      setUsernameError("");
+    } catch (error) {
+      console.error(error);
+      setUsernameError(
+        "We couldn't find an account with that email or username."
+      );
+    }
+  };
+
+  const handlePasswordSubmit = async () => {
+    try {
+      // post email or username and password to the server
+      const result = await signin({
+        emailOrUsername,
+        password,
+      }).unwrap();
+      dispatch(setUser({ ...result, staySignedIn }));
+      setPasswordError("");
+      // redirect user to the location they were trying to access
+      if (location?.state?.from) {
+        return navigate(location.state.from);
+      }
+      // redirect user to the home page
+      navigate("/");
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+      setPasswordError("The password you entered is incorrect.");
+    }
+  };
+
+  const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailOrUsername(e.target.value);
+    setIsContinueDisabled(!e.target.value);
+  };
+
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (password.length > 0) {
+      setIsSignInDisabled(false);
+    }
+  };
 
   return (
     <ContainerSmall>
@@ -55,17 +113,29 @@ function SignIn() {
             </>
           )}
         </div>
+        <div>
+          {usernameError && (
+            <div className=" text-red-300 text-sm">{usernameError}</div>
+          )}
+          {passwordError && (
+            <div className=" text-red-300 text-sm">{passwordError}</div>
+          )}
+        </div>
         {!isSecondStep ? (
           <Input
             type="text"
             placeholder="Email or Username"
             className="placeholder:text-gray-600 placeholder:font-medium bg-gray-50 border-gray-200 py-2 px-3"
+            value={emailOrUsername}
+            onChange={onUsernameChange}
           />
         ) : (
           <Input
             type="password"
             placeholder="Password"
             className="placeholder:text-gray-600 placeholder:font-medium bg-gray-50 border-gray-200 py-2 px-3"
+            value={password}
+            onChange={onPasswordChange}
           />
         )}
         {!isSecondStep && (
@@ -80,6 +150,7 @@ function SignIn() {
                 }
               )}
               disabled={loading}
+              onClick={onUsernameSubmit}
             >
               {loading ? (
                 <ClipLoader color="#fff" size={20} />
@@ -135,6 +206,7 @@ function SignIn() {
                 }
               )}
               disabled={loading}
+              onClick={handlePasswordSubmit}
             >
               {loading ? (
                 <ClipLoader color="#fff" size={20} />
@@ -150,7 +222,10 @@ function SignIn() {
 
         <div className="flex flex-col items-center max-w-60 mt-3 text-sm">
           <label className="flex items-center gap-2 mb-2">
-            <Checkbox />
+            <Checkbox
+              checked={staySignedIn}
+              onChange={() => setStaySignedIn(!staySignedIn)}
+            />
             <span>Stay signed in</span>
           </label>
           <p className="text-sm text-center">
