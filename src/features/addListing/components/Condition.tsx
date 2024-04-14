@@ -2,16 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import RadioButton from "../../../components/ui/RadioButton";
 import { RootState } from "../../../store/store";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
-import { Conditions } from "../listing";
+import { Conditions } from "../../listing/listing";
 
 function Condition() {
   const dispatch = useDispatch();
-  const { data,errors } = useSelector((state: RootState) => state.listing);
+  const { data, errors } = useSelector((state: RootState) => state.listing);
   const { condition } = data;
 
   const handleConditionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFieldHandler({ field: "condition", value: e.target.value }));
-    dispatch(validateFieldHandler({ field: "condition", value: e.target.value }));
+    dispatch(
+      validateFieldHandler({ field: "condition", value: e.target.value })
+    );
   };
 
   return (
@@ -71,8 +73,8 @@ function Condition() {
         </label>
       </div>
       {errors.condition && (
-          <p className="text-red-300 text-sm">{errors["condition"]}</p>
-        )}
+        <p className="text-red-300 text-sm">{errors["condition"]}</p>
+      )}
     </div>
   );
 }
