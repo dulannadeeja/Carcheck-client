@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Input from "../../../components/ui/Input";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import Button from "../../../components/ui/Button";
-import BusinessType from "./BusinessType";
 import {
   BusinessUserFormErrors,
   BusinessUserFormFields,
