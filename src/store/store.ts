@@ -9,17 +9,23 @@ import { predictionApi } from "../features/addListing/predictionApiSlice";
 import { sellerApi } from "../features/Selling/SellerApiSlice";
 import inspectionReqReducer from "../features/Selling/inspectionReqSlice";
 import { inspectionApi } from "../features/Selling/inspectionReqApiSlice";
+import pendingAccountsReducer from "../features/admin/pendingAccounts/pendingAccountsSlice";
+import sellingAccountReducer from "../features/authentication/sellingAccountSlice";
+import { sellingAccountApi } from "../features/authentication/sellingAccountApiSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     listing: listingReducer,
     inspectionReq: inspectionReqReducer,
+    pendingAccounts: pendingAccountsReducer,
+    sellingAccount: sellingAccountReducer,
     [authApi.reducerPath]: authApi.reducer,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,
     [sellerApi.reducerPath]: sellerApi.reducer,
-    [inspectionApi.reducerPath]: inspectionApi.reducer
+    [inspectionApi.reducerPath]: inspectionApi.reducer,
+    [sellingAccountApi.reducerPath]: sellingAccountApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -28,7 +34,8 @@ export const store = configureStore({
         vehicleApi.middleware,
         predictionApi.middleware,
         sellerApi.middleware,
-        inspectionApi.middleware
+        inspectionApi.middleware,
+        sellingAccountApi.middleware
       )
 });
 

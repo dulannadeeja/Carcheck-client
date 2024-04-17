@@ -2,8 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { SERVER_URL } from "../../utils/constants";
 import { RootState } from "../../store/store";
 
-export const listingApi = createApi({
-    reducerPath: "listingApi",
+
+export const sellingAccountApi = createApi({
+    reducerPath: "sellingAccountApi",
     baseQuery: fetchBaseQuery({
         baseUrl: `${SERVER_URL}`,
         prepareHeaders: (headers, { getState }) => {
@@ -20,23 +21,30 @@ export const listingApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ["listing"],
+    tagTypes: ["SellingAccount"],
     endpoints: (builder) => ({
-        createListing: builder.mutation({
+        sendOTP: builder.mutation({
             query: (data) => ({
-                url: `/listings`,
+                url: "/users/verification/send",
                 method: "POST",
-                body: data
+                body: data,
             }),
         }),
-        uploadImages: builder.mutation({
+        verifyOTP: builder.mutation({
             query: (data) => ({
-                url: `/listings/images`,
+                url: "/users/verification/verify",
                 method: "POST",
-                body: data
+                body: data,
+            }),
+        }),
+        submitRegistration: builder.mutation({
+            query: (data) => ({
+                url: "/users/seller/register",
+                method: "POST",
+                body: data,
             }),
         }),
     }),
 });
 
-export const { useCreateListingMutation, useUploadImagesMutation } = listingApi;
+export const { useSendOTPMutation,useVerifyOTPMutation, useSubmitRegistrationMutation } = sellingAccountApi;
