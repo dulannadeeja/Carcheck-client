@@ -1,9 +1,8 @@
 import { z } from 'zod';
-import { AccountType, BusinessType } from '../auth';
+import { AccountType } from '../auth';
 
 export const businessUserSchema = z.object({
     acoountType: z.literal(AccountType.buyerBusiness),
-    BusinessType: z.nativeEnum(BusinessType),
     email: z.string().email({ message: "Please enter a valid email." }),
     businessName: z.string().min(1, { message: "Please enter your business name" })
         .min(3, { message: "Business name must be at least 3 characters long" }),
@@ -39,7 +38,6 @@ export type BusinessUserFormErrors = {
     businessName: string;
     email: string;
     password: string;
-    BusinessType: string;
 }
 
 export type BusinessUserFormFields = z.infer<typeof businessUserSchema>;

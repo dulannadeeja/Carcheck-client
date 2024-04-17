@@ -9,7 +9,7 @@ import {
   validateField,
 } from "../schema/businessUserSchema";
 import { ZodIssue } from "zod";
-import { AccountType, BusinessType as TypesOfBusinesses } from "../auth";
+import { AccountType } from "../auth";
 
 function BusinessAccount({
   handleSignup,
@@ -23,12 +23,8 @@ function BusinessAccount({
     businessName: "",
     password: "",
     firstName: "",
-    lastName: "",
-    BusinessType: "",
+    lastName: ""
   });
-  const [businessType, setBusinessType] = useState<TypesOfBusinesses>(
-    TypesOfBusinesses.VehicleDealership
-  );
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,8 +36,7 @@ function BusinessAccount({
       email: e.currentTarget.email.value,
       password: e.currentTarget.password.value,
       firstName: e.currentTarget.firstName.value,
-      lastName: e.currentTarget.lastName.value,
-      BusinessType: businessType,
+      lastName: e.currentTarget.lastName.value
     };
 
     const result = businessUserSchema.safeParse(formData);
@@ -57,7 +52,6 @@ function BusinessAccount({
         password: "",
         firstName: "",
         lastName: "",
-        BusinessType: "",
       };
       result.error.issues.forEach((issue: ZodIssue) => {
         const fieldName = issue.path[0] as keyof BusinessUserFormErrors;
@@ -200,22 +194,6 @@ function BusinessAccount({
             <p className="text-red-300 text-sm">{errors["password"]}</p>
           )}
         </div>
-        <BusinessType
-          selectedType={businessType}
-          setSelectedType={setBusinessType}
-        />
-        <p className="text-gray-300 mt-4">
-          By selecting{" "}
-          <span className="font-medium">Create a business account</span>, you
-          agree to our{" "}
-          <Link to="/userAgreement" className="underline">
-            User Agreement
-          </Link>{" "}
-          and acknowledge reading our{" "}
-          <Link to="/userAgreement" className="underline">
-            User Privacy Notice
-          </Link>
-        </p>
         <Button
           type="submit"
           intent="primary"
