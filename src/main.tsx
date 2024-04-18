@@ -38,6 +38,7 @@ import FinancialInfo from "./features/authentication/setupSellingAccount/compone
 import SubmitRegistration from "./features/authentication/setupSellingAccount/components/SubmitRegistration.tsx";
 import ContactInfo from "./features/authentication/setupSellingAccount/components/ContactInfo.tsx";
 import UploadFile from "./features/authentication/uploadDocuments/components/UploadFile.tsx";
+import UploadDocuments from "./features/authentication/uploadDocuments/pages/UploadDocuments.tsx";
 
 const router = createBrowserRouter([
   {
@@ -162,8 +163,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/file-upload",
-    element: <UploadFile />,
+    path: "/seller/upload-documents",
+    element: <UploadDocuments />,
   }
 ]);
 

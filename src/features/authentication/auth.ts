@@ -16,6 +16,17 @@ export enum BusinessType {
     VehicleSeller = "Vehicle-seller",
 }
 
+export enum IdentityVerificationDocType {
+    nationalId = "national-id",
+    passport = "passport",
+    drivingLicense = "driving-license",
+}
+
+export enum BusinessVerificationDocType {
+    businessRegistration = "business-registration",
+    bankDocument = "bank-document",
+}
+
 // types of ownership of sri lankan businesses
 export enum typeOfOwnerships {
     Partnership = "Partnership",
