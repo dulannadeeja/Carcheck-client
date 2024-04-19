@@ -14,6 +14,8 @@ import sellingAccountReducer from "../features/authentication/sellingAccountSlic
 import { sellingAccountApi } from "../features/authentication/sellingAccountApiSlice";
 import uploadDocsReducer from "../features/authentication/uploadDocuments/uploadDocsSlice";
 import { uploadDocsApi } from "../features/authentication/uploadDocuments/uploadDocsApiSlice";
+import { adminApi } from "../features/admin/adminApiSlice";
+import downloaderReducer from "../features/download/downloaderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -23,13 +25,15 @@ export const store = configureStore({
     pendingAccounts: pendingAccountsReducer,
     sellingAccount: sellingAccountReducer,
     uploadDocs: uploadDocsReducer,
+    downloader: downloaderReducer,
     [authApi.reducerPath]: authApi.reducer,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,
     [sellerApi.reducerPath]: sellerApi.reducer,
     [inspectionApi.reducerPath]: inspectionApi.reducer,
     [sellingAccountApi.reducerPath]: sellingAccountApi.reducer,
-    [uploadDocsApi.reducerPath]: uploadDocsApi.reducer
+    [uploadDocsApi.reducerPath]: uploadDocsApi.reducer,
+    [adminApi.reducerPath]: adminApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -40,7 +44,8 @@ export const store = configureStore({
         sellerApi.middleware,
         inspectionApi.middleware,
         sellingAccountApi.middleware,
-        uploadDocsApi.middleware
+        uploadDocsApi.middleware,
+        adminApi.middleware
       )
 });
 

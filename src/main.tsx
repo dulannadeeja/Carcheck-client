@@ -28,7 +28,6 @@ import ScheduledInspections from "./features/Selling/components/ScheduledInspect
 import RequestInspection from "./features/Selling/pages/RequestInspection.tsx";
 import Dashborad from "./features/admin/pages/dashboard.tsx";
 import ActiveAccounts from "./features/admin/components/ActiveAccounts.tsx";
-import PendingAccounts from "./features/admin/pendingAccounts/PendingAccounts.tsx";
 import Activity from "./features/admin/components/Activity.tsx";
 import StartSelling from "./features/authentication/setupSellingAccount/pages/StartSelling.tsx";
 import SetupSellingAccount from "./features/authentication/setupSellingAccount/pages/SetupSellingAccount.tsx";
@@ -39,6 +38,7 @@ import SubmitRegistration from "./features/authentication/setupSellingAccount/co
 import ContactInfo from "./features/authentication/setupSellingAccount/components/ContactInfo.tsx";
 import UploadFile from "./features/authentication/uploadDocuments/components/UploadFile.tsx";
 import UploadDocuments from "./features/authentication/uploadDocuments/pages/UploadDocuments.tsx";
+import PendingAccounts from "./features/admin/pendingAccounts/PendingAccounts.tsx";
 
 const router = createBrowserRouter([
   {
@@ -165,7 +165,7 @@ const router = createBrowserRouter([
   {
     path: "/seller/upload-documents",
     element: <UploadDocuments />,
-  }
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

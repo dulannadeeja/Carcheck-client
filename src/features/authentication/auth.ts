@@ -60,5 +60,68 @@ export interface BuyerBusiness extends User {
     buinessType: BusinessType;
 }
 
+export interface UserDocs {
+    docType: string;
+    docName: string;
+}
+
+export enum AccountStatus {
+    buyingActive = "buying-active",
+    sellingActive = "selling-active",
+    requestPending = "request-pending",
+    docsNeeded = "docs-needed",
+    suspended = "suspended",
+    sellingRestricted = "selling-restricted",
+}
+
+export interface Address {
+    street?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    zip?: string;
+}
+
+export interface PersonalInfo {
+    drivingLicense?: string;
+    nationalId?: string;
+    passportNo?: string;
+}
+
+export interface BusinessInfo {
+    businessName: string;
+    businessReqNo: string;
+    businessWebsite?: string;
+    ownershipType: string;
+}
+
+export interface FinancialInfo {
+    bankName: string;
+    accountNumber: number;
+    accountName: string;
+    branchCode: string;
+}
+
+export interface UserDoc {
+    docType: string;
+    docName: string;
+}
+
+export interface UserDocument {
+    _id: string;
+    accountType: AccountType;
+    phone?: string;
+    email: string;
+    businessAddress?: Address;
+    personalInfo?: PersonalInfo;
+    businessInfo: BusinessInfo;
+    financialInfo: FinancialInfo;
+    firstName: string;
+    lastName: string;
+    avatar?: string;
+    status: AccountStatus;
+    userDocs?: UserDoc[];
+}
+
 
 

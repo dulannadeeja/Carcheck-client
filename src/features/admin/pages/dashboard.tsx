@@ -3,10 +3,24 @@ import HeaderContextProvider from "../../../context/headerContextProvider";
 import Header from "../../../layouts/Header";
 import Container from "../../../components/ui/Container";
 import { cn } from "../../../utils/mergeClasses";
+import FileDownloader from "../../download/components/FileDownloader";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { useEffect, useState } from "react";
 
 function Dashborad() {
   const location = useLocation();
   const pathName = location.pathname;
+  const [isDownloaderOpen, setIsDownloaderOpen] = useState(false);
+  const { queue } = useSelector((state:RootState) => state.downloader);
+
+  useEffect(()=>{
+    if(queue.length > 0){
+      setIsDownloaderOpen(true);
+    }else{
+      setIsDownloaderOpen(false);
+    }
+  },[queue])
 
   return (
     <div className="h-full overflow-y-scroll">
@@ -97,6 +111,9 @@ function Dashborad() {
             </div>
           </div>
         </section>
+        {
+          isDownloaderOpen && <FileDownloader />
+        }
       </Container>
     </div>
   );

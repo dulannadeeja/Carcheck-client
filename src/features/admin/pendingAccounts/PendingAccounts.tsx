@@ -6,1270 +6,23 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { AccountType } from "../../authentication/auth";
 import { cn } from "../../../utils/mergeClasses";
-import Note from "./components/Note";
-import Approve from "./components/Approve";
+import Approve from "./components/Actions";
 import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { loadPendingAccounts } from "./pendingAccountsSlice";
-import Button from "../../../components/ui/Button";
+import { useApproveAccountMutation, useGetPendingAccountsQuery } from "../adminApiSlice";
+import { UserDocument } from "../../authentication/auth";
+import { setPendingAccounts } from "./pendingAccountsSlice";
 
-const userData: TData[] = [
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja1@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja2@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja3@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-  {
-    firstName: "dulan",
-    lastName: "nadeeja",
-    accountType: AccountType.sellerPersonal as string,
-    email: "dulannadeeja4@gmail.com",
-    status: "pending",
-    note: "",
-  },
-];
-
-export type TData = {
-  firstName: string;
-  lastName: string;
-  accountType: string;
-  email: string;
-  status: string;
-  note: string;
-};
-
-const columnHelper = createColumnHelper<TData>();
+const columnHelper = createColumnHelper<UserDocument>();
 
 const columns = [
+  columnHelper.display({
+    id: "approve",
+    header: () => "Approve",
+    size: 80,
+    cell: (info) => <Approve {...info} />,
+  }),
   columnHelper.accessor("firstName", {
     header: () => "First name",
     cell: (info) => info.getValue(),
@@ -1286,22 +39,59 @@ const columns = [
     header: () => "Business email",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("note", {
-    header: () => "Note on account",
-    cell: (info) => <Note {...info} />,
+  columnHelper.accessor("phone", {
+    header: () => "Phone",
+    cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("status", {
     header: () => "Status",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.display({
-    id: "approve",
-    header: () => "Approve",
-    cell: (info) => <Approve {...info} />,
+  columnHelper.accessor("personalInfo.nationalId", {
+    header: () => "National ID",
+    cell: (info) => info.getValue(),
   }),
+  columnHelper.accessor("personalInfo.passportNo", {
+    header: () => "Passport No",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("personalInfo.drivingLicense", {
+    header: () => "Driving License",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("businessInfo.businessName", {
+    header: () => "Business Name",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("businessInfo.businessReqNo", {
+    header: () => "Business Req No",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("businessInfo.businessWebsite", {
+    header: () => "Business Website",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("businessInfo.ownershipType", {
+    header: () => "Ownership Type",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("businessAddress.street", {
+    header: () => "Street",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("businessAddress.city", {
+    header: () => "City",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("businessAddress.zip", {
+    header: () => "State",
+    cell: (info) => info.getValue(),
+  })
 ];
 
 function PendingAccounts() {
+  const { data, isLoading, error } = useGetPendingAccountsQuery();
+  
   const dispatch = useDispatch();
   const { pendingAccounts } = useSelector(
     (state: RootState) => state.pendingAccounts
@@ -1310,14 +100,8 @@ function PendingAccounts() {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
-  useEffect(() => {
-    if (pendingAccounts.length === 0) {
-      dispatch(loadPendingAccounts(userData));
-    }
-  }, [dispatch, pendingAccounts.length]);
-
   const table = useReactTable({
-    data: pendingAccounts,
+    data: pendingAccounts || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     debugTable: true,
@@ -1332,63 +116,69 @@ function PendingAccounts() {
     // autoResetAll: true,
   });
 
+  useEffect(()=>{
+    if(data){
+      dispatch(setPendingAccounts(data));
+      console.log(data);
+    }
+  },[data, dispatch])
+
   console.log(pendingAccounts);
 
   return (
-    <div>
-      <table
-        className="border border-gray-200 border-solid overflow-hidden"
-        width={table.getTotalSize()}
-      >
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr
-              key={headerGroup.id}
-              className="flex divide-x divide-gray-300 border-b border-b-gray-200 "
-            >
-              {headerGroup.headers.map((header) => (
-                <th
-                  className="flex justify-between p-0 group"
-                  style={{ width: header.getSize() }}
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                  <div
-                    onMouseDown={header.getResizeHandler()}
-                    onTouchStart={header.getResizeHandler()}
-                    className={cn(
-                      "bg-blue-300 w-1 h-full opacity-0 group-hover:opacity-100 cursor-col-resize",
-                      {
-                        "bg-green-600": header.column.getIsResizing(),
-                      }
+    <div className="overflow-hidden">
+      <div className="overflow-y-hidden overflow-x-scroll">
+        <table className="" width={table.getTotalSize()}>
+          <thead className="bg-gray-100">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr
+                key={headerGroup.id}
+                className="flex divide-x divide-gray-200 border-b border-b-gray-200 "
+              >
+                {headerGroup.headers.map((header) => (
+                  <th
+                    className="flex justify-between group"
+                    style={{ width: header.getSize() }}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
                     )}
-                  ></div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className="flex divide-x divide-gray-300 border-b border-b-gray-200 "
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  style={{ width: cell.column.getSize() }}
-                  className="overflow-hidden"
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                    <div
+                      onMouseDown={header.getResizeHandler()}
+                      onTouchStart={header.getResizeHandler()}
+                      className={cn(
+                        "bg-blue-300 w-1 h-full opacity-0 group-hover:opacity-100 cursor-col-resize",
+                        {
+                          "bg-green-600": header.column.getIsResizing(),
+                        }
+                      )}
+                    ></div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr
+                key={row.id}
+                className="flex divide-x divide-gray-200 border-b border-b-gray-200 "
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    key={cell.id}
+                    style={{ width: cell.column.getSize() }}
+                    className=" p-4"
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div>
         <div>
           <button

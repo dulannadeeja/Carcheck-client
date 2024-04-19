@@ -1,37 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AccountStatus, UserDocument } from "../../authentication/auth";
 
-
-interface PendingAccount {
-    firstName: string;
-    lastName: string;
-    accountType: string;
-    email: string;
-    status: string;
-    note: string;
-}
 
 const initialState = {
-    pendingAccounts: [] as PendingAccount[],
+    pendingAccounts: [] as UserDocument[],
 }
 
 export const pendingAccountsSlice = createSlice({
     name: 'pendingAccounts',
     initialState,
     reducers: {
-        updatePendingAccount: (state, action) => {
-            const { email, status, note } = action.payload;
-            const account = state.pendingAccounts.find(account => account.email === email);
-            if (account) {
-                account.status = status;
-                account.note = note;
-            }
+        updateStatus: (state, action) => {
+            const {_id, status } = action.payload;
+            // set the status of the account to approved
+            state.pendingAccounts = state.pendingAccounts.map(account => {
+                if (account._id === _id) {
+                    account.status = status;
+                }
+                return account;
+            });
+            
         },
-        loadPendingAccounts: (state, action) => {
+        setPendingAccounts: (state, action) => {
             state.pendingAccounts = action.payload;
         }
     }
 });
 
-export const { updatePendingAccount, loadPendingAccounts } = pendingAccountsSlice.actions;
+export const { updateStatus, setPendingAccounts } = pendingAccountsSlice.actions;
 
 export default pendingAccountsSlice.reducer;
