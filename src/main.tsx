@@ -36,9 +36,9 @@ import IdentityInfo from "./features/authentication/setupSellingAccount/componen
 import FinancialInfo from "./features/authentication/setupSellingAccount/components/FinancialInfo.tsx";
 import SubmitRegistration from "./features/authentication/setupSellingAccount/components/SubmitRegistration.tsx";
 import ContactInfo from "./features/authentication/setupSellingAccount/components/ContactInfo.tsx";
-import UploadFile from "./features/authentication/uploadDocuments/components/UploadFile.tsx";
 import UploadDocuments from "./features/authentication/uploadDocuments/pages/UploadDocuments.tsx";
 import PendingAccounts from "./features/admin/pendingAccounts/PendingAccounts.tsx";
+import StartSellingProtection from "./components/StartSellingProtection.tsx";
 
 const router = createBrowserRouter([
   {
@@ -134,11 +134,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/selling/start-selling",
-    element: <StartSelling />,
+    element: (
+      <StartSellingProtection>
+        <StartSelling />
+      </StartSellingProtection>
+    ),
   },
   {
     path: "/selling/register",
-    element: <SetupSellingAccount />,
+    element: (
+      <StartSellingProtection>
+        <SetupSellingAccount />
+      </StartSellingProtection>
+    ),
     children: [
       {
         path: "",

@@ -5,15 +5,20 @@ import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetErrors,
+  resetToIntialState,
   setErrors,
   updateFieldHandler,
 } from "../../sellingAccountSlice";
 import { ZodIssue } from "zod";
 import { useSubmitRegistrationMutation } from "../../sellingAccountApiSlice";
+import { toast } from "react-toastify";
+import { logout } from "../../authSlice";
+import { useSignoutMutation } from "../../authApiSlice";
 
 function SubmitRegistration() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [signout] = useSignoutMutation();
   const [SubmitRegistration] = useSubmitRegistrationMutation();
   const { data, errors } = useSelector(
     (state: RootState) => state.sellingAccount
@@ -25,11 +30,21 @@ function SubmitRegistration() {
     if (Object.keys(errors).length > 0) {
       console.log("errors", errors);
       dispatch(setErrors(errors));
+      toast.error("Looks like missing some information, go back and check");
       return;
     }
     // submit registration
     try {
       await SubmitRegistration(data).unwrap();
+      // clear the selling account state
+      dispatch(resetToIntialState());
+      toast.success("Request submitted successfully, signing out...");
+      // signing out the user
+      await signout().unwrap();
+      // logout the user
+      dispatch(logout())
+      // navigate to the login page
+      navigate("/signin");
     } catch (error) {
       console.log("error", error);
     }

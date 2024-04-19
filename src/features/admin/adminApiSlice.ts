@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { SERVER_URL } from "../../utils/constants";
 import { RootState } from "../../store/store";
 import { AccountStatus, AccountType, UserDocument } from "../authentication/auth";
-import { reject } from "lodash";
 
 
 export const adminApi = createApi({
@@ -12,8 +11,8 @@ export const adminApi = createApi({
         prepareHeaders: (headers, { getState }) => {
             // Retrieve the token from the state
             const { user } = (getState() as RootState).auth;
-            const token = user.accessToken;
-            const refreshToken = user.refreshToken;
+            const token = user?.accessToken || "";
+            const refreshToken = user?.refreshToken || "";
 
             if (token) {
                 headers.set('authorization', `Bearer ${token}`);

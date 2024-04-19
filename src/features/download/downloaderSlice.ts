@@ -39,18 +39,26 @@ export const downloaderSlice = createSlice({
         },
         updateTaskDownloadedSize: (state, action) => {
             const {id, downloadedSize} = action.payload
+            // convert the downloaded size to megabytes
+            let downloadedSizeInMBytes = downloadedSize / 1024 / 1024
+            // round the downloaded size to 2 decimal places
+            downloadedSizeInMBytes = Math.round(downloadedSizeInMBytes * 100) / 100
             state.queue = state.queue.map(task => {
                 if(task.id === id) {
-                    task.downloadedSize = downloadedSize
+                    task.downloadedSize = downloadedSizeInMBytes
                 }
                 return task
             })
         },
         updateTaskSize: (state, action) => {
             const {id, size} = action.payload
+            // convert the size to megabytes
+            let sizeInMBytes = size / 1024 / 1024
+            // round the size to 2 decimal places
+            sizeInMBytes = Math.round(sizeInMBytes * 100) / 100
             state.queue = state.queue.map(task => {
                 if(task.id === id) {
-                    task.size = size
+                    task.size = sizeInMBytes
                 }
                 return task
             })

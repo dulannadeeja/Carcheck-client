@@ -12,7 +12,7 @@ const FileDownloader = () => {
         Download Files
       </h2>
       <div>
-        {queue && queue.map((task:DownloadTask) => (
+        {queue.map((task:DownloadTask) => (
             <DownloadItem key={task.id} taskId={task.id} />
         ))}
       </div>

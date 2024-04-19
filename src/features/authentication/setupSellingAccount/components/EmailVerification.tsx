@@ -16,6 +16,7 @@ import {
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { cn } from "../../../../utils/mergeClasses";
+import { ErrorResponse } from "react-router-dom";
 
 function EmailVerification() {
   const [codeSent, setCodeSent] = React.useState(false);
@@ -81,7 +82,8 @@ function EmailVerification() {
       setCodeSent(true);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to send the code");
+      const err = error as ErrorResponse;
+      toast.error(err.data.message || "Failed to send the code");
     }
   };
 

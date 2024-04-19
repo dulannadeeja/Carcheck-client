@@ -1,4 +1,3 @@
-// assets
 import BrandLogo from "../assets/brand/logo.svg";
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
@@ -8,8 +7,6 @@ import Container from "../components/ui/Container";
 import { RiListSettingsFill } from "react-icons/ri";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMenuOutline } from "react-icons/io5";
-
-// components
 import ContainerLarge from "../components/ui/ContainerLarge";
 import SearchListingsForm from "../components/SearchListingsForm";
 import CategoriesModal from "../features/categoryFilter/components/CategoriesModal";
@@ -20,15 +17,28 @@ import CartDropdown from "../features/Cart/components/CartDropdown";
 import WishlistDropdown from "../features/Wishlist/components/WishlistDropdown";
 import NotificationDropdown from "../features/notification/components/NotificationDropdown";
 import ProfileDropdown from "../components/ProfileDropdown";
-
-// context
 import useHeaderContext from "../features/authentication/hooks/useHeaderContext";
-
-// utils
 import { cn } from "../utils/mergeClasses";
 import LocationContextProvider from "../features/locationFilter/context/locationContextProvider";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { SERVER_URL } from "../utils/constants";
+import userProfilePlaceholder from "../assets/placeholders/user-profile-placeholder-1.png";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import NotificationArea from "../features/notification/components/NotificationArea";
+import NotificationIcon from "../features/notification/components/NotificationIcon";
 
 function Header() {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { systemNotifications } = useSelector((state: RootState) => state.notification);
+
+  useEffect(() => {
+    // refresh the header component when user changes
+    console.log("User changed");
+    console.log(user);
+  }, [user]);
+
   const {
     setIsMobileNavOpen,
     setIsCartDropdownOpen,
@@ -66,7 +76,7 @@ function Header() {
             <nav className="hidden md:block">
               <ul className="flex gap-7">
                 <li>Spare Parts</li>
-                <li>Sell on Carcheck</li>
+                <li><Link to={'/selling/start-selling'}>Sell on Carcheck</Link></li>
                 <li>Services</li>
               </ul>
             </nav>
@@ -121,9 +131,7 @@ function Header() {
                   setIsNotificationDropdownOpen(false);
                 }}
               >
-                <Button intent={"iconRound"} size={"mediumRound"}>
-                  <FaRegBell />
-                </Button>
+                <NotificationIcon/>
                 <NotificationDropdown
                   className={cn({
                     hidden: !isNotificationDropdownOpen,
@@ -141,8 +149,27 @@ function Header() {
                   setIsProfileDropdownOpen(false);
                 }}
               >
-                <div className="bg-gray-500 md:inline-flex p-2 rounded-full hidden">
-                  <p className="text-white font-bold text-sm">DA</p>
+                <div className="flex justify-center items-center bg-gray-500 w-10 h-10 md:inline-flex rounded-full">
+                  {user &&
+                    (user.avatar ? (
+                      <img
+                        src={`${SERVER_URL}/images/${user.avatar}`}
+                        alt="user-profile"
+                        className="w-10 h-10 object-cover rounded-full"
+                      />
+                    ) : (
+                      <div className="p-3 text-sm font-medium text-white">
+                        {user.firstName.charAt(0).toUpperCase() +
+                          user.lastName.charAt(0).toUpperCase()}
+                      </div>
+                    ))}
+                  {!user && (
+                    <img
+                      src={userProfilePlaceholder}
+                      alt="user-profile"
+                      className="w-10 h-10 object-cover rounded-full"
+                    />
+                  )}
                 </div>
                 <ProfileDropdown
                   className={cn({
@@ -197,6 +224,7 @@ function Header() {
             <span className="hidden lg:flex lg:shrink-0">Advanced Search</span>
           </Button>
         </div>
+        <NotificationArea />
       </Container>
       {/* search bar end */}
 

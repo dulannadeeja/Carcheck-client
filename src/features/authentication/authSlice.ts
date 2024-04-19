@@ -1,6 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+type User = {
+    accessToken: string,
+    refreshToken: string,
+    email: string,
+    accountType: string,
+    status: string,
+    firstName: string,
+    lastName: string,
+    avatar: string,
+}
+
+type InitialState = {
+    user:User | null 
+    noticeOfAccount: string | null
+}
+
+const initialState:InitialState = {
+    noticeOfAccount: null,
     user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : null
 };
 
@@ -14,6 +31,7 @@ export const authSlice = createSlice({
         },
         logout: (state) => {
             state.user = null;
+            state.noticeOfAccount = null;
             localStorage.removeItem('user');
         }
     }

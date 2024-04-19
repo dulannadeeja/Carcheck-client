@@ -78,25 +78,21 @@ export const businessInfoSchema = z.object({
 
 export const financialInfoSchema = z.object({
     bankName: z.string().refine((bankName) => {
-        if (!bankName) return true;
         return bankName.match(/^[A-Za-z\s]+$/);
     }, {
         message: "Looks like the bank name is invalid, double check the name."
     }),
     accountName: z.string().refine((accountName) => {
-        if (!accountName) return true;
         return accountName.match(/^[A-Za-z\s]+$/);
     }, {
         message: "Looks like the account name is invalid, double check the name."
     }),
     accountNumber: z.string().refine((accountNumber) => {
-        if (!accountNumber) return true;
         return accountNumber.match(/^[0-9]+$/);
     }, {
         message: "Looks like the account number is invalid, double check the number."
     }),
     branchCode: z.string().refine((branchCode) => {
-        if (!branchCode) return true;
         return branchCode.match(/^[0-9]+$/);
     }, {
         message: "Looks like the branch code is invalid, double check the number."

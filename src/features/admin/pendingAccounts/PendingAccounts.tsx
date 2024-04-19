@@ -7,12 +7,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { cn } from "../../../utils/mergeClasses";
-import Approve from "./components/Actions";
 import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useApproveAccountMutation, useGetPendingAccountsQuery } from "../adminApiSlice";
 import { UserDocument } from "../../authentication/auth";
 import { setPendingAccounts } from "./pendingAccountsSlice";
+import Actions from "./components/Actions";
 
 const columnHelper = createColumnHelper<UserDocument>();
 
@@ -21,71 +21,71 @@ const columns = [
     id: "approve",
     header: () => "Approve",
     size: 80,
-    cell: (info) => <Approve {...info} />,
+    cell: (info) => <Actions {...info} />,
   }),
   columnHelper.accessor("firstName", {
     header: () => "First name",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("lastName", {
     header: () => "Last name",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("accountType", {
     header: () => "Type of account",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("email", {
     header: () => "Business email",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("phone", {
     header: () => "Phone",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("status", {
     header: () => "Status",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("personalInfo.nationalId", {
     header: () => "National ID",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("personalInfo.passportNo", {
     header: () => "Passport No",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("personalInfo.drivingLicense", {
     header: () => "Driving License",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("businessInfo.businessName", {
     header: () => "Business Name",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("businessInfo.businessReqNo", {
     header: () => "Business Req No",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("businessInfo.businessWebsite", {
     header: () => "Business Website",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("businessInfo.ownershipType", {
     header: () => "Ownership Type",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("businessAddress.street", {
     header: () => "Street",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("businessAddress.city", {
     header: () => "City",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   }),
   columnHelper.accessor("businessAddress.zip", {
     header: () => "State",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="overflow-hidden">{info.getValue()}</div>,
   })
 ];
 
@@ -126,8 +126,8 @@ function PendingAccounts() {
   console.log(pendingAccounts);
 
   return (
-    <div className="overflow-hidden">
-      <div className="overflow-y-hidden overflow-x-scroll">
+    <div className="overflow-x-hidden">
+      <div className="overflow-x-scroll">
         <table className="" width={table.getTotalSize()}>
           <thead className="bg-gray-100">
             {table.getHeaderGroups().map((headerGroup) => (

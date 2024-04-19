@@ -30,17 +30,9 @@ function Actions(props: ActionsProps) {
   const popupRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const [showActions, setShowActions] = useState(false);
-  const onClick = () => {
-    // dispatch(
-    //   updatePendingAccount({
-    //     email: props.row.original.email,
-    //     status: "approved",
-    //     note: props.row.original.note,
-    //   })
-    // );
-  };
+  
 
-  // if you click outside the popup, close it
+  // if click outside the popup, close it
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -123,7 +115,7 @@ function Actions(props: ActionsProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative overflow-visible">
       <div>
         <IoIosMore
           className="text-xl cursor-pointer hover:text-blue-300 hover:scale-110 transition-transform transform origin-center"
@@ -133,7 +125,7 @@ function Actions(props: ActionsProps) {
       {showActions && (
         <div
           ref={popupRef}
-          className="z-50 flex flex-col gap-3 absolute bottom-0 left-0 bg-white p-3 shadow-lg border-gray-200 border rounded-md w-[10rem] translate-y-[100%]"
+          className="z-[100] flex flex-col gap-3 absolute bottom-0 left-0 bg-white p-3 shadow-lg border-gray-200 border rounded-md w-[10rem] translate-y-[100%]"
         >
           <Button
             intent="iconText"

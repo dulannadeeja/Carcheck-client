@@ -10,8 +10,8 @@ export const sellingAccountApi = createApi({
         prepareHeaders: (headers, { getState }) => {
             // Retrieve the token from the state
             const { user } = (getState() as RootState).auth;
-            const token = user.accessToken;
-            const refreshToken = user.refreshToken;
+            const token = user?.accessToken || "";
+            const refreshToken = user?.refreshToken || "";
 
             if (token) {
                 headers.set('authorization', `Bearer ${token}`);

@@ -11,7 +11,7 @@ function HeaderDropdownModal({
   return (
     <div
       className={cn(
-        "absolute right-0 w-fit max-h-screen-15rem max-w-screen-2rem min-w-[20.5rem]",
+        "absolute right-0 w-fit max-h-screen-15rem max-w-screen-2rem min-w-[20.5rem] z-[100]",
         className
       )}
       {...rest}

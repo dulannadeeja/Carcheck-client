@@ -15,6 +15,7 @@ import {
 } from "../../sellingAccountApiSlice";
 import { toast } from "react-toastify";
 import { VerificationType } from "../schema/sellingAccountSchema";
+import { ErrorResponse } from "../../../../types";
 
 function PhoneVerification() {
   const [codeSent, setCodeSent] = React.useState(false);
@@ -84,7 +85,9 @@ function PhoneVerification() {
       setCodeSent(true);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to send the code");
+      
+      const err = error as ErrorResponse;
+      toast.error(err.data.message || "Failed to send the code");
     }
   };
 

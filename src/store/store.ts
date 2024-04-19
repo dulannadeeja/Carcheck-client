@@ -16,6 +16,8 @@ import uploadDocsReducer from "../features/authentication/uploadDocuments/upload
 import { uploadDocsApi } from "../features/authentication/uploadDocuments/uploadDocsApiSlice";
 import { adminApi } from "../features/admin/adminApiSlice";
 import downloaderReducer from "../features/download/downloaderSlice";
+import { notificationApi } from "../features/notification/notificationApiSlice";
+import notificationReducer from "../features/notification/notificationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +28,7 @@ export const store = configureStore({
     sellingAccount: sellingAccountReducer,
     uploadDocs: uploadDocsReducer,
     downloader: downloaderReducer,
+    notification: notificationReducer,
     [authApi.reducerPath]: authApi.reducer,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,
@@ -33,7 +36,8 @@ export const store = configureStore({
     [inspectionApi.reducerPath]: inspectionApi.reducer,
     [sellingAccountApi.reducerPath]: sellingAccountApi.reducer,
     [uploadDocsApi.reducerPath]: uploadDocsApi.reducer,
-    [adminApi.reducerPath]: adminApi.reducer
+    [adminApi.reducerPath]: adminApi.reducer,
+    [notificationApi.reducerPath]: notificationApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -45,7 +49,8 @@ export const store = configureStore({
         inspectionApi.middleware,
         sellingAccountApi.middleware,
         uploadDocsApi.middleware,
-        adminApi.middleware
+        adminApi.middleware,
+        notificationApi.middleware
       )
 });
 

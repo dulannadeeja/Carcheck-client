@@ -26,10 +26,13 @@ function FinancialInfo() {
 
   const onContinue = () => {
     const financialInfoErrors = validateFinancialInfo();
+    console.log("financialInfoErrors", financialInfoErrors);
     if (financialInfoErrors) {
+      dispatch(updateFieldHandler(
+        { field: "financialInfoVerified", value: false }
+      ))
       dispatch(
         setErrors({
-          ...errors,
           financialInfo: financialInfoErrors,
         })
       );

@@ -22,7 +22,7 @@ function SignIn() {
   const [signin] = useSigninMutation();
   const [usernameError, setUsernameError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [password, setPassword] = useState("");
   const [staySignedIn, setStaySignedIn] = useState(false);
@@ -31,9 +31,10 @@ function SignIn() {
   const [isSignInDisabled, setIsSignInDisabled] = useState(true);
 
   const onUsernameSubmit = async () => {
+    setLoading(true);
     try {
       // post email or username to the server
-      await searchUser(emailOrUsername).unwrap();
+      await searchUser(email).unwrap();
       setIsSecondStep(true);
       setUsernameError("");
     } catch (error) {
@@ -41,14 +42,17 @@ function SignIn() {
       setUsernameError(
         "We couldn't find an account with that email or username."
       );
+    }finally {
+      setLoading(false);
     }
   };
 
   const handlePasswordSubmit = async () => {
+    setLoading(true);
     try {
       // post email or username and password to the server
       const result = await signin({
-        emailOrUsername,
+        email,
         password,
       }).unwrap();
       dispatch(setUser({ ...result, staySignedIn }));
@@ -63,11 +67,13 @@ function SignIn() {
     } catch (error) {
       console.error(error);
       setPasswordError("The password you entered is incorrect.");
+    }finally {
+      setLoading(false);
     }
   };
 
   const onUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailOrUsername(e.target.value);
+    setEmail(e.target.value);
     setIsContinueDisabled(!e.target.value);
   };
 
@@ -98,7 +104,7 @@ function SignIn() {
           )}
           {isSecondStep && (
             <>
-              <p>{emailOrUsername}</p>
+              <p>{email}</p>
               <div className="flex gap-1">
                 <p>Not you?</p>
                 <Button
@@ -126,7 +132,7 @@ function SignIn() {
             type="text"
             placeholder="Email or Username"
             className="placeholder:text-gray-600 placeholder:font-medium bg-gray-50 border-gray-200 py-2 px-3"
-            value={emailOrUsername}
+            value={email}
             onChange={onUsernameChange}
           />
         ) : (

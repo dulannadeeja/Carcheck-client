@@ -5,6 +5,8 @@ import { cn } from "../../../../utils/mergeClasses";
 
 function SetupSellingAccount() {
   const location = useLocation();
+
+
   return (
     <div className="text-sm h-screen overflow-y-scroll">
       <ContainerSmall>
@@ -38,27 +40,27 @@ function SetupSellingAccount() {
             >
               2. Verify your identity
             </h2>
-            <h2 className={
-              cn(
+            <h2
+              className={cn(
                 "text-base border-b-2 border-solid border-gray-200 pb-1",
                 {
                   "border-gray-800":
                     location.pathname === "/selling/register/financial-info",
                 }
-              )
-            }
+              )}
             >
               3. Add your financial info
             </h2>
-            <h2 className={
-              cn(
+            <h2
+              className={cn(
                 "text-base border-b-2 border-solid border-gray-200 pb-1",
                 {
                   "border-gray-800":
-                    location.pathname === "/selling/register/submit-registration",
+                    location.pathname ===
+                    "/selling/register/submit-registration",
                 }
-              )
-            }>
+              )}
+            >
               4. Submit registration info
             </h2>
           </div>

@@ -1,9 +1,26 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { SERVER_URL } from "../../utils/constants";
+import { RootState } from "../../store/store";
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: `${SERVER_URL}` }),
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: `${SERVER_URL}`,
+    prepareHeaders: (headers, { getState }) => {
+      // Retrieve the token from the state
+      const { user } = (getState() as RootState).auth;
+      if(!user) return headers;
+      const token = user.accessToken;
+      const refreshToken = user.refreshToken;
+
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+        headers.set('x-refresh-token', refreshToken)
+      }
+
+      return headers;
+    }, 
+  }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
     signin: builder.mutation({
@@ -30,8 +47,14 @@ export const authApi = createApi({
           },
         }),
       }
-    )
+    ),
+    signout: builder.mutation<void,void>({
+      query: () => ({
+        url: "/sessions",
+        method: "DELETE",
+      }),
+    })
   }),
 });
 
-export const { useSigninMutation, useSignupMutation, useSearchUserMutation } = authApi;
+export const { useSigninMutation,useSignoutMutation, useSignupMutation, useSearchUserMutation } = authApi;

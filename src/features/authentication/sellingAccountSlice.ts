@@ -134,10 +134,14 @@ export const sellingAccountSlice = createSlice({
             state.data.phoneOTP = "";
             state.errors.phoneOTP = "";
 
+        },
+        resetToIntialState: (state) => {
+            state.data = initialState.data;
+            state.errors = initialState.errors;
         }
     }
 });
 
-export const { updateFieldHandler, validateFieldHandler, setError, setErrors, resetErrors, resetEmailVerification, resetPhoneVerification } = sellingAccountSlice.actions;
+export const { resetToIntialState,updateFieldHandler, validateFieldHandler, setError, setErrors, resetErrors, resetEmailVerification, resetPhoneVerification } = sellingAccountSlice.actions;
 
 export default sellingAccountSlice.reducer;
