@@ -31,12 +31,12 @@ function ProfileLinkList({ className, ...rest }: TProfileLinkListProps) {
       // refresh the page;
       navigate("/");
       await signout().unwrap();
-      // clear the user state
-      dispatch(logout());
       toast.success("Signed out successfully");
     } catch (err) {
-      toast.error("An error occurred while signing out");
       console.log(err);
+    }finally{
+      // clear the user state
+      dispatch(logout());
     }
   };
 

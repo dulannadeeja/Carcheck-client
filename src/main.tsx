@@ -20,7 +20,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BuyerProtectedRoute from "./components/BuyerProtectedRoutes.tsx";
+import BuyerProtectedRoute from "./components/protectedRoutes/BuyerProtectedRoutes.tsx";
 import Selling from "./features/Selling/pages/Selling.tsx";
 import Drafts from "./features/Selling/components/Drafts.tsx";
 import Active from "./features/Selling/components/Active.tsx";
@@ -38,7 +38,13 @@ import SubmitRegistration from "./features/authentication/setupSellingAccount/co
 import ContactInfo from "./features/authentication/setupSellingAccount/components/ContactInfo.tsx";
 import UploadDocuments from "./features/authentication/uploadDocuments/pages/UploadDocuments.tsx";
 import PendingAccounts from "./features/admin/pendingAccounts/PendingAccounts.tsx";
-import StartSellingProtection from "./components/StartSellingProtection.tsx";
+import StartSellingProtection from "./components/protectedRoutes/StartSellingProtection.tsx";
+import ProvideDocsProtection from "./components/protectedRoutes/ProvideDocsProtection.tsx";
+import SellingDashboardProtection from "./components/protectedRoutes/SellingDashboardProtection.tsx";
+import AdminProtectedRoutes from "./components/protectedRoutes/AdminProtectedRoutes.tsx";
+import Brands from "./features/admin/components/Brands.tsx";
+import VehicleModels from "./features/admin/components/VehicleModels.tsx";
+import Specifics from "./features/admin/components/Specifics.tsx";
 
 const router = createBrowserRouter([
   {
@@ -90,7 +96,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/selling",
-    element: <Selling />,
+    element: (
+      <SellingDashboardProtection>
+        <Selling />
+      </SellingDashboardProtection>
+    ),
     children: [
       {
         path: "",
@@ -116,11 +126,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Dashborad />,
+    element: (
+      <AdminProtectedRoutes>
+        <Dashborad />
+      </AdminProtectedRoutes>
+    ),
     children: [
       {
-        path: "activity",
-        element: <Activity />,
+        path: "brands",
+        element: <Brands/>,
+      },
+      {
+        path: "vehicles",
+        element: <VehicleModels/>,
+      },
+      {
+        path: "specs",
+        element: <Specifics/>,
       },
       {
         path: "accounts/active",
@@ -172,7 +194,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/seller/upload-documents",
-    element: <UploadDocuments />,
+    element: (
+      <ProvideDocsProtection>
+        <UploadDocuments />
+      </ProvideDocsProtection>
+    ),
   },
 ]);
 

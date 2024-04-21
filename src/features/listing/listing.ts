@@ -123,9 +123,13 @@ export enum VehicleCategory {
 }
 
 export interface Vehicle {
-    make: VehicleMake;
+    _id: string;
+    make: {
+        _id: string;
+        name: string;
+    }
     vehicleModel: string;
-    category: VehicleCategory;
+    category: string[];
     createdAt: Date;
     updatedAt: Date;
 }

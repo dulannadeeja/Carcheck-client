@@ -42,7 +42,7 @@ const notificationSlice = createSlice({
                 state.unreadCount++;
             }
             // set system notifications
-            if (action.payload.type === NotificationType.SYSTEM) {
+            if (action.payload.type === NotificationType.SYSTEM && action.payload.isActive) {
                 state.systemNotifications = [
                     ...state.systemNotifications,
                     action.payload

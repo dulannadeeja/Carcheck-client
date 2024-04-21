@@ -42,21 +42,30 @@ function Dashborad() {
                   Overview
                 </Link>
                 <Link
-                  to="/admin/activity"
+                  to="/admin/brands"
                   className={cn("px-3 py-2 font-medium", {
-                    "text-blue-300 bg-gray-150": pathName === "/admin/activity",
+                    "text-blue-300 bg-gray-150": pathName === "/admin/brands",
                   })}
                 >
-                  Activity
+                  Brands
                 </Link>
                 <Link
-                  to="/admin/inspection"
+                  to="/admin/vehicles"
                   className={cn("px-3 py-2 font-medium", {
                     "text-blue-300 bg-gray-150":
-                      pathName === "/admin/inspection",
+                      pathName === "/admin/vehicles",
                   })}
                 >
-                  Accounts
+                  Vehicles
+                </Link>
+                <Link
+                  to="/admin/specs"
+                  className={cn("px-3 py-2 font-medium", {
+                    "text-blue-300 bg-gray-150":
+                      pathName === "/admin/specs",
+                  })}
+                >
+                  Specifications
                 </Link>
                 <div className="flex flex-col gap2">
                   <Link
