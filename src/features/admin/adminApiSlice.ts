@@ -26,16 +26,29 @@ export const adminApi = createApi({
     }),
     tagTypes: ["Admin", "PendingAccounts", "Brands", "Categories", "vehicles", "Specs", "TransmissionType", "FuelType", "DriveType", "ColorOptions"],
     endpoints: (builder) => ({
-        getPendingAccounts: builder.query<UserDocument[], void>({
-            query: () => ({
-                url: "/users",
+        getPendingAccounts: builder.query<{
+            data: UserDocument[],
+            page: number,
+            total: number
+            totalPages: number
+        }, {
+            page: number,
+            limit: number
+        }>({
+            query: ({
+                page,
+                limit
+            }) => ({
+                url: `/users`,
                 method: "GET",
-                query: {
+                params: {
                     accountType: [
                         AccountType.sellerBusiness,
                         AccountType.sellerPersonal,
                         AccountType.serviceProvider
-                    ]
+                    ],
+                    page,
+                    limit,
                 }
             }),
             providesTags: ["Admin", "PendingAccounts"],

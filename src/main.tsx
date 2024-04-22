@@ -27,8 +27,6 @@ import Active from "./features/Selling/components/Active.tsx";
 import ScheduledInspections from "./features/Selling/components/ScheduledInspections.tsx";
 import RequestInspection from "./features/Selling/pages/RequestInspection.tsx";
 import Dashborad from "./features/admin/pages/dashboard.tsx";
-import ActiveAccounts from "./features/admin/components/ActiveAccounts.tsx";
-import Activity from "./features/admin/components/Activity.tsx";
 import StartSelling from "./features/authentication/setupSellingAccount/pages/StartSelling.tsx";
 import SetupSellingAccount from "./features/authentication/setupSellingAccount/pages/SetupSellingAccount.tsx";
 import BusinessInfo from "./features/authentication/setupSellingAccount/components/BusinessInfo.tsx";
@@ -45,6 +43,7 @@ import AdminProtectedRoutes from "./components/protectedRoutes/AdminProtectedRou
 import Brands from "./features/admin/components/Brands.tsx";
 import VehicleModels from "./features/admin/components/VehicleModels.tsx";
 import Specifics from "./features/admin/components/Specifics.tsx";
+import { ListingAction } from "./features/Selling/listing/listing.ts";
 
 const router = createBrowserRouter([
   {
@@ -61,14 +60,6 @@ const router = createBrowserRouter([
     element: <Listing />,
   },
   {
-    path: "/addlisting",
-    element: (
-      <BuyerProtectedRoute>
-        <AddListing />
-      </BuyerProtectedRoute>
-    ),
-  },
-  {
     path: "/signin",
     element: <SignIn />,
   },
@@ -76,6 +67,7 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
+  // buyer specific routes
   {
     path: "/myCarcheck",
     element: <MyCarcheck />,
@@ -93,6 +85,15 @@ const router = createBrowserRouter([
         element: <BidsAndOffers />,
       },
     ],
+  },
+  // Selling routes
+  {
+    path: `/selling/listing/:action`,
+    element: (
+      <BuyerProtectedRoute>
+        <AddListing />
+      </BuyerProtectedRoute>
+    ),
   },
   {
     path: "/selling",
@@ -121,9 +122,11 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/selling/inspection/request/:listingId",
+    path: "/inspection/request/:listingId",
     element: <RequestInspection />,
   },
+
+  // Admin routes
   {
     path: "/admin",
     element: (
@@ -145,15 +148,12 @@ const router = createBrowserRouter([
         element: <Specifics/>,
       },
       {
-        path: "accounts/active",
-        element: <ActiveAccounts />,
-      },
-      {
-        path: "accounts/pending",
+        path: "accounts",
         element: <PendingAccounts />,
-      },
+      }
     ],
   },
+  // Selling account setup routes
   {
     path: "/selling/start-selling",
     element: (
@@ -199,7 +199,8 @@ const router = createBrowserRouter([
         <UploadDocuments />
       </ProvideDocsProtection>
     ),
-  },
+  }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

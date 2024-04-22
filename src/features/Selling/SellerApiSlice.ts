@@ -1,40 +1,68 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { SERVER_URL } from "../../utils/constants";
 import { RootState } from "../../store/store";
-import { ListingResponseType } from "../listing/listing";
+import { ListingResponseType, ListingState } from "../listing/listing";
+import { SERVER_URL } from "../../utils/constants";
+
+type ListingQueryParams = {
+    page: number,
+    limit: number,
+    sort?: string,
+    make?: string,
+    model?: string,
+    title?: string,
+    status?: string,
+}
+
+type ListingResponse = {
+    data: ListingResponseType[],
+    page: number,
+    total: number,
+    totalPages: number
+}
+
 
 export const sellerApi = createApi({
     reducerPath: "sellerApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: `${SERVER_URL}`, prepareHeaders: (headers, { getState }) => {
-            // Retrieve the token from the state
-            const { user } = (getState() as RootState).auth;
-            const token = user.accessToken;
-            const refreshToken = user.refreshToken;
+        baseUrl: `${SERVER_URL}`,
+        prepareHeaders: (headers, { getState }) => {
+            const token = (getState() as RootState).auth?.user?.accessToken;
+            const refreshToken = (getState() as RootState).auth?.user?.refreshToken;
 
             if (token) {
                 headers.set('authorization', `Bearer ${token}`);
-                headers.set('x-refresh-token', refreshToken)
+                headers.set('x-refresh-token', refreshToken || '');
             }
-
             return headers;
         },
     }),
-    tagTypes: ["Seller"],
+    tagTypes: ["Seller", "drafts", "active"],
     endpoints: (builder) => ({
-        getDrafts: builder.query<ListingResponseType[], void>({
-            query: () => ({
-                url: "/seller/drafts",
+        // get drafts of the seller's endpoint
+        getDrafts: builder.query<ListingResponse, ListingQueryParams>({
+            query: (queryParams) => ({
+                url: `seller/listings`,
                 method: "GET",
+                params: {
+                    ...queryParams,
+                    status: ListingState.draft
+                }
             }),
+            providesTags: ["Seller", "drafts"],
         }),
-        getListing: builder.query<ListingResponseType, string>({
-            query: (id) => ({
-                url: `/seller/listing/${id}`,
+        // get active listings of the seller's endpoint
+        getActiveListings: builder.query<ListingResponse, ListingQueryParams>({
+            query: (queryParams) => ({
+                url: `seller/listings`,
                 method: "GET",
+                params: {
+                    ...queryParams,
+                    status: ListingState.active
+                }
             }),
+            providesTags: ["Seller", "active"],
         }),
     }),
 });
 
-export const { useGetDraftsQuery,useGetListingQuery } = sellerApi;
+export const { useGetDraftsQuery } = sellerApi;  

@@ -3,6 +3,7 @@ import HeaderContextProvider from "../../../context/headerContextProvider";
 import Header from "../../../layouts/Header";
 import Container from "../../../components/ui/Container";
 import { cn } from "../../../utils/mergeClasses";
+import { ListingAction } from "../listing/listing";
 
 function Selling() {
   const location = useLocation();
@@ -70,49 +71,14 @@ function Selling() {
                 >
                   Drafts
                 </Link>
-                <div className="flex flex-col gap2">
-                  <Link
-                    to="/selling/purchases"
-                    className={cn("px-3 py-2 font-medium", {
-                      "text-blue-300 bg-gray-150":
-                        pathName === "/selling/purchases",
-                    })}
-                  >
-                    Inspections
-                  </Link>
-                  <ul className="text-gray-300 pl-4 flex flex-col gap-1">
-                    <li>
-                      <Link
-                        to="/selling/inspection/scheduled"
-                        className={cn("px-3 py-2", {
-                          "text-blue-300 bg-gray-150":
-                            pathName === "/selling/inspection/scheduled",
-                        })}
-                      >
-                        Scheduled
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/selling/inspection/request"
-                        className={cn("px-3 py-2", {
-                          "text-blue-300 bg-gray-150":
-                            pathName === "/selling/inspection/request",
-                        })}
-                      >
-                        Request new
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
                 <Link
-                  to="/selling/Wishlist"
+                  to={`/selling/listing/${ListingAction.NEW}`}
                   className={cn("px-3 py-2 font-medium", {
                     "text-blue-300 bg-gray-150":
-                      pathName === "/selling/Wishlist",
+                      pathName === `/selling/listing/${ListingAction.NEW}`,
                   })}
                 >
-                  Sold
+                  New listing
                 </Link>
                 <Link
                   to="/selling/savedSearches"
@@ -122,6 +88,16 @@ function Selling() {
                   })}
                 >
                   Unsold
+                </Link>
+
+                <Link
+                  to="/selling/purchases"
+                  className={cn("px-3 py-2 font-medium", {
+                    "text-blue-300 bg-gray-150":
+                      pathName === "/selling/purchases",
+                  })}
+                >
+                  Inspections
                 </Link>
               </div>
             </div>

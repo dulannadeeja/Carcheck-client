@@ -16,7 +16,7 @@ function VehicleModels() {
   const [showAddVehicleModel, setShowAddVehicleModel] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState("make");
   const [make, setMake] = useState("");
   const [category, setCategory] = useState("");
@@ -52,7 +52,9 @@ function VehicleModels() {
     }
   };
 
-  useEffect(() => {}, [page]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div className="flex flex-col flex-1 shrink-0 basis-[40%]">
@@ -102,7 +104,7 @@ function VehicleModels() {
                     <p className="max-w-[10rem]">{model.vehicleModel}</p>
                   </td>
                   <td className="border border-gray-200  p-4">
-                    <p className="max-w-[10rem]">{model.make.name}</p>
+                    <p className="max-w-[10rem]">{model?.make?.name}</p>
                   </td>
                   <td className="border border-gray-200  p-4">
                     <div className="flex gap-2 max-w-fit">

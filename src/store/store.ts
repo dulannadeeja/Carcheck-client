@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "../features/authentication/authSlice";
-import listingReducer from "../features/addListing/listingSlice";
+import listingReducer from "../features/Selling/listing/listingSlice";
 import { authApi } from "../features/authentication/authApiSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { vehicleApi } from "../features/addListing/vehicleApiSlice";
-import { predictionApi } from "../features/addListing/predictionApiSlice";
+import { predictionApi } from "../features/Selling/listing/predictionApiSlice";
 import { sellerApi } from "../features/Selling/SellerApiSlice";
 import inspectionReqReducer from "../features/Selling/inspectionReqSlice";
 import { inspectionApi } from "../features/Selling/inspectionReqApiSlice";
@@ -18,6 +17,7 @@ import { adminApi } from "../features/admin/adminApiSlice";
 import downloaderReducer from "../features/download/downloaderSlice";
 import { notificationApi } from "../features/notification/notificationApiSlice";
 import notificationReducer from "../features/notification/notificationSlice";
+import { listingApi } from "../features/Selling/listing/listingApiSlice";
 
 export const store = configureStore({
   reducer: {
@@ -30,7 +30,7 @@ export const store = configureStore({
     downloader: downloaderReducer,
     notification: notificationReducer,
     [authApi.reducerPath]: authApi.reducer,
-    [vehicleApi.reducerPath]: vehicleApi.reducer,
+    [listingApi.reducerPath]: listingApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,
     [sellerApi.reducerPath]: sellerApi.reducer,
     [inspectionApi.reducerPath]: inspectionApi.reducer,
@@ -43,14 +43,14 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(
         authApi.middleware,
-        vehicleApi.middleware,
         predictionApi.middleware,
         sellerApi.middleware,
         inspectionApi.middleware,
         sellingAccountApi.middleware,
         uploadDocsApi.middleware,
         adminApi.middleware,
-        notificationApi.middleware
+        notificationApi.middleware,
+        listingApi.middleware,
       )
 });
 

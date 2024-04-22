@@ -1,9 +1,4 @@
-import {
-  ErrorResponse,
-  Link,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { ErrorResponse, Link, useNavigate, useParams } from "react-router-dom";
 import ContainerSmall from "../../../components/ui/ContainerSmall";
 import logo from "../../../assets/brand/logo.svg";
 import Button from "../../../components/ui/Button";
@@ -11,7 +6,6 @@ import { useState } from "react";
 import Calendar from "../components/Calendar";
 import TimePicker from "../components/TimePicker";
 import VehicleDetails from "../components/VehicleDetails";
-import { useGetListingQuery } from "../SellerApiSlice";
 import SelectServiceProvider from "../components/SelectServiceProvider";
 import ContactDetails from "../components/ContactDetails";
 import { inspectionRequestSchema } from "../schema/inspectionRequest.schema";
@@ -21,6 +15,7 @@ import { toast } from "react-toastify";
 import { ZodIssue } from "zod";
 import { clearAllErrors, setErrors } from "../inspectionReqSlice";
 import { useCreateInspectionRequestMutation } from "../inspectionReqApiSlice";
+import { useGetListingQuery } from "../listing/listingApiSlice";
 
 function RequestInspection() {
   const navigate = useNavigate();
@@ -32,9 +27,8 @@ function RequestInspection() {
     navigate("/");
   }
 
-  const { data} = useGetListingQuery(listingId as string);
-  const [createInspectionRequest] =
-    useCreateInspectionRequestMutation();
+  const { data, isSuccess } = useGetListingQuery(listingId as string);
+  const [createInspectionRequest] = useCreateInspectionRequestMutation();
   const {
     serviceProvider,
     serviceBranch,
@@ -62,7 +56,7 @@ function RequestInspection() {
           contactNumber,
         }).unwrap();
         console.log(result);
-        toast.success("Inspection has been scheduled.")
+        toast.success("Inspection has been scheduled.");
       }
     } catch (error) {
       console.log(error);
@@ -120,26 +114,30 @@ function RequestInspection() {
               <img src={logo} alt="logo" className="w-40" />
             </Link>
           </div>
-          <div className="flex flex-col gap-10">
-            <VehicleDetails listing={data} />
-            <SelectServiceProvider />
-            <Calendar />
-            <TimePicker />
-            <ContactDetails />
-          </div>
-          <div className="flex flex-col gap-3 md:w-60 mx-auto mb-40">
-            <Button
-              intent="primary"
-              className="rounded-full"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Saving..." : "Schedule Inspection"}
-            </Button>
-            <Button intent="secondary" className="rounded-full">
-              Cancel
-            </Button>
-          </div>
+          {isSuccess && data && (
+            <>
+              <div className="flex flex-col gap-10">
+                <VehicleDetails listing={data} />
+                <SelectServiceProvider />
+                <Calendar />
+                <TimePicker />
+                <ContactDetails />
+              </div>
+              <div className="flex flex-col gap-3 md:w-60 mx-auto mb-40">
+                <Button
+                  intent="primary"
+                  className="rounded-full"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Saving..." : "Schedule Inspection"}
+                </Button>
+                <Button intent="secondary" className="rounded-full">
+                  Cancel
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </ContainerSmall>
     </div>

@@ -115,7 +115,7 @@ function Actions(props: ActionsProps) {
   };
 
   return (
-    <div className="relative overflow-visible">
+    <div className="relative overflow-visible p-4">
       <div>
         <IoIosMore
           className="text-xl cursor-pointer hover:text-blue-300 hover:scale-110 transition-transform transform origin-center"

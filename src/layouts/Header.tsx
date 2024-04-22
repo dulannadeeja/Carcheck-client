@@ -1,6 +1,5 @@
 import BrandLogo from "../assets/brand/logo.svg";
 import { MdAddShoppingCart } from "react-icons/md";
-import { FaRegBell } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import { AiFillTag } from "react-icons/ai";
 import Container from "../components/ui/Container";
@@ -31,7 +30,6 @@ import NotificationIcon from "../features/notification/components/NotificationIc
 
 function Header() {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { systemNotifications } = useSelector((state: RootState) => state.notification);
 
   useEffect(() => {
     // refresh the header component when user changes

@@ -1,3 +1,5 @@
+import { ListingSchema } from "../Selling/listing/schema/listingSchema";
+
 export type Auction = {
     duration: number;
     startDate: Date;
@@ -45,9 +47,9 @@ export enum ListingType {
 }
 
 export enum ListingState {
-    pending = 'Pending',
+    draft = 'Draft',
     active = 'Active',
-    inactive = 'Inactive',
+    unsold = 'Unsold',
     sold = 'Sold'
 }
 
@@ -363,7 +365,8 @@ export const listingTypeArray = Object.values(ListingType);
 export const listingStateArray = Object.values(ListingState);
 
 
-export interface ListingResponseType {
+export interface ListingResponseType extends ListingSchema {
+    status: string;
     _id: string;
     condition: string;
     images: string[];
@@ -397,6 +400,7 @@ export interface ListingResponseType {
 }
 
 interface AuctionDetails {
+    maxBid: number;
     duration: number;
     startingBid: number;
     reservePrice: number;
