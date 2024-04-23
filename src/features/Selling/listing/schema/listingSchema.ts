@@ -1,55 +1,5 @@
 import { z } from "zod";
-import { Conditions, conditionsArray, ListingType, listingTypeArray } from "../../../listing/listing";
-
-export type ListingErrors = {
-    make: string;
-    vehicleModel: string;
-    manufacturedYear: string;
-    registeredYear: string;
-    images: string;
-    title: string;
-    condition: string;
-    mileage: string;
-    transmission: string;
-    fuelType: string;
-    bodyType: string;
-    driveType: string;
-    numberOfDoors: string;
-    numberOfSeats: string;
-    exteriorColor: string;
-    interiorColor: string;
-    numberOfPreviousOwners: string;
-    maxFuelConsumption: string;
-    minFuelConsumption: string;
-    engineCapacity: string;
-    description: string;
-    listingType: string;
-    fixedPrice: string;
-    auction: {
-        duration: string;
-        startingBid: string;
-        startDate: string;
-        endDate: string;
-        reservePrice: string;
-        currentBid: string;
-        bidders: string;
-        maxBid: string;
-    }
-    location: {
-        city: string;
-        division: string;
-        zipCode: string;
-        state: string;
-    }
-    inspectionReport: string;
-    numberOfWatchers: string;
-    watchers: string;
-    isAllowedOffer: string;
-    offer: {
-        minimumOffer: string;
-        autoAcceptOffer: string;
-    }
-};
+import { Conditions, conditionsArray, ListingType, listingTypeArray } from "../../../listing/clientListing";
 
 const currentYear = new Date().getFullYear();
 
@@ -64,28 +14,6 @@ const conditionValidator = z.string().refine(
     }
 );
 
-const vehicleMakeValidator = z.string().min(1, "Please enter the make of the vehicle.")
-
-const vehicleModelValidator = z.string().min(1, "Please enter the model of the vehicle.");
-
-const vehicleCategoryValidator = z.string().min(1, "Please select the body type of the vehicle.");
-
-const yearValidator = z.number().min(1900, "We do not support for vehicles before 1900.").max(currentYear, `Year cannot exceed the current year (${currentYear}).`);
-
-const mileageValidator = z.number().min(1, "Please enter the current mileage of the vehicle.");
-
-const transmissionValidator = z.string().min(1, "Please select the type of transmission.");
-
-const fuelTypeValidator = z.string().min(1, "Please select the type of fuel.");
-
-const driveTypeValidator = z.string().min(1, "Please select the drive type.");
-
-const exteriorColorValidator = z.string().min(1, "Please select the exterior color.");
-
-const interiorColorValidator = z.string().optional()
-
-const numberOfPreviousOwnersValidator = z.number().min(0, "Previous owners must be 0 or more.");
-
 const descriptionValidator = z.string().min(80, "Description must be at least 80 characters.").max(500, "Description must be under 500 characters.");
 
 const listingTypeValidator = z.string().refine((type) => listingTypeArray.includes(type as ListingType), {
@@ -94,14 +22,13 @@ const listingTypeValidator = z.string().refine((type) => listingTypeArray.includ
 
 const imagesValidator = z.array(z.string()).min(1, "At least one photo is required.");
 
+const yearValidator = z.number().min(1900, "We do not support for vehicles before 1900.").max(currentYear, `Year cannot exceed the current year (${currentYear}).`);
+
+
 const auctionSchema = z.object({
     duration: z.number().optional().default(0),
     startingBid: z.number().optional().default(0),
     reservePrice: z.number().optional().default(0),
-    currentBid: z.number().optional().default(0),
-    bidders: z.array(z.string()).optional(),
-    maxBid: z.number().optional().default(0),
-    maxBidder: z.string().optional(),
 })
 
 const locationSchema = z.object({
@@ -110,26 +37,31 @@ const locationSchema = z.object({
     zipCode: z.string().min(1, "Please enter zip code."),
 });
 
+const offerSchema = z.object({
+    minimumOffer: z.number().optional().default(0),
+    autoAcceptOffer: z.number().optional().default(0),
+})
+
 
 // define the schema for the listing
 const bodySchema = z.object({
+    images: imagesValidator,
     title: titleValidator,
-    make: vehicleMakeValidator,
+    make: z.string().min(1, "Looks like you missed the make."),
     condition: conditionValidator,
-    vehicleModel: vehicleModelValidator,
+    vehicleModel: z.string().min(1, "Looks like you missed the model."),
     manufacturedYear: yearValidator,
     registeredYear: yearValidator,
-    mileage: mileageValidator,
-    images: imagesValidator,
-    transmission: transmissionValidator,
-    fuelType: fuelTypeValidator,
-    bodyType: vehicleCategoryValidator,
-    driveType: driveTypeValidator,
-    numberOfPreviousOwners: numberOfPreviousOwnersValidator,
-    exteriorColor: exteriorColorValidator,
+    mileage: z.number().min(0, "Looks like you missed the mileage."), // mileage can be 0 for brand new vehicles
+    transmission: z.string().min(1, "Looks like you missed the transmission."),
+    fuelType: z.string().min(1, "Looks like you missed the fuel type."),
+    bodyType: z.string().min(1, "Looks like you missed the body type."),
+    driveType: z.string().min(1, "Looks like you missed the drive type."),
+    numberOfPreviousOwners: z.number().min(0, "must be 0 or more.").default(0),
+    exteriorColor: z.string().min(1, "Looks like you missed the exterior color."),
     numberOfSeats: z.number().min(0, "must be 0 or more.").default(0),
     numberOfDoors: z.number().min(0, "must be 0 or more.").default(0),
-    interiorColor: interiorColorValidator,
+    interiorColor: z.string().optional(),
     maxFuelConsumption: z.number().min(0, "Please enter the maximum fuel consumption.").default(0),
     minFuelConsumption: z.number().min(0, "Please enter the minimum fuel consumption.").default(0),
     engineCapacity: z.number().min(600, "Engine capacity must be 600cc or more."),
@@ -139,10 +71,7 @@ const bodySchema = z.object({
     auction: auctionSchema.optional(),
     location: locationSchema,
     isAllowedOffer: z.boolean().optional().default(false),
-    offer: z.object({
-        minimumOffer: z.number().optional().default(0),
-        autoAcceptOffer: z.number().optional().default(0),
-    }).optional()
+    offer: offerSchema.optional(),
 })
 
 // refine the schema to add custom validations
@@ -251,24 +180,6 @@ const createListingSchema = bodySchema.superRefine((data, ctx) => {
         });
     }
 
-    // if condition is brand new, previous owners should be 0
-    if (data.condition === Conditions.brandNew && data.numberOfPreviousOwners !== 0) {
-        ctx.addIssue({
-            path: ["numberOfPreviousOwners"],
-            message: "Brand new vehicles should have 0 previous owners.",
-            code: z.ZodIssueCode.custom,
-        });
-    }
-
-    // if condition is unregistered or brand new, previous owners should be 0
-    if (data.condition === Conditions.unregistered || data.condition === Conditions.brandNew && data.numberOfPreviousOwners !== 0) {
-        ctx.addIssue({
-            path: ["numberOfPreviousOwners"],
-            message: "Unregistered vehicles should have 0 previous owners.",
-            code: z.ZodIssueCode.custom,
-        });
-    }
-
     // if condition is brand new, mileage should be 0
     if (data.condition === Conditions.brandNew) {
         if (data.mileage !== 0) {
@@ -280,8 +191,17 @@ const createListingSchema = bodySchema.superRefine((data, ctx) => {
         }
     }
 
+    // if condition is unregistered, mileage should be more than 1000km
+    if (data.condition === Conditions.unregistered && data.mileage === 0) {
+        ctx.addIssue({
+            path: ["mileage"],
+            message: "Please enter the mileage of the vehicle.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
     // if condition is pre-owned, mileage should be greater than 0
-    if (data.condition === Conditions.preOwned && data.mileage === 0) {
+    if (data.condition === Conditions.preOwned && data.mileage <= 1) {
         ctx.addIssue({
             path: ["mileage"],
             message: "Please enter the mileage of the vehicle.",
@@ -345,3 +265,6 @@ export const validateField = (fieldName: keyof ListingSchema, value: string): un
 export const listingSchema = createListingSchema;
 
 export type ListingSchema = z.infer<typeof listingSchema>;
+export type AuctionSchema = z.infer<typeof auctionSchema>;
+export type LocationSchema = z.infer<typeof locationSchema>;
+export type OfferSchema = z.infer<typeof offerSchema>;

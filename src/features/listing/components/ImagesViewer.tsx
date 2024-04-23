@@ -3,6 +3,7 @@ import { cn } from "../../../utils/mergeClasses";
 import Button from "../../../components/ui/Button";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { BsArrowsAngleExpand } from "react-icons/bs";
+import { SERVER_URL } from "../../../utils/constants";
 
 type ImagesViewerProps = {
   images: string[];
@@ -28,7 +29,7 @@ function ImagesViewer({ images }: ImagesViewerProps) {
     return images.map((image, index) => (
       <img
         key={index}
-        src={image}
+        src={`${SERVER_URL}/images/${image}`}
         alt={`image-${index}`}
         className={cn("w-full aspect-square object-cover rounded-xl", {
           "border-2 border-gray-600": selected === index,
@@ -62,7 +63,7 @@ function ImagesViewer({ images }: ImagesViewerProps) {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 min-h-full ">
       <div className="h-full flex flex-col gap-2 relative basis-[20%] md:basis-[15%] lg:basis-[10%]">
         <Button
           intent="iconRound"
@@ -92,7 +93,7 @@ function ImagesViewer({ images }: ImagesViewerProps) {
         </Button>
         {/* selected image view */}
         <img
-          src={images[selected]}
+          src={`${SERVER_URL}/images/${images[selected]}`}
           alt="selected image"
           className={cn("absolute top-0 left-0 w-full h-full object-contain", {
             hidden: isTempView,
@@ -101,7 +102,7 @@ function ImagesViewer({ images }: ImagesViewerProps) {
         {/* temp image view on hover */}
         {isTempView && (
           <img
-            src={images[tempSelected]}
+            src={`${SERVER_URL}/images/${images[tempSelected]}`}
             alt="selected image"
             className={cn("absolute top-0 left-0 w-full h-full object-contain")}
           />

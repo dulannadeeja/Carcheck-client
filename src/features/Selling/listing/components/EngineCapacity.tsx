@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
-import { capacityOptions } from "../../../listing/listing";
+import { capacityOptions } from "../../../listing/clientListing";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";

@@ -3,7 +3,7 @@ import HeaderContextProvider from "../../../context/headerContextProvider";
 import Header from "../../../layouts/Header";
 import Container from "../../../components/ui/Container";
 import { cn } from "../../../utils/mergeClasses";
-import { ListingAction } from "../listing/listing";
+import { ListingActions } from "../listing/sellerListing";
 
 function Selling() {
   const location = useLocation();
@@ -72,19 +72,19 @@ function Selling() {
                   Drafts
                 </Link>
                 <Link
-                  to={`/selling/listing/${ListingAction.NEW}`}
+                  to={`/selling/listing/${ListingActions.NEW}`}
                   className={cn("px-3 py-2 font-medium", {
                     "text-blue-300 bg-gray-150":
-                      pathName === `/selling/listing/${ListingAction.NEW}`,
+                      pathName === `/selling/listing/${ListingActions.NEW}`,
                   })}
                 >
                   New listing
                 </Link>
                 <Link
-                  to="/selling/savedSearches"
+                  to="/selling/unsold"
                   className={cn("px-3 py-2 font-medium", {
                     "text-blue-300 bg-gray-150":
-                      pathName === "/selling/savedSearches",
+                      pathName === "/selling/unsold",
                   })}
                 >
                   Unsold

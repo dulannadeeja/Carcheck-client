@@ -53,7 +53,39 @@ export default {
         'extrabold': 800,
         'black': 900,
       },
+      gridTemplateColumns: {
+        '14': 'repeat(14, minmax(0, 1fr))', // This sets up a 14-column grid
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities}){
+      const newUtilities = {
+        "scrollbar-thin": {
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(209, 213, 219, 0.5) rgba(209, 213, 219, 0.1)",
+        },
+        "scrollbar-webkit": {
+          "&::-webkit-scrollbar": {
+            width: "8px",
+            height: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(209, 213, 219, 0.5)",
+            borderRadius: "20px",
+            border: "2px solid transparent",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "rgba(209, 213, 219, 0.8)",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "rgba(209, 213, 219, 0.1)",
+          },
+        }
+      }
+
+      addUtilities(newUtilities, ["responsive", "hover"])
+
+    }
+  ],
 }

@@ -87,7 +87,7 @@ function FuelConsumption() {
         dispatch(setErrors(newErrors));
       }
     }
-  }, [tempMax, tempMin, dispatch, isTouched]);
+  }, [tempMax, tempMin, dispatch, isTouched, errors]);
 
   // Function to handle changes in max fuel consumption input
   const handleMaxChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -6,7 +6,7 @@ import {
   auctionDurationOptionsArray,
   ListingType,
   listingTypeArray,
-} from "../../../listing/listing";
+} from "../../../listing/clientListing";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";

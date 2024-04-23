@@ -3,7 +3,7 @@ import { SERVER_URL } from "../../utils/constants";
 import { RootState } from "../../store/store";
 import { AccountStatus, AccountType, UserDocument } from "../authentication/auth";
 import { BrandDocument, SpecDocument, SpecsType } from "./admin";
-import { Vehicle } from "../listing/listing";
+import { Vehicle } from "../listing/clientListing";
 
 
 export const adminApi = createApi({
@@ -164,7 +164,7 @@ export const adminApi = createApi({
             }),
             invalidatesTags: ["vehicles"],
         }),
-        createVehicleModel: builder.mutation<Vehicle, { make: string, vehicleModel: string , category:string[]}>({
+        createVehicleModel: builder.mutation<Vehicle, { make: string, vehicleModel: string, category: string[] }>({
             query: (data) => ({
                 url: `/vehicles`,
                 method: "POST",
@@ -172,7 +172,7 @@ export const adminApi = createApi({
             }),
             invalidatesTags: ["vehicles"],
         }),
-        editVehicleModel: builder.mutation<Vehicle, { id: string, make: string, vehicleModel: string , category:string[]}>({
+        editVehicleModel: builder.mutation<Vehicle, { id: string, make: string, vehicleModel: string, category: string[] }>({
             query: (data) => ({
                 url: `/vehicles/${data.id}`,
                 method: "PUT",

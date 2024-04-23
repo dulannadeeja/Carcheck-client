@@ -6,31 +6,27 @@ import { ListingResponseType, ListingType } from "../../listing/clientListing";
 import { useNavigate } from "react-router-dom";
 import { useDeleteListingMutation } from "../listing/listingApiSlice";
 import { toast } from "react-toastify";
-import { ListingActions } from "../listing/sellerListing";
+import { GetSellerListingType, ListingActions } from "../listing/sellerListing";
 
-type DraftItemsProps = {
-  data: ListingResponseType[];
+type UnsoldItemsProps = {
+  data: GetSellerListingType[]
 };
 
-function DraftItems({ data }: DraftItemsProps) {
-  const [deleteListing, { isLoading: deleting }] = useDeleteListingMutation();
+function UnsoldItems({ data }: UnsoldItemsProps) {
   const navigate = useNavigate();
-
-  const onRequsetInspection = (id: string) => {
-    navigate(`/inspection/request/${id}`);
-  };
+  const [deleteListing] = useDeleteListingMutation();
 
   const onResumeDraft = (id: string) => {
     navigate(`/selling/listing/${ListingActions.DRAFT}/${id}`);
   };
 
-  const onDeleteDraft = async (id: string) => {
+  const onDeleteListing = async (id: string) => {
     try {
       await deleteListing(id);
-      toast.success("Draft deleted successfully");
+      toast.success("Listing deleted successfully");
     } catch (err) {
       console.log(err);
-      toast.error("Failed to delete draft");
+      toast.error("Failed to delete listing");
     }
   };
 
@@ -70,14 +66,14 @@ function DraftItems({ data }: DraftItemsProps) {
                   <div className="grid grid-cols-6 gap-2">
                     <p className="text-gray-300 col-span-2">Price</p>
                     <h4 className="col-span-4">
-                      {formatCurrency(listing.fixedPrice, "LKR")}
+                      {listing.fixedPrice && formatCurrency(listing.fixedPrice, "LKR")}
                     </h4>
                   </div>
                 ) : (
                   <div className="grid grid-cols-6 gap-2">
                     <p className="text-gray-300 col-span-2">Starting Bid</p>
                     <h4 className="col-span-4">
-                      {formatCurrency(listing.auction.startingBid, "LKR")}
+                      {listing.auction.startingBid && formatCurrency(listing.auction.startingBid, "LKR")}
                     </h4>
                   </div>
                 )}
@@ -93,8 +89,8 @@ function DraftItems({ data }: DraftItemsProps) {
                     {listing.location.city}, {listing.location.division}
                   </h4>
                 </div>
-                <div className="grid grid-cols-6 gap-2 text-gray-300">
-                  <p className=" col-span-2">Latest update</p>
+                <div className="grid grid-cols-6 gap-2 text-red-300">
+                  <p className=" col-span-2">Listing Ended on</p>
                   <h4 className="col-span-4">
                     {formatDate(new Date(listing.updatedAt))}
                   </h4>
@@ -109,24 +105,22 @@ function DraftItems({ data }: DraftItemsProps) {
               className="w-full rounded-full"
               onClick={() => onResumeDraft(listing._id)}
             >
-              Resume Draft
+              Relist Item
             </Button>
             <Button
               intent="secondary"
               size="medium"
               className="w-full rounded-full"
-              onClick={() => onRequsetInspection(listing._id)}
             >
-              Request Inspection
+              View Listing
             </Button>
             <Button
               intent="secondary"
               size="medium"
               className="w-full rounded-full"
-              onClick={() => onDeleteDraft(listing._id)}
-              disabled={deleting}
+              onClick={() => onDeleteListing(listing._id)}
             >
-              Delete Draft
+              Delete Listing
             </Button>
           </div>
         </div>
@@ -135,4 +129,4 @@ function DraftItems({ data }: DraftItemsProps) {
   );
 }
 
-export default DraftItems;
+export default UnsoldItems;

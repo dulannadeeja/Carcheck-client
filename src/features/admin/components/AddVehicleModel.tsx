@@ -13,7 +13,7 @@ import {
 import { BrandDocument } from "../admin";
 import { SpecDocument } from "./Spec";
 import { ErrorResponse } from "react-router-dom";
-import { Vehicle } from "../../listing/listing";
+import { Vehicle } from "../../listing/clientListing";
 
 type ModelErrors = {
   brand: string;
@@ -50,17 +50,19 @@ function AddVehicleModel({
   });
   const [showBrands, setShowBrands] = useState(false);
 
-    useEffect(() => {
-        if (selectedModel) {
-            // find the brand document from the brands array
-            const brand = brands?.find(b => b._id === selectedModel.make._id);
-            setSelectedBrand(brand || null);
-            setModelName(selectedModel.vehicleModel);
-            // find the categories from the categories array
-            const selectedCats = categories?.filter(c => selectedModel.category.includes(c._id));
-            setSelectedCategories(selectedCats || []);
-        }
-    }, [selectedModel, brands, categories]);
+  useEffect(() => {
+    if (selectedModel) {
+      // find the brand document from the brands array
+      const brand = brands?.find((b) => b._id === selectedModel.make._id);
+      setSelectedBrand(brand || null);
+      setModelName(selectedModel.vehicleModel);
+      // find the categories from the categories array
+      const selectedCats = categories?.filter((c) =>
+        selectedModel.category.includes(c._id)
+      );
+      setSelectedCategories(selectedCats || []);
+    }
+  }, [selectedModel, brands, categories]);
 
   const validateForm = () => {
     const newErrors: ModelErrors = {
@@ -108,9 +110,11 @@ function AddVehicleModel({
       setShow(false);
     } catch (error) {
       const responseError = error as ErrorResponse;
-      toast.error(responseError.data.message || "Failed to update vehicle model.");
+      toast.error(
+        responseError.data.message || "Failed to update vehicle model."
+      );
     }
-  }
+  };
 
   const onCategoryChange = (category: SpecDocument) => {
     if (selectedCategories.includes(category)) {
@@ -131,9 +135,10 @@ function AddVehicleModel({
           onClick={() => setShow(false)}
         />
       </div>
-      <form className="mt-5 p-4 flex flex-col gap-5" onSubmit={
-        mode === "add" ? onSave : onUpdate
-      }>
+      <form
+        className="mt-5 p-4 flex flex-col gap-5"
+        onSubmit={mode === "add" ? onSave : onUpdate}
+      >
         <div>
           <Input
             type="text"

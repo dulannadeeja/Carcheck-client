@@ -39,16 +39,8 @@ function ItemLocation() {
       setCitiesOfDivision(cities as unknown as TCitiesOfDivision);
     } else {
       setCitiesOfDivision([]);
-      clearCityFromState();
-      clearZipCodeFromState();
     }
-  }, [
-    division,
-    clearCityFromState,
-    clearZipCodeFromState,
-    citiesOfDivision,
-    city,
-  ]);
+  }, [division]);
 
   const handleDivisionChange = (value: string) => {
     dispatch(updateFieldHandler({ field: "location.division", value }));

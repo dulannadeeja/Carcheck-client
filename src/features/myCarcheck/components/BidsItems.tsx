@@ -1,6 +1,6 @@
 import React from "react";
 import { listings } from "../../../data/listings.json";
-import { listingType } from "../../listing/listing";
+import { listingType } from "../../listing/clientListing";
 import {
   formatCurrency,
   formatFeedbackPercentage,

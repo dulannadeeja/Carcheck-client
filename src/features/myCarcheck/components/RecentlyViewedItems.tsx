@@ -5,7 +5,7 @@ import {
   formatTimeLeft,
   limitString,
 } from "../../../utils/format";
-import { listingType } from "../../listing/listing";
+import { listingType } from "../../listing/clientListing";
 
 const listingsArray: listingType[] = [];
 

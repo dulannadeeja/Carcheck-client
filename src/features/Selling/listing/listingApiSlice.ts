@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ListingResponseType, ListingState, Vehicle } from "../../listing/listing";
 import { ListingSchema } from "./schema/listingSchema";
 import { RootState } from "../../../store/store";
 import { SERVER_URL } from "../../../utils/constants";
 import { BrandDocument, SpecDocument, SpecsType } from "../../admin/admin";
+import { GetSingleListingResposeType, ListingStates, Vehicle } from "./sellerListing";
 
 
 export const listingApi = createApi({
@@ -24,7 +24,7 @@ export const listingApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ["listing","Makes","Models","Specs"],
+    tagTypes: ["listing", "Makes", "Models", "Specs"],
     endpoints: (builder) => ({
         // endpoint for creating a new listing
         createListing: builder.mutation({
@@ -35,28 +35,35 @@ export const listingApi = createApi({
             }),
         }),
         // endpoint for updating a listing
-        updateListing: builder.mutation<ListingResponseType,{
+        updateListing: builder.mutation<GetSingleListingResposeType, {
             data: ListingSchema & {
-                status: ListingState
+                status: ListingStates
             }
             id: string
         }>({
             query: ({ id,
                 data
-             }) => ({
+            }) => ({
                 url: `/listings/${id}`,
                 method: "PUT",
                 body: data
             }),
-            invalidatesTags: [],
+            invalidatesTags: ["listing"],
         }),
         // endpoint for getting a listing
-        getListing: builder.query<ListingResponseType, string>({
+        getListing: builder.query<GetSingleListingResposeType, string>({
             query: (id) => ({
                 url: `/listings/${id}`,
                 method: "GET",
             }),
             providesTags: ["listing"],
+        }),
+        deleteListing: builder.mutation<GetSingleListingResposeType, string>({
+            query: (id) => ({
+                url: `/listings/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["listing"],
         }),
         uploadImages: builder.mutation({
             query: (data) => ({
@@ -80,15 +87,15 @@ export const listingApi = createApi({
         }>({
             query: ({
                 make,
-                category="",
-                page=1,
-                limit=999999,
-                sort=1
+                category = "",
+                page = 1,
+                limit = 999999,
+                sort = 1
             }) => ({
                 url: `/vehicles/?make=${make}&category=${category}&page=${page}&limit=${limit}&sort=${sort}`,
                 method: "GET",
             }),
-            providesTags: ["listing","Models"],
+            providesTags: ["listing", "Models"],
         }),
         // endpoint for getting all brands
         getBrands: builder.query<BrandDocument[], void>({
@@ -109,4 +116,4 @@ export const listingApi = createApi({
     }),
 });
 
-export const { useUpdateListingMutation,useGetListingQuery,useCreateListingMutation, useUploadImagesMutation ,useGetVehicleModelsByMakeQuery, useGetBrandsQuery, useGetSpecsQuery} = listingApi;
+export const { useDeleteListingMutation, useUpdateListingMutation, useGetListingQuery, useCreateListingMutation, useUploadImagesMutation, useGetVehicleModelsByMakeQuery, useGetBrandsQuery, useGetSpecsQuery } = listingApi;

@@ -1,14 +1,5 @@
-import { ListingSchema } from "../Selling/listing/schema/listingSchema";
+import { AuctionSchema, ListingSchema, LocationSchema, OfferSchema } from "./schema/listingSchema";
 
-export type Auction = {
-    duration: number;
-    startDate: Date;
-    endDate: Date;
-    startingBid: number;
-    reservePrice: number;
-    currentBid: number;
-    bidders: string[];
-}
 
 export enum Conditions {
     brandNew = 'Brand New',
@@ -16,112 +7,17 @@ export enum Conditions {
     unregistered = 'Unregistered'
 }
 
-export enum Transmissions {
-    automatic = 'Automatic',
-    manual = 'Manual',
-    semiAutomatic = 'Semi-Automatic',
-    tiptronic = 'Tiptronic',
-    multitronic = 'Multitronic',
-    steptronic = 'Steptronic',
-    powershift = 'Powershift',
-    paddleShift = 'Paddle Shift'
-}
 
-export enum FuelTypes {
-    petrol = 'Petrol',
-    diesel = 'Diesel',
-    hybrid = 'Hybrid',
-    electric = 'Electric',
-}
-
-export enum DriveTypes {
-    FOURWD = '4WD- 4 Wheel Drive',
-    AWD = 'AWD - All Wheel Drive',
-    FWD = 'FWD - Front Wheel Drive',
-    RWD = 'RWD - Rear Wheel Drive',
-}
-
-export enum ListingType {
+export enum ListingTypes {
     fixedPrice = 'Fixed Price',
     auction = 'Auction'
 }
 
-export enum ListingState {
+export enum ListingStates {
     draft = 'Draft',
     active = 'Active',
     unsold = 'Unsold',
     sold = 'Sold'
-}
-
-export enum VehicleMake {
-    toyota = "Toyota",
-    suzuki = "Suzuki",
-    nissan = "Nissan",
-    honda = "Honda",
-    mitsubishi = "Mitsubishi",
-    mercedesBenz = "Mercedes Benz",
-    landRover = "Land Rover",
-    audi = "Audi",
-    micro = "Micro",
-    kia = "Kia",
-    hyundai = "Hyundai",
-    mahindra = "Mahindra",
-    daihatsu = "Daihatsu",
-    mazda = "Mazda",
-    marutiSuzuki = "Maruti Suzuki",
-    peugeot = "Peugeot",
-    tata = "Tata",
-    dfsk = "DFSK",
-    ford = "Ford",
-    mg = "MG",
-    volkswagen = "Volkswagen",
-    perodua = "Perodua",
-    renault = "Renault",
-    isuzu = "Isuzu",
-    ssangYong = "Ssang Yong",
-    chevrolet = "Chevrolet",
-    porsche = "Porsche",
-    proton = "Proton",
-    morris = "Morris",
-    zotye = "Zotye",
-    datsun = "Datsun",
-    daewoo = "Daewoo",
-    jeep = "Jeep",
-    fiat = "Fiat",
-    austin = "Austin",
-    lexus = "Lexus",
-    tesla = "Tesla",
-    volvo = "Volvo",
-    chery = "Chery",
-    alfaRomeo = "Alfa Romeo",
-    bmw = "BMW",
-    jaguar = "Jaguar",
-    subaru = "Subaru",
-    hummer = "Hummer",
-    cadillac = "Cadillac",
-    astonMartin = "Aston Martin",
-    bentley = "Bentley",
-    otherBrand = "Other Brand",
-    otherLuxuryBrand = "Other Luxury Brand",
-
-}
-
-export enum VehicleCategory {
-    suv = "SUV",
-    sedan = "Sedan",
-    coupe = "Coupe",
-    convertible = "Convertible",
-    hatchback = "Hatchback",
-    pickup = "Pickup",
-    van = "Van",
-    miniVan = "Mini Van",
-    mpv = "MPV",
-    crossover = "Crossover",
-    truck = "Truck",
-    bus = "Bus",
-    miniBus = "Mini Bus",
-    wagon = "Wagon",
-    otherCategory = "Other Category"
 }
 
 export interface Vehicle {
@@ -263,24 +159,6 @@ export const numberOfDoorsOptions = [
 
 ]
 
-export const colorOptions = [
-    "Beige",
-    "Black",
-    "Blue",
-    "Brown",
-    "Burgundy",
-    "Gold",
-    "Gray",
-    "Green",
-    "Orange",
-    "Pink",
-    "Purple",
-    "Red",
-    "Silver",
-    "White",
-    "Yellow",
-    "Other"
-]
 
 export const numberOfPreviousOwnersOptions = [
     {
@@ -355,23 +233,22 @@ export const auctionDurationOptionsArray = [
         value: 30
     }
 ]
-export const vehicleMakeArray = Object.values(VehicleMake);
-export const vehicleCategoryArray = Object.values(VehicleCategory);
+
 export const conditionsArray = Object.values(Conditions);
-export const transmissionArray = Object.values(Transmissions);
-export const fuelTypeArray = Object.values(FuelTypes);
-export const driveTypesArray = Object.values(DriveTypes);
-export const listingTypeArray = Object.values(ListingType);
-export const listingStateArray = Object.values(ListingState);
 
 
-export interface ListingResponseType extends ListingSchema {
-    status: string;
-    _id: string;
-    condition: string;
+export enum ListingActions {
+    NEW = "new",
+    DRAFT = "draft",
+    UPDATE = "update",
+  }
+
+
+interface ListingInput extends ListingSchema {
     images: string[];
     title: string;
     make: string;
+    condition: string;
     vehicleModel: string;
     manufacturedYear: number;
     registeredYear: number;
@@ -380,44 +257,69 @@ export interface ListingResponseType extends ListingSchema {
     fuelType: string;
     bodyType: string;
     driveType: string;
-    numberOfDoors: number;
-    numberOfSeats: number;
-    exteriorColor: string;
-    interiorColor: string;
     numberOfPreviousOwners: number;
+    exteriorColor: string;
+    numberOfSeats: number;
+    numberOfDoors: number;
+    interiorColor: string;
+    maxFuelConsumption: number;
+    minFuelConsumption: number;
     engineCapacity: number;
     description: string;
     listingType: string;
     fixedPrice: number;
-    auction: AuctionDetails;
-    location: LocationDetails;
+    auction: AuctionSchema;
+    location: LocationSchema;
     isAllowedOffer: boolean;
-    offer: OfferDetails;
-    seller: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
+    offer: OfferSchema;
 }
 
-interface AuctionDetails {
-    maxBid: number;
-    duration: number;
-    startingBid: number;
-    reservePrice: number;
-    currentBid: number;
-    bidders: string[];
-    _id: string;
+
+export type GetSellerListingType = {
+    _id: string,
+    status: string,
+    condition: string,
+    images: string[],
+    title: string,
+    make: string,
+    vehicleModel: string,
+    manufacturedYear: number,
+    registeredYear: number,
+    mileage: number,
+    transmission: string,
+    fuelType: string,
+    bodyType: string,
+    driveType: string,
+    numberOfDoors: number,
+    numberOfSeats: number,
+    exteriorColor: string,
+    interiorColor: string,
+    numberOfPreviousOwners: number,
+    engineCapacity: number,
+    description: string,
+    listingType: string,
+    fixedPrice: number,
+    auction: AuctionSchema,
+    location: LocationSchema,
+    isAllowedOffer: boolean,
+    offer: OfferSchema,
 }
 
-interface LocationDetails {
-    city: string;
-    division: string;
-    zipCode: string;
-    _id: string;
+export type GetSingleListingResposeType = {
+    data: GetSellerListingType,
+    message: string,
+    statusCode: number,
+    success: boolean
 }
 
-interface OfferDetails {
-    minimumOffer: number;
-    autoAcceptOffer: number;
-    _id: string;
+export type GetSellerListingResponseType = {
+    data: GetSellerListingType[],
+    message: string,
+    statusCode: number,
+    success: boolean,
+    page: number,
+    total: number,
+    totalPages: number
 }
+
+

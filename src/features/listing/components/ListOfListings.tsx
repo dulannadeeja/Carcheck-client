@@ -1,4 +1,4 @@
-import { listingType } from "../listing";
+import { listingType } from "../clientListing";
 import listings from "../../../data/listings.json";
 import ListingCard from "./ListingCard";
 import { Fragment, ReactNode } from "react";

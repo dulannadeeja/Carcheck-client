@@ -10,7 +10,7 @@ import {
 // import { Fragment } from "react";
 // import verifiedSvg from "../../../assets/svg/verifiedBadge.svg";
 // import verifiedSellerSvg from "../../../assets/svg/verifiedSellerBadge.svg";
-import { ListingResponseType } from "../listing";
+import { ListingResponseType } from "../clientListing";
 
 function ListingCard({ listing }: { listing: ListingResponseType }) {
   const isVehicle =

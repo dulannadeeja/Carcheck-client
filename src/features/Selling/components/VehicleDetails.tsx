@@ -1,7 +1,11 @@
 import React from "react";
-import { ListingResponseType } from "../../listing/listing";
+import { ListingResponseType } from "../../listing/clientListing";
 import { SERVER_URL } from "../../../utils/constants";
-import { formatEngineCapacity, formatMileage, mapOwners } from "../../../utils/format";
+import {
+  formatEngineCapacity,
+  formatMileage,
+  mapOwners,
+} from "../../../utils/format";
 
 type VehicleDetailsProps = {
   listing: ListingResponseType | undefined;
@@ -30,7 +34,9 @@ function VehicleDetails({ listing }: VehicleDetailsProps) {
             </div>
             <div className="grid grid-cols-12">
               <p className="col-span-5 text-gray-300">Previous owners</p>
-              <p className="col-span-7">{mapOwners(listing?.numberOfPreviousOwners)}</p>
+              <p className="col-span-7">
+                {mapOwners(listing?.numberOfPreviousOwners)}
+              </p>
             </div>
             <div className="grid grid-cols-12">
               <p className="col-span-5 text-gray-300">Fuel type</p>

@@ -5,7 +5,7 @@ import {
   useGetVehiclesModelsQuery,
 } from "../adminApiSlice";
 import AddVehicleModel from "./AddVehicleModel";
-import { Vehicle } from "../../listing/listing";
+import { Vehicle } from "../../listing/clientListing";
 import { toast } from "react-toastify";
 import PaginationController from "../../../components/PaginationController";
 

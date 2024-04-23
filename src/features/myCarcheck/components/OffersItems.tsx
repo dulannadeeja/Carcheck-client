@@ -1,5 +1,5 @@
 import { listings } from "../../../data/listings.json";
-import { listingType } from "../../listing/listing";
+import { listingType } from "../../listing/clientListing";
 import { formatFeedbackPercentage, limitString } from "../../../utils/format";
 import Button from "../../../components/ui/Button";
 import { Link } from "react-router-dom";

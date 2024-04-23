@@ -8,23 +8,21 @@ import Description from "../components/Description";
 import Condition from "../components/Condition";
 import ListingFormatAndPricing from "../components/ListingFormatAndPricing";
 import Button from "../../../../components/ui/Button";
-import { ListingErrors, listingSchema } from "../schema/listingSchema";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { clearAllErrors, setDraftData, setErrors } from "../listingSlice";
+import { clearAllErrors, ListingErrors, setDraftData, setErrors } from "../listingSlice";
 import { ZodIssue } from "zod";
 import ItemLocation from "../components/ItemLocation";
-import PredictedPrice from "../components/PredictedPrice";
 import {
   useCreateListingMutation,
   useGetListingQuery,
   useUpdateListingMutation,
   useUploadImagesMutation,
 } from "../listingApiSlice";
-import { ListingAction } from "../listing";
-import { ListingState } from "../../../listing/listing";
+import { ListingActions, ListingStates } from "../sellerListing";
+import { listingSchema } from "../schema/listingSchema";
 
 enum Operations {
   LIST_NEW = "list-new",
@@ -37,7 +35,7 @@ enum Operations {
 function AddListing() {
   const { listingId, action } = useParams<{
     listingId: string;
-    action: ListingAction;
+    action: ListingActions;
   }>();
   const { data: draftData, isLoading } = useGetListingQuery(
     listingId as string
@@ -54,7 +52,7 @@ function AddListing() {
 
   useEffect(() => {
     if (listingId && draftData) {
-      dispatch(setDraftData(draftData));
+      dispatch(setDraftData(draftData.data));
     }
   }, [listingId, draftData, dispatch]);
 
@@ -63,7 +61,7 @@ function AddListing() {
       return await createListing({
         ...data,
         images: allListingImages,
-        status: ListingState.active,
+        status: ListingStates.active,
       });
     } catch (error) {
       handleSubmissionError(error as ErrorResponse);
@@ -75,7 +73,7 @@ function AddListing() {
       return await createListing({
         ...data,
         images: allListingImages,
-        status: ListingState.draft,
+        status: ListingStates.draft,
       });
     } catch (error) {
       handleSubmissionError(error as ErrorResponse);
@@ -86,17 +84,17 @@ function AddListing() {
     allListingImages: string[],
     operation: Operations
   ) => {
-    let status: ListingState = ListingState.active;
+    let status: ListingStates = ListingStates.active;
 
     switch (operation) {
       case Operations.UPDATE_ACTIVE_LISTING:
-        status = ListingState.active;
+        status = ListingStates.active;
         break;
       case Operations.UPDATE_DRAFT_LISTING:
-        status = ListingState.draft;
+        status = ListingStates.draft;
         break;
       case Operations.LIST_DRAFT:
-        status = ListingState.active;
+        status = ListingStates.active;
         break;
     }
 
@@ -239,7 +237,7 @@ function AddListing() {
           </div>
           <hr />
           {!isLoading && draftData && (
-            <UploadImages images={draftData.images} />
+            <UploadImages images={draftData.data?.images} />
           )}
           {isLoading || (!draftData && <UploadImages images={[]} />)}
           <Title />
@@ -250,7 +248,7 @@ function AddListing() {
           <ListingFormatAndPricing />
           <ItemLocation />
           <div className="flex flex-col gap-3 md:w-60 mx-auto mb-40">
-            {action === ListingAction.NEW && (
+            {action === ListingActions.NEW && (
               <>
                 <Button
                   intent="primary"
@@ -269,7 +267,7 @@ function AddListing() {
                 </Button>
               </>
             )}
-            {action === ListingAction.DRAFT && (
+            {action === ListingActions.DRAFT && (
               <>
                 <Button
                   intent="primary"
@@ -290,7 +288,7 @@ function AddListing() {
                 </Button>
               </>
             )}
-            {action === ListingAction.UPDATE && (
+            {action === ListingActions.UPDATE && (
               <Button
                 intent="primary"
                 className="rounded-full"

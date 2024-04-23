@@ -17,6 +17,7 @@ const MAX_PHOTOS = 12; // Define the maximum number of photos
 
 type SavedImagesProps = {
   images: string[];
+  
 };
 
 function UploadImages({ images }: SavedImagesProps) {
@@ -24,12 +25,7 @@ function UploadImages({ images }: SavedImagesProps) {
   const { errors } = useSelector((state: RootState) => state.listing);
   const [droppedImages, setDroppedImages] = useState<File[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>(images);
-
-  // useEffect(()=>{
-  //   if(images.length > 0){
-  //     setUploadedImages(images)
-  //   }
-  // },[images])
+  const [isTouched, setIsTouched] = useState(false);
 
   useEffect(() => {
     const allImages: string[] = [];
@@ -41,9 +37,11 @@ function UploadImages({ images }: SavedImagesProps) {
     }
     dispatch(addFilesToUpload(droppedImages));
     dispatch(setUploadedImagesState(uploadedImages));
-    dispatch(updateFieldHandler({ field: "images", value: allImages }));
-    dispatch(validateFieldHandler({ field: "images", value: allImages }));
-  }, [droppedImages, dispatch, uploadedImages]);
+    if(isTouched) {
+      dispatch(updateFieldHandler({ field: "images", value: allImages }));
+      dispatch(validateFieldHandler({ field: "images", value: allImages }));
+    }
+  }, [droppedImages, dispatch, uploadedImages, isTouched]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -53,6 +51,8 @@ function UploadImages({ images }: SavedImagesProps) {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
+    setIsTouched(true);
 
     const files = Array.from(e.dataTransfer.files);
 
@@ -77,6 +77,7 @@ function UploadImages({ images }: SavedImagesProps) {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTouched(true);
     if (e.target.files) {
       const files = Array.from(e.target.files);
 
@@ -144,30 +145,6 @@ function UploadImages({ images }: SavedImagesProps) {
             </div>
           )}
         <div className="grid grid-cols-3 md:grid-cols-6 gap-4 mt-5">
-          {droppedImages.map((image, index) => (
-            <div
-              key={index}
-              className={cn("relative rounded-lg border border-gray-150", {
-                "col-span-2 row-span-2": index === 0,
-              })}
-            >
-              <img
-                src={URL.createObjectURL(image)}
-                alt="uploaded"
-                className="w-full aspect-square object-contain "
-              />
-              <button
-                className="absolute top-1 right-1 bg-white p-1 rounded-full"
-                onClick={() => {
-                  setDroppedImages((prevImages) =>
-                    prevImages.filter((_, i) => i !== index)
-                  );
-                }}
-              >
-                <FiTrash />
-              </button>
-            </div>
-          ))}
           {uploadedImages.map((image, index) => (
             <div
               key={index}
@@ -184,6 +161,30 @@ function UploadImages({ images }: SavedImagesProps) {
                 className="absolute top-1 right-1 bg-white p-1 rounded-full"
                 onClick={() => {
                   setUploadedImages((prevImages) =>
+                    prevImages.filter((_, i) => i !== index)
+                  );
+                }}
+              >
+                <FiTrash />
+              </button>
+            </div>
+          ))}
+          {droppedImages.map((image, index) => (
+            <div
+              key={index}
+              className={cn("relative rounded-lg border border-gray-150", {
+                "col-span-2 row-span-2": uploadedImages.length === 0 && index === 0,
+              })}
+            >
+              <img
+                src={URL.createObjectURL(image)}
+                alt="uploaded"
+                className="w-full aspect-square object-contain "
+              />
+              <button
+                className="absolute top-1 right-1 bg-white p-1 rounded-full"
+                onClick={() => {
+                  setDroppedImages((prevImages) =>
                     prevImages.filter((_, i) => i !== index)
                   );
                 }}

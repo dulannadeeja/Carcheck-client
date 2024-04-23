@@ -44,6 +44,7 @@ import Brands from "./features/admin/components/Brands.tsx";
 import VehicleModels from "./features/admin/components/VehicleModels.tsx";
 import Specifics from "./features/admin/components/Specifics.tsx";
 import { ListingAction } from "./features/Selling/listing/listing.ts";
+import Unsold from "./features/Selling/components/Unsold.tsx";
 
 const router = createBrowserRouter([
   {
@@ -88,13 +89,21 @@ const router = createBrowserRouter([
   },
   // Selling routes
   {
-    path: `/selling/listing/:action`,
+    path: `/selling/listing/:action/:listingId`,
     element: (
       <BuyerProtectedRoute>
         <AddListing />
       </BuyerProtectedRoute>
     ),
   },
+  {
+    path: `/selling/listing/:action`,
+    element: (
+      <BuyerProtectedRoute>
+        <AddListing />
+      </BuyerProtectedRoute>
+    ),
+  },    
   {
     path: "/selling",
     element: (
@@ -114,6 +123,10 @@ const router = createBrowserRouter([
       {
         path: "active",
         element: <Active />,
+      },
+      {
+        path: "unsold",
+        element: <Unsold />,
       },
       {
         path: "inspection/scheduled",

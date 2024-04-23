@@ -2,42 +2,58 @@ import Input from "../../../../components/ui/Input";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
+import { useEffect, useState } from "react";
 
 function Mileage() {
   const dispatch = useDispatch();
-  const { data, errors } = useSelector((state: RootState) => state.listing);
-  const { mileage } = data;
+  const { errors } = useSelector((state: RootState) => state.listing);
+  const [tempMilage, setTempMilage] = useState<string>("");
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (tempMilage === "") {
+      dispatch(updateFieldHandler({ field: "mileage", value: 0 }));
+      if (isTouched) {
+        dispatch(
+          validateFieldHandler({
+            field: "mileage",
+            value: -1,
+          })
+        );
+      }
+    } else {
+      dispatch(
+        updateFieldHandler({ field: "mileage", value: parseInt(tempMilage) })
+      );
+      dispatch(
+        validateFieldHandler({
+          field: "mileage",
+          value: parseInt(tempMilage),
+        })
+      );
+    }
+  }, [tempMilage, dispatch]);
 
   const handleMileageChange = async (value: string) => {
-    // if zero is in the beginning, remove it
-    if (value.length > 1 && value[0] === "0") {
-      value = value.slice(1);
+    setIsTouched(true);
+    if (isNaN(Number(value)) && value !== "") {
+      return;
     }
 
-    let number = parseInt(value);
-    if (isNaN(number)) {
-      number = 0;
-    }
-    dispatch(updateFieldHandler({ field: "mileage", value: number }));
-    dispatch(
-      validateFieldHandler({
-        field: "mileage",
-        value: number,
-      })
-    );
+    setTempMilage(value);
   };
   return (
     <div className="mt-6 grid grid-cols-12">
       <p className="text-sm font-medium col-span-5">Mileage</p>
-      <Input
-        placeholder="Enter your own mileage"
-        className="border-gray-200 bg-gray-50 col-span-7 h-10"
-        onChange={(e) => {
-          handleMileageChange(e.target.value);
-        }}
-        type="number"
-        value={mileage === 0 ? "" : mileage.toString()}
-      />
+      <label className="w-full border border-gray-200 flex items-center p-2 rounded-md bg-gray-50 col-span-7">
+        <Input
+          type="text"
+          className="border-none rounded-md p-0 pr-3 focus:outline-none w-full"
+          value={tempMilage}
+          onChange={(e) => handleMileageChange(e.target.value)}
+        />
+        <span className="text-gray-300 font-medium">Km</span>
+      </label>
       {errors.mileage && (
         <p className="text-red-300 text-sm col-span-12">{errors["mileage"]}</p>
       )}

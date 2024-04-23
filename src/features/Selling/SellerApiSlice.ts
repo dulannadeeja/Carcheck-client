@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../store/store";
-import { ListingResponseType, ListingState } from "../listing/listing";
 import { SERVER_URL } from "../../utils/constants";
+import { GetSellerListingResponseType, ListingStates } from "./listing/sellerListing";
 
 type ListingQueryParams = {
     page: number,
@@ -11,13 +11,6 @@ type ListingQueryParams = {
     model?: string,
     title?: string,
     status?: string,
-}
-
-type ListingResponse = {
-    data: ListingResponseType[],
-    page: number,
-    total: number,
-    totalPages: number
 }
 
 
@@ -36,33 +29,46 @@ export const sellerApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ["Seller", "drafts", "active"],
+    tagTypes: ["Seller", "drafts", "active", "unsold"],
     endpoints: (builder) => ({
         // get drafts of the seller's endpoint
-        getDrafts: builder.query<ListingResponse, ListingQueryParams>({
+        getDrafts: builder.query<GetSellerListingResponseType, ListingQueryParams>({
             query: (queryParams) => ({
                 url: `seller/listings`,
                 method: "GET",
                 params: {
                     ...queryParams,
-                    status: ListingState.draft
+                    status: ListingStates.draft
                 }
             }),
             providesTags: ["Seller", "drafts"],
         }),
         // get active listings of the seller's endpoint
-        getActiveListings: builder.query<ListingResponse, ListingQueryParams>({
+        getActiveListings: builder.query<GetSellerListingResponseType, ListingQueryParams>({
             query: (queryParams) => ({
                 url: `seller/listings`,
                 method: "GET",
                 params: {
                     ...queryParams,
-                    status: ListingState.active
+                    status: ListingStates.active
                 }
             }),
             providesTags: ["Seller", "active"],
         }),
+        // get unsold listings of the seller's endpoint
+        getUnsoldListings: builder.query<GetSellerListingResponseType, ListingQueryParams>({
+            query: (queryParams) => ({
+                url: `seller/listings`,
+                method: "GET",
+                params: {
+                    ...queryParams,
+                    status: ListingStates.unsold,
+                    sold: false
+                }
+            }),
+            providesTags: ["Seller", "unsold"],
+        }),
     }),
 });
 
-export const { useGetDraftsQuery } = sellerApi;  
+export const { useGetDraftsQuery, useGetActiveListingsQuery, useGetUnsoldListingsQuery } = sellerApi;  

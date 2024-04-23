@@ -1,6 +1,54 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ListingErrors, ListingSchema, validateField } from './schema/listingSchema';
+import { ListingSchema, validateField } from './schema/listingSchema';
+import { GetSellerListingType } from './sellerListing';
 
+const initialErrors = {
+    make: "",
+    vehicleModel: "",
+    manufacturedYear: "",
+    registeredYear: "",
+    images: "",
+    title: "",
+    condition: "",
+    mileage: "",
+    transmission: "",
+    fuelType: "",
+    bodyType: "",
+    driveType: "",
+    numberOfDoors: "",
+    numberOfSeats: "",
+    exteriorColor: "",
+    interiorColor: "",
+    numberOfPreviousOwners: "",
+    maxFuelConsumption: "",
+    minFuelConsumption: "",
+    engineCapacity: "",
+    description: "",
+    listingType: "",
+    fixedPrice: "",
+    auction: {
+        duration: "",
+        startingBid: "",
+        reservePrice: "",
+    }
+    ,
+    location: {
+        city: "",
+        division: "",
+        zipCode: "",
+        state: "",
+    },
+    inspectionReport: "",
+    numberOfWatchers: "",
+    watchers: "",
+    isAllowedOffer: "",
+    offer: {
+        minimumOffer: "",
+        autoAcceptOffer: "",
+    }
+}
+
+export type ListingErrors = typeof initialErrors;
 
 interface ListingState {
     data: ListingSchema;
@@ -18,14 +66,14 @@ const initialState: ListingState = {
         images: [],
         title: "",
         condition: "",
-        mileage: 0,
+        mileage: -1,
         transmission: "",
         fuelType: "",
         bodyType: "",
         driveType: "",
         exteriorColor: "",
         interiorColor: "",
-        numberOfPreviousOwners: -1,
+        numberOfPreviousOwners: 0,
         maxFuelConsumption: 0,
         minFuelConsumption: 0,
         engineCapacity: 0,
@@ -41,10 +89,6 @@ const initialState: ListingState = {
             duration: 0,
             startingBid: 0,
             reservePrice: 0,
-            currentBid: 0,
-            bidders: [],
-            maxBid: 0,
-            maxBidder: ""
         },
         isAllowedOffer: false,
         offer: {
@@ -54,56 +98,7 @@ const initialState: ListingState = {
         numberOfDoors: 0,
         numberOfSeats: 0,
     },
-    errors: {
-        make: "",
-        vehicleModel: "",
-        manufacturedYear: "",
-        registeredYear: "",
-        images: "",
-        title: "",
-        condition: "",
-        mileage: "",
-        transmission: "",
-        fuelType: "",
-        bodyType: "",
-        driveType: "",
-        numberOfDoors: "",
-        numberOfSeats: "",
-        exteriorColor: "",
-        interiorColor: "",
-        numberOfPreviousOwners: "",
-        maxFuelConsumption: "",
-        minFuelConsumption: "",
-        engineCapacity: "",
-        description: "",
-        listingType: "",
-        fixedPrice: "",
-        auction: {
-            duration: "",
-            startingBid: "",
-            startDate: "",
-            endDate: "",
-            reservePrice: "",
-            currentBid: "",
-            bidders: "",
-            maxBid: "",
-        }
-        ,
-        location: {
-            city: "",
-            division: "",
-            zipCode: "",
-            state: "",
-        },
-        inspectionReport: "",
-        numberOfWatchers: "",
-        watchers: "",
-        isAllowedOffer: "",
-        offer: {
-            minimumOffer: "",
-            autoAcceptOffer: "",
-        }
-    },
+    errors: initialErrors,
     uploadFiles: [],
     uploadedImages: []
 };
@@ -167,9 +162,10 @@ export const listingSlice = createSlice({
             state.uploadedImages = action.payload;
         },
         setDraftData: (state, action: {
-            payload: ListingSchema
+            payload: ListingSchema | GetSellerListingType
         }) => {
-            state.data = action.payload;
+            state.data = action.payload as ListingSchema;
+            console.log(action.payload);
         }
     }
 });

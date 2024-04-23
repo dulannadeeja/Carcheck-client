@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RadioButton from "../../../../components/ui/RadioButton";
 import { RootState } from "../../../../store/store";
 import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
-import { Conditions } from "../../../listing/listing";
+import { Conditions } from "../../../listing/clientListing";
 
 function Condition() {
   const dispatch = useDispatch();
