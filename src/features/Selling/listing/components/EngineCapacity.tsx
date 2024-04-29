@@ -3,7 +3,7 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { capacityOptions } from "../../../listing/clientListing";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 
 function EngineCapacity() {
   const dispatch = useDispatch();
@@ -12,8 +12,7 @@ function EngineCapacity() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const handleChange = (value: number) => {
-    dispatch(updateFieldHandler({ field: "engineCapacity", value }));
-    dispatch(validateFieldHandler({ field: "engineCapacity", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "engineCapacity", value }));
     setShowDropdown(false);
   };
 

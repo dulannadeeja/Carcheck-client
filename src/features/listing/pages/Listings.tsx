@@ -1,23 +1,40 @@
 import HeaderContextProvider from "../../../context/headerContextProvider";
 import Header from "../../../layouts/Header";
-import Filter from "../../filter/components/Filter";
+import Filter from "../filters/components/Filter";
 import ListingsSection from "../components/ListingsSection";
 import Ads from "../components/Ads";
 import Container from "../../../components/ui/Container";
 import FormatListing from "../components/FormatListing";
 import SortListings from "../components/SortListings";
-import DeliveryOptionsQuickFilter from "../../filter/components/DeliveryOptionsQuickFilter";
-import ConditionQuickFilter from "../../filter/components/ConditionQuickFilter";
-import ListingTypeQuickFilter from "../../filter/components/ListingTypeQuickFilter";
+import DeliveryOptionsQuickFilter from "../filters/components/DeliveryOptionsQuickFilter";
+import ConditionQuickFilter from "../filters/components/ConditionQuickFilter";
+import ListingTypeQuickFilter from "../filters/components/ListingTypeQuickFilter";
 import CurrentSearch from "../components/CurrentSearch";
 import MobileSortListings from "../components/MobileSortListings";
-import MobileFilter from "../../filter/components/MobileFilter";
-import { useState } from "react";
+import MobileFilter from "../filters/components/MobileFilter";
+import { useEffect, useState } from "react";
 import { cn } from "../../../utils/mergeClasses";
-import MobileListingTypeQuickFilter from "../../filter/components/MobileListingTypeQuickFilter";
+import MobileListingTypeQuickFilter from "../filters/components/MobileListingTypeQuickFilter";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetListingsQuery } from "../clientListingApi";
+import { RootState } from "../../../store/store";
+import { setListings, setTotalListings } from "../clientListingSlice";
+
 
 function Listings() {
+  const dispatch = useDispatch();
+  const { filterOptions } = useSelector((state: RootState) => state.clientListing);
   const [isModelOpen, setIsModelOpen] = useState(false);
+  const { data, isSuccess, isError } = useGetListingsQuery(filterOptions);
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      dispatch(setListings(data.data));
+      dispatch(setTotalListings(data.total) || 0);
+    } else if (isError) {
+      dispatch(setListings([]));
+    }
+  }, [data, isSuccess, isError, dispatch]);
 
   return (
     <>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 
 const START_YEAR = 1989;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -34,13 +34,7 @@ function ManufacturedYear() {
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
                 onClick={() => {
                   dispatch(
-                    updateFieldHandler({
-                      field: "manufacturedYear",
-                      value: year,
-                    })
-                  );
-                  dispatch(
-                    validateFieldHandler({
+                    updateAndValidateFieldHandler({
                       field: "manufacturedYear",
                       value: year,
                     })

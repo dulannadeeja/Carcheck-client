@@ -1,6 +1,9 @@
 import { numberOfPreviousOwnersOptions } from "../features/listing/clientListing";
 
-const formatCurrency = (value: number, currency: "LKR" | "$") => {
+const formatCurrency = (value: number, currency?: "LKR" | "$") => {
+
+  currency = currency || "LKR";
+
   // add commas to the value
   const modifiedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return `${currency} ${modifiedValue}`;
@@ -16,30 +19,26 @@ const formatFeedbackPercentage = (value: number) => {
   return `${value}%`;
 }
 
-// Formatting the time left for the auction to end in hours and minutes and the date
+// use date-fns to format the time left
+// if the time is in past return 'Ended on {date}'
+// if the time is in future return '{hours}h {minutes}m left ({date})'
+// if the time is less than 1 hour return '{minutes}m left ({date})'
+// if the time is greater than 1day return '{days}d {hours}h left ({date})'
 function formatTimeLeft(endDate: Date): string {
-  // Calculate time difference
-  const now = new Date();
-  const timeDifference = endDate.getTime() - now.getTime();
+  const currentDate = new Date();
+  const diff = endDate.getTime() - currentDate.getTime();
+  const diffInHours = diff / (1000 * 60 * 60);
+  const diffInMinutes = diff / (1000 * 60);
+  const diffInDays = diffInHours / 24;
 
-  // Calculate hours and minutes
-  const hoursLeft = Math.floor(timeDifference / (1000 * 60 * 60));
-  const minutesLeft = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-
-  // Format the date
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: 'short',
-    hour: '2-digit',
-    minute: '2-digit'
-  };
-  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(endDate);
-
-  // if there are hours and minutes left return the time left or if the auction has ended return 'Auction ended'
-  if (hoursLeft > 0 || minutesLeft > 0) {
-    return `${hoursLeft}h ${minutesLeft}m left (${formattedDate})`;
-  } else {
-    return 'Ended';
+  if (diff < 0) {
+    return `Ended on ${formatDate(endDate)}`;
+  } else if (diffInHours < 1) {
+    return `${Math.floor(diffInMinutes)}m left (${formatDate(endDate)})`;
+  } else if (diffInDays >= 1) {
+    return `${Math.floor(diffInDays)}d ${Math.floor(diffInHours % 24)}h left (${formatDate(endDate)})`;
   }
+  return `${Math.floor(diffInHours)}h ${Math.floor(diffInMinutes % 60)}m left (${formatDate(endDate)})`;
 
 }
 

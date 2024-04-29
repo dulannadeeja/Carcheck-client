@@ -9,7 +9,11 @@ import {
 } from "../../../listing/clientListing";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import {
+  clearAuction,
+  clearOffer,
+  updateAndValidateFieldHandler,
+} from "../listingSlice";
 
 function ListingFormatAndPricing() {
   const dispatch = useDispatch();
@@ -22,17 +26,19 @@ function ListingFormatAndPricing() {
 
   const handleChange = (field: string, value: number) => {
     if (isNaN(value as number) || value === 0) {
-      dispatch(updateFieldHandler({ field, value: 0 }));
-      dispatch(validateFieldHandler({ field, value: 0 }));
+      dispatch(updateAndValidateFieldHandler({ field, value: 0 }));
       return;
     }
-    dispatch(updateFieldHandler({ field, value }));
-    dispatch(validateFieldHandler({ field, value }));
+    dispatch(updateAndValidateFieldHandler({ field, value }));
   };
 
   const handleListingTypeChange = (value: string) => {
-    dispatch(updateFieldHandler({ field: "listingType", value }));
-    dispatch(validateFieldHandler({ field: "listingType", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "listingType", value }));
+    if (value === ListingType.fixedPrice) {
+      dispatch(clearAuction());
+    }else{
+      dispatch(updateAndValidateFieldHandler({field: "fixedPrice", value: 0}));
+    }
   };
 
   return (
@@ -195,14 +201,17 @@ function ListingFormatAndPricing() {
           {/* toggle button */}
           <div
             className="bg-blue-300 rounded-full h-6 w-12 relative overflow-hidden cursor-pointer"
-            onClick={() =>
+            onClick={() => {
               dispatch(
-                updateFieldHandler({
+                updateAndValidateFieldHandler({
                   field: "isAllowedOffer",
                   value: !isAllowedOffer,
                 })
-              )
-            }
+              );
+              if (isAllowedOffer) {
+                dispatch(clearOffer());
+              }
+            }}
           >
             <div
               className={cn(

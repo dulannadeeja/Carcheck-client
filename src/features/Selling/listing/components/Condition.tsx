@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import RadioButton from "../../../../components/ui/RadioButton";
 import { RootState } from "../../../../store/store";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 import { Conditions } from "../../../listing/clientListing";
 
 function Condition() {
@@ -10,10 +10,7 @@ function Condition() {
   const { condition } = data;
 
   const handleConditionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateFieldHandler({ field: "condition", value: e.target.value }));
-    dispatch(
-      validateFieldHandler({ field: "condition", value: e.target.value })
-    );
+    dispatch(updateAndValidateFieldHandler({ field: "condition", value: e.target.value }));
   };
 
   return (

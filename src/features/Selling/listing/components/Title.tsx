@@ -2,7 +2,7 @@ import React from "react";
 import Input from "../../../../components/ui/Input";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 
 const MAX_TITLE_LENGTH = 80;
 
@@ -14,8 +14,7 @@ function Title() {
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= MAX_TITLE_LENGTH) {
-      dispatch(updateFieldHandler({ field: "title", value: e.target.value }));
-      dispatch(validateFieldHandler({ field: "title", value: e.target.value }));
+      dispatch(updateAndValidateFieldHandler({ field: "title", value: e.target.value }));
     }
   };
 

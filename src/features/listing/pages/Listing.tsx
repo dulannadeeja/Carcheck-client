@@ -14,22 +14,23 @@ import {
   formatTimeLeft,
 } from "../../../utils/format";
 import AboutThisItem from "../components/AboutThisItem";
-import Input from "../../../components/ui/Input";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetListingQuery } from "../../Selling/listing/listingApiSlice";
 import { useEffect, useState } from "react";
-import { add } from "date-fns";
-import PutBidModel from "../components/PutBidModel";
+import { useGetListingQuery } from "../clientListingApi";
+import { GetListingType, ListingState, ListingType } from "../clientListing";
+import { RootState } from "../../../store/store";
+import { useSelector } from "react-redux";
+import CreateBidModel from "../bidding/components/CreateBidModel";
+import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 function Listing() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const {
-    data: listing,
-    isLoading,
-    isSuccess,
-  } = useGetListingQuery(id as string);
+  const { user } = useSelector((state: RootState) => state.auth);
   const [isBidModelOpen, setIsBidModelOpen] = useState(false);
+  const [listingData, setListingData] = useState<GetListingType | null>(null);
+  const { data, isLoading, isSuccess } = useGetListingQuery(id as string);
 
   const onCloseBidModel = () => {
     setIsBidModelOpen(false);
@@ -42,6 +43,104 @@ function Listing() {
     }
   });
 
+  useEffect(() => {
+    setListingData((data?.data as GetListingType) || null);
+  }, [data, isSuccess]);
+
+  // Function to calculate and format the end date
+  const getEndDate = () => {
+    if (!listingData || !listingData.endDate) {
+      return <span>Unknown end date</span>;
+    }
+    return format(new Date(listingData.endDate), "PPPP 'at' p");
+  };
+
+  const genarateTheNoticeForTheListing = () => {
+    // not logged in user
+    if (!user) {
+      return (
+        <p className="text-sm text-red-300 bg-red-50 border-red-300 border px-10 py-2 rounded-md">
+          This listing is ended on {getEndDate()}, you can no longer buy it now
+          or make offers.
+        </p>
+      );
+    }
+
+    let isBidder = false;
+    const isMaxBidder = listingData?.auction.maxBidder === user?._id;
+    const state = listingData?.status;
+    const type = listingData?.listingType;
+    listingData?.auction.bids.forEach((bid) => {
+      if (bid.bidder === user?._id) {
+        isBidder = true;
+      }
+    });
+
+    // if the listing is fixed price and the listing is ended show the listing is ended
+    if (state !== ListingState.active && type === ListingType.fixedPrice) {
+      return (
+        <p className="text-sm text-red-300 bg-red-50 border-red-300 border px-10 py-2 rounded-md">
+          This listing is ended on {getEndDate()}, you can no longer buy it now
+          or make offers.
+        </p>
+      );
+    }
+
+    if (state === ListingState.active && isBidder) {
+      if (isMaxBidder) {
+        return (
+          <p className="text-sm text-green-500 bg-green-50 border-green-500 border px-10 py-2 rounded-md">
+            Keep eye on this listing, your bid{" "}
+            {formatCurrency(listingData?.auction.maxBid as number, "LKR")} is
+            the highest.
+          </p>
+        );
+      }
+      return (
+        <p className="text-sm text-red-300 bg-red-50 border-red-300 border px-10 py-2 rounded-md">
+          You are not the highest bidder, the highest bid is{" "}
+          {formatCurrency(listingData?.auction.maxBid as number, "LKR")}.
+        </p>
+      );
+    }
+
+    if (state !== ListingState.active && isBidder) {
+      if (isMaxBidder) {
+        return (
+          <p className="text-sm text-green-500 bg-green-50 border-green-500 border px-10 py-2 rounded-md">
+            Congratulations! You have won the listing with your bid{" "}
+            {formatCurrency(listingData?.auction.maxBid as number, "LKR")}.
+          </p>
+        );
+      }
+      return (
+        <p className="text-sm text-red-300 bg-red-50 border-red-300 border px-10 py-2 rounded-md">
+          You have lost the listing, the highest bid is{" "}
+          {formatCurrency(listingData?.auction.maxBid as number, "LKR")}.
+        </p>
+      );
+    }
+
+    if (state !== ListingState.active) {
+      return (
+        <p className="text-sm text-red-300 bg-red-50 border-red-300 border px-10 py-2 rounded-md">
+          This listing is ended on {getEndDate()}, you can no longer buy it now
+          or make offers.
+        </p>
+      );
+    }
+  };
+
+  const calDeposite = (price: number) => {
+    // cal 10% of the price
+    let deposite = price * 0.1;
+    // remove decimal points
+    deposite = Math.floor(deposite);
+    // ceil to the nearest 1000
+    deposite = Math.ceil(deposite / 1000) * 1000;
+    return deposite;
+  };
+
   return (
     <>
       <div className="h-full overflow-y-scroll overflow-x-hidden">
@@ -49,18 +148,24 @@ function Listing() {
           <Header />
         </HeaderContextProvider>
         {/* add a new bid model */}
-        <PutBidModel isOpen={true} onClose={onCloseBidModel} />
+        {isBidModelOpen && (
+          <CreateBidModel onClose={onCloseBidModel} listingId={id as string} />
+        )}
         <Container>
           <main>
             {isLoading && <p>Loading...</p>}
-            {isSuccess && listing && (
+            {isSuccess && listingData && (
               <>
+                <div>{genarateTheNoticeForTheListing()}</div>
                 <section className="flex justify-between items-center mt-5 md:mt-8">
                   <div className="flex gap-4">
                     <Button
                       intent="iconText"
                       size="none"
                       className="text-gray-600 items-center hover:text-gray-300"
+                      onClick={() => {
+                        navigate(-1);
+                      }}
                     >
                       <span className="bg-gray-150 p-1 rounded-full flex items-center justify-center">
                         <FiChevronLeft />
@@ -112,12 +217,17 @@ function Listing() {
                     </Button>
                   </div>
                 </section>
-                <section className="md:flex gap-4 mt-5 md:mt-8">
-                  <div className="md:basis-[48%] lg:basis-[60%] shrink-0">
-                    <ImagesViewer images={listing.images} />
+                <section className="md:grid grid-cols-12 gap-10 mt-10">
+                  {/* ---------------------------------------------------------Image viewer--------------------------------------------------------- */}
+                  <div className="col-span-7">
+                    <ImagesViewer images={listingData.images} />
                   </div>
-                  <div className="flex flex-col gap-3">
-                    <h2 className="text-2xl font-semibold">{listing.title}</h2>
+                  <div className="col-span-5 flex flex-col gap-3">
+                    {/* ---------------------------------------------------------Title--------------------------------------------------------- */}
+                    <h2 className="text-2xl font-semibold text-wrap overflow-hidden break-words">
+                      {listingData.title}
+                    </h2>
+                    {/* ---------------------------------------------------------Seller Info--------------------------------------------------------- */}
                     <div className="py-3 px-3 border border-gray-150 border-solid rounded-lg mt-2 flex gap-4 items-center">
                       <div className="w-[2rem]">
                         <img src={profilePlaceholder} alt="profile" />
@@ -125,7 +235,8 @@ function Listing() {
                       <div className="flex flex-col">
                         <p>
                           <span className="font-medium underline">
-                            {listing.seller.firstName} {listing.seller.lastName}
+                            {listingData.seller.firstName}{" "}
+                            {listingData.seller.lastName}
                           </span>{" "}
                           <span className="font-medium text-gray-300">
                             ({10})
@@ -144,76 +255,79 @@ function Listing() {
                         </div>
                       </div>
                     </div>
-                    {/* bid price */}
-                    <div className="mt-2">
-                      <h3 className="text-2xl font-medium">
-                        {formatCurrency(listing.auction.currentBid, "LKR")}
-                      </h3>
-                      <p>
-                        {listing.auction.bidders} bids ·{" "}
-                        <span className="text-gray-300">
-                          {formatTimeLeft(
-                            new Date(
-                              add(new Date(listing.createdAt), {
-                                days: listing.auction.duration,
-                              })
-                            )
-                          )}
-                        </span>
-                      </p>
-                    </div>
-                    {/* buy it now price */}
-                    <div className="mt-2">
-                      <h3 className="text-2xl font-medium">
-                        {formatCurrency(listing.fixedPrice, "LKR")}
-                      </h3>
-                      <p className="text-gray-300">Buy it now</p>
-                      <p>Immediate payment of LKR 20000 is required.</p>
-                    </div>
+                    {/* ---------------------------------------------------------Auction Info--------------------------------------------------------- */}
+                    {listingData.listingType === ListingType.auction && (
+                      <div className="mt-2">
+                        <h3 className="text-2xl font-medium">
+                          {listingData.currentPrice &&
+                            formatCurrency(listingData.currentPrice as number)}
+                        </h3>
+                        <p className="">
+                          <Link
+                            to={`/viewbids/${listingData._id}`}
+                            className="text-blue-300 underline"
+                          >
+                            {listingData.auction.bids.length} bids ·{" "}
+                          </Link>
+                          <span className="text-gray-300">
+                            {listingData.endDate
+                              ? formatTimeLeft(new Date(listingData.endDate))
+                              : "Unknown end date"}
+                          </span>
+                        </p>
+                      </div>
+                    )}
+                    {/* ---------------------------------------------------------Fixed Info--------------------------------------------------------- */}
+                    {listingData.listingType === ListingType.fixedPrice && (
+                      <div className="mt-2">
+                        <h3 className="text-2xl font-medium">
+                          {formatCurrency(listingData.currentPrice as number)}
+                        </h3>
+                        <p className="text-gray-300">Buy it now</p>
+                        <p>
+                          Immediate payment of LKR{" "}
+                          {calDeposite(listingData.currentPrice)} is required.
+                        </p>
+                      </div>
+                    )}
 
                     {/* condition */}
                     <p>
                       Condition:{" "}
-                      <span className="font-medium">{listing.condition}</span>
+                      <span className="font-medium">
+                        {listingData.condition}
+                      </span>
                     </p>
-                    {/* quantity */}
-                    <div className="flex gap-2 items-center">
-                      <p>Quantity:</p>
-                      <Input
-                        type="number"
-                        value={1}
-                        className="w-fit grow-0 max-w-[4rem]"
-                      />
-                      <p>
-                        <span className="font-medium text-red-300">
-                          Last One
-                        </span>
-                        /<span>1 sold</span>
-                      </p>
-                    </div>
                     {/* actions */}
                     <div className="flex gap-4 flex-col">
-                      <Button
-                        intent="primary"
-                        size="large"
-                        className="w-full font-medium rounded-full"
-                      >
-                        Place Bid
-                      </Button>
-                      <Button
-                        intent="secondary"
-                        size="large"
-                        className="w-full font-medium rounded-full"
-                      >
-                        Buy It Now
-                      </Button>
-                      <Button
-                        intent="secondary"
-                        size="large"
-                        className="w-full font-medium rounded-full"
-                      >
-                        Make Offer
-                      </Button>
+                      {listingData.listingType === ListingType.auction && (
+                        <Button
+                          intent="primary"
+                          size="large"
+                          className="w-full font-medium rounded-full"
+                          onClick={() => setIsBidModelOpen(true)}
+                        >
+                          Place Bid
+                        </Button>
+                      )}
+                      {listingData.listingType === ListingType.fixedPrice && (
+                        <Button
+                          intent="primary"
+                          size="large"
+                          className="w-full font-medium rounded-full"
+                        >
+                          Buy It Now
+                        </Button>
+                      )}
+                      {listingData.isAllowedOffer && (
+                        <Button
+                          intent="secondary"
+                          size="large"
+                          className="w-full font-medium rounded-full"
+                        >
+                          Make Offer
+                        </Button>
+                      )}
                     </div>
                     {/* inspection */}
                     <div className="flex items-center gap-2 border-b border-b-gray-150 pb-4">
@@ -233,15 +347,8 @@ function Listing() {
                       <div className="grid grid-cols-6">
                         <p className="col-span-1">Location:</p>
                         <p className="flex gap-2 font-medium col-span-5">
-                          <span>{listing.location.city},</span>{" "}
-                          <span>{listing.location.division}</span>
-                        </p>
-                      </div>
-                      {/* shipping */}
-                      <div className="grid grid-cols-6">
-                        <p className="col-span-1">Shipping:</p>
-                        <p className="col-span-5 font-medium text-green-700">
-                          Free same day shipping
+                          <span>{listingData.location.city},</span>{" "}
+                          <span>{listingData.location.division}</span>
                         </p>
                       </div>
                       {/* payment */}
@@ -291,72 +398,72 @@ function Listing() {
                   </div>
                   <div className="p-4 border border-gray-150">
                     <AboutThisItem
-                      description={listing.description}
-                      images={listing.images}
+                      description={listingData.description}
+                      images={listingData.images}
                       itemSpecs={[
                         {
                           name: "Make",
-                          value: listing.make,
+                          value: listingData.make,
                         },
                         {
                           name: "Model",
-                          value: listing.vehicleModel,
+                          value: listingData.vehicleModel,
                         },
                         {
                           name: "Manufactured Year",
-                          value: listing.manufacturedYear,
+                          value: listingData.manufacturedYear,
                         },
                         {
                           name: "Registered Year",
-                          value: listing.registeredYear,
+                          value: listingData.registeredYear,
                         },
                         {
                           name: "Mileage(km)",
-                          value: listing.mileage,
+                          value: listingData.mileage,
                         },
                         {
                           name: "Transmission",
-                          value: listing.transmission,
+                          value: listingData.transmission,
                         },
                         {
                           name: "Fuel Type",
-                          value: listing.fuelType,
+                          value: listingData.fuelType,
                         },
                         {
                           name: "Engine Capacity(cc)",
-                          value: listing.engineCapacity,
+                          value: listingData.engineCapacity,
                         },
                         {
                           name: "Exterior Color",
-                          value: listing.exteriorColor,
+                          value: listingData.exteriorColor,
                         },
                         {
                           name: "Interior Color",
-                          value: listing.interiorColor,
+                          value: listingData.interiorColor,
                         },
                         {
                           name: "Number of Doors",
-                          value: listing.numberOfDoors,
+                          value: listingData.numberOfDoors,
                         },
                         {
                           name: "Number of Seats",
-                          value: listing.numberOfSeats,
+                          value: listingData.numberOfSeats,
                         },
                         {
                           name: "Condition",
-                          value: listing.condition,
+                          value: listingData.condition,
                         },
                         {
                           name: "Drive Type",
-                          value: listing.driveType,
+                          value: listingData.driveType,
                         },
                         {
                           name: "Body Type",
-                          value: listing.bodyType,
+                          value: listingData.bodyType,
                         },
                         {
                           name: "Number of Previous Owners",
-                          value: listing.numberOfPreviousOwners,
+                          value: listingData.numberOfPreviousOwners,
                         },
                       ]}
                     />

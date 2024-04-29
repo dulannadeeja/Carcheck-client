@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler} from "../listingSlice";
 
 const START_YEAR = 1900;
 const CURRENT_YEAR = new Date().getFullYear();
@@ -35,13 +35,7 @@ function RegisteredYear() {
                 className="cursor-pointer hover:bg-gray-100 py-2 px-4"
                 onClick={() => {
                   dispatch(
-                    updateFieldHandler({ field: "registeredYear", value: year })
-                  );
-                  dispatch(
-                    validateFieldHandler({
-                      field: "registeredYear",
-                      value: year,
-                    })
+                    updateAndValidateFieldHandler({ field: "registeredYear", value: year })
                   );
                   setShowDropdown(false);
                 }}

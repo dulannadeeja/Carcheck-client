@@ -2,11 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import Input from "../../../../components/ui/Input";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setErrors,
-  updateFieldHandler,
-  validateFieldHandler,
-} from "../listingSlice";
+import { setErrors, updateAndValidateFieldHandler } from "../listingSlice";
 
 function FuelConsumption() {
   const dispatch = useDispatch();
@@ -21,13 +17,7 @@ function FuelConsumption() {
     // Update the max and min fuel consumption fields in the store
     if (tempMax !== "") {
       dispatch(
-        updateFieldHandler({
-          field: "maxFuelConsumption",
-          value: parseInt(tempMax),
-        })
-      );
-      dispatch(
-        validateFieldHandler({
+        updateAndValidateFieldHandler({
           field: "maxFuelConsumption",
           value: parseInt(tempMax),
         })
@@ -35,13 +25,7 @@ function FuelConsumption() {
     } else {
       if (isTouched) {
         dispatch(
-          updateFieldHandler({
-            field: "maxFuelConsumption",
-            value: 0,
-          })
-        );
-        dispatch(
-          validateFieldHandler({
+          updateAndValidateFieldHandler({
             field: "maxFuelConsumption",
             value: 0,
           })
@@ -50,13 +34,7 @@ function FuelConsumption() {
     }
     if (tempMin !== "") {
       dispatch(
-        updateFieldHandler({
-          field: "minFuelConsumption",
-          value: parseInt(tempMin),
-        })
-      );
-      dispatch(
-        validateFieldHandler({
+        updateAndValidateFieldHandler({
           field: "minFuelConsumption",
           value: parseInt(tempMin),
         })
@@ -64,13 +42,7 @@ function FuelConsumption() {
     } else {
       if (isTouched) {
         dispatch(
-          updateFieldHandler({
-            field: "minFuelConsumption",
-            value: 0,
-          })
-        );
-        dispatch(
-          validateFieldHandler({
+          updateAndValidateFieldHandler({
             field: "minFuelConsumption",
             value: 0,
           })

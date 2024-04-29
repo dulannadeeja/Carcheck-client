@@ -2,32 +2,41 @@ import { formatCurrency, formatDate, limitString } from "../../../utils/format";
 import Button from "../../../components/ui/Button";
 
 import { SERVER_URL } from "../../../utils/constants";
-import { ListingResponseType, ListingType } from "../../listing/clientListing";
+import { ListingType } from "../../listing/clientListing";
 import { useNavigate } from "react-router-dom";
 import { useDeleteListingMutation } from "../listing/listingApiSlice";
 import { toast } from "react-toastify";
-import { GetSellerListingType, ListingActions } from "../listing/sellerListing";
+import { GetSellerListingType } from "../listing/sellerListing";
+import useInvalidateListings from "../../../hooks/useInvalidateListings";
 
 type UnsoldItemsProps = {
-  data: GetSellerListingType[]
+  data: GetSellerListingType[],
+  refetch: () => void
 };
 
-function UnsoldItems({ data }: UnsoldItemsProps) {
+function UnsoldItems({ data,refetch }: UnsoldItemsProps) {
   const navigate = useNavigate();
   const [deleteListing] = useDeleteListingMutation();
+  const invalidateListings = useInvalidateListings();
 
-  const onResumeDraft = (id: string) => {
-    navigate(`/selling/listing/${ListingActions.DRAFT}/${id}`);
+  const onRelistItem = (id: string) => {
+    navigate(`/selling/create-listing?draftId=${id}`);
   };
 
   const onDeleteListing = async (id: string) => {
     try {
       await deleteListing(id);
       toast.success("Listing deleted successfully");
+      invalidateListings();
+      refetch();
     } catch (err) {
       console.log(err);
       toast.error("Failed to delete listing");
     }
+  };
+
+  const onViewListings = (id: string) => {
+    window.open(`/listing/${id}`);
   };
 
   return (
@@ -103,7 +112,7 @@ function UnsoldItems({ data }: UnsoldItemsProps) {
               intent="primary"
               size="medium"
               className="w-full rounded-full"
-              onClick={() => onResumeDraft(listing._id)}
+              onClick={() => onRelistItem(listing._id)}
             >
               Relist Item
             </Button>
@@ -111,6 +120,7 @@ function UnsoldItems({ data }: UnsoldItemsProps) {
               intent="secondary"
               size="medium"
               className="w-full rounded-full"
+              onClick={() => onViewListings(listing._id)}
             >
               View Listing
             </Button>

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 
 function Description() {
   const dispatch = useDispatch();
@@ -8,8 +8,7 @@ function Description() {
   const { description } = data;
 
   const onChangeHandler = (value: string) => {
-    dispatch(updateFieldHandler({ field: "description", value }));
-    dispatch(validateFieldHandler({ field: "description", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "description", value }));
   };
 
   return (

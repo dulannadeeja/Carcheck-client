@@ -64,25 +64,27 @@ function ImagesViewer({ images }: ImagesViewerProps) {
 
   return (
     <div className="flex gap-2 min-h-full ">
-      <div className="h-full flex flex-col gap-2 relative basis-[20%] md:basis-[15%] lg:basis-[10%]">
-        <Button
-          intent="iconRound"
-          size="none"
-          className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white w-8 h-8 text-xl shadow-xl hover:bg-gray-150"
-          onClick={handlePrev}
-        >
-          <IoChevronUp />
-        </Button>
-        {imageElements.slice(startIndex, endIndex + 1)}
-        <Button
-          intent="iconRound"
-          size="none"
-          className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white w-8 h-8 text-xl shadow-xl hover:bg-gray-150"
-          onClick={handleNext}
-        >
-          <IoChevronDown />
-        </Button>
-      </div>
+      {images.length > 0 && (
+        <div className="h-full flex flex-col gap-2 relative basis-[20%] md:basis-[15%] lg:basis-[10%]">
+          <Button
+            intent="iconRound"
+            size="none"
+            className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white w-8 h-8 text-xl shadow-xl hover:bg-gray-150"
+            onClick={handlePrev}
+          >
+            <IoChevronUp />
+          </Button>
+          {imageElements.slice(startIndex, endIndex + 1)}
+          <Button
+            intent="iconRound"
+            size="none"
+            className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white w-8 h-8 text-xl shadow-xl hover:bg-gray-150"
+            onClick={handleNext}
+          >
+            <IoChevronDown />
+          </Button>
+        </div>
+      )}
       <div className="flex-1 relative bg-gray-100 rounded-xl">
         <Button
           intent="iconRound"

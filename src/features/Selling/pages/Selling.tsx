@@ -72,7 +72,7 @@ function Selling() {
                   Drafts
                 </Link>
                 <Link
-                  to={`/selling/listing/${ListingActions.NEW}`}
+                  to={`/selling/pre-listing`}
                   className={cn("px-3 py-2 font-medium", {
                     "text-blue-300 bg-gray-150":
                       pathName === `/selling/listing/${ListingActions.NEW}`,

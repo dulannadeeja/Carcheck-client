@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../components/ui/Button";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { GiCheckMark } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { setFilterOptions, setIsNeedToUpdateURL } from "../clientListingSlice";
+import { cn } from "../../../utils/mergeClasses";
+import { sortOptions } from "../clientListing";
 
 function SortListings() {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("bestMatch");
+  const { filterOptions } = useSelector(
+    (state: RootState) => state.clientListing
+  );
+  const [sortBy, setSortBy] = useState(filterOptions.sortBy);
 
   // set open to false when clicked outside the sortListing
   document.addEventListener("click", (e) => {
@@ -15,6 +24,19 @@ function SortListings() {
     }
   });
 
+  const onChange = (option: string) => {
+    setOpen(false);
+    setSortBy(option);
+  };
+
+  useEffect(() => {
+    if(sortBy !== filterOptions.sortBy){
+      dispatch(setIsNeedToUpdateURL(true));
+    dispatch(setFilterOptions({ ...filterOptions, sortBy}));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[dispatch, sortBy]);
+
   return (
     <div className="flex relative" id="sortListing">
       <Button
@@ -23,7 +45,7 @@ function SortListings() {
         className="text-gray-600 px-5 py-1 rounded-full hover:bg-gray-150 bg-gray-100 border border-gray-200 border-solid"
         onClick={() => setOpen(!open)}
       >
-        <span>Sort: Best Match</span>
+        <span>{filterOptions.sortBy || "Sort: best match"}</span>
         <IoChevronDownOutline />
       </Button>
       <article
@@ -32,84 +54,23 @@ function SortListings() {
         }`}
       >
         <ul className="flex gap-3 flex-col px-4 py-3">
-          <li
-            className="flex gap-5 items-center justify-between cursor-pointer"
-            onClick={() => setSelected("bestMatch")}
-          >
-            <p
-              className={
-                selected === "bestMatch" ? "text-blue-500 font-medium" : ""
-              }
+          {sortOptions.map((option) => (
+            <li
+              key={option.value}
+              className={cn(
+                "flex gap-5 items-center justify-between cursor-pointer",
+                {
+                  "font-medium text-blue-500": filterOptions.sortBy === option.value,
+                }
+              )}
+              onClick={() => onChange(option.value)}
             >
-              Best Match
-            </p>
-            {selected === "bestMatch" && <GiCheckMark />}
-          </li>
-          <li
-            className="flex gap-5 items-center justify-between cursor-pointer"
-            onClick={() => setSelected("endingSoonest")}
-          >
-            <p
-              className={
-                selected === "endingSoonest" ? "text-blue-500 font-medium" : ""
-              }
-            >
-              Time: ending soonest
-            </p>
-            {selected === "endingSoonest" && <GiCheckMark />}
-          </li>
-          <li
-            className="flex gap-5 items-center justify-between cursor-pointer"
-            onClick={() => setSelected("newlyListed")}
-          >
-            <p
-              className={
-                selected === "newlyListed" ? "text-blue-500 font-medium" : ""
-              }
-            >
-              Time: newly listed
-            </p>
-            {selected === "newlyListed" && <GiCheckMark />}
-          </li>
-          <li
-            className="flex gap-5 items-center justify-between cursor-pointer"
-            onClick={() => setSelected("priceLowest")}
-          >
-            <p
-              className={
-                selected === "priceLowest" ? "text-blue-500 font-medium" : ""
-              }
-            >
-              Price: lowes first
-            </p>
-            {selected === "priceLowest" && <GiCheckMark />}
-          </li>
-          <li
-            className="flex gap-5 items-center justify-between cursor-pointer"
-            onClick={() => setSelected("priceHighest")}
-          >
-            <p
-              className={
-                selected === "priceHighest" ? "text-blue-500 font-medium" : ""
-              }
-            >
-              Price: highest first
-            </p>
-            {selected === "priceHighest" && <GiCheckMark />}
-          </li>
-          <li
-            className="flex gap-5 items-center justify-between cursor-pointer"
-            onClick={() => setSelected("distance")}
-          >
-            <p
-              className={
-                selected === "distance" ? "text-blue-500 font-medium" : ""
-              }
-            >
-              Distance: nearest first
-            </p>
-            {selected === "distance" && <GiCheckMark />}
-          </li>
+              <p>
+                {option.title}
+              </p>
+              {filterOptions.sortBy === option.value && <GiCheckMark />}
+            </li>
+          ))}
         </ul>
       </article>
     </div>

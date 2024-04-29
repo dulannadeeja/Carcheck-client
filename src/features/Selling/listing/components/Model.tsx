@@ -3,7 +3,7 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
 import { Vehicle } from "../../../listing/clientListing";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler} from "../listingSlice";
 import { useGetVehicleModelsByMakeQuery } from "../listingApiSlice";
 
 function Model() {
@@ -21,8 +21,7 @@ function Model() {
 
   const handleModelChange = useCallback(
     (value: string) => {
-      dispatch(updateFieldHandler({ field: "vehicleModel", value }));
-      dispatch(validateFieldHandler({ field: "vehicleModel", value }));
+      dispatch(updateAndValidateFieldHandler({ field: "vehicleModel", value }));
       setShowDropdown(false);
     },
     [dispatch]

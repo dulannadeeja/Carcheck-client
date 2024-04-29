@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ListingSchema, validateField } from './schema/listingSchema';
+import { listingSchema, ListingSchema} from './schema/listingSchema';
 import { GetSellerListingType } from './sellerListing';
+import { validateSchemaField} from '../../../lib/validation';
+import { updateObjectField } from '../../../utils/objectHelper';
 
 const initialErrors = {
     make: "",
@@ -53,8 +55,7 @@ export type ListingErrors = typeof initialErrors;
 interface ListingState {
     data: ListingSchema;
     errors: ListingErrors;
-    uploadFiles: File[],
-    uploadedImages: string[]
+    dataNeedToBeSaved: boolean;
 }
 
 const initialState: ListingState = {
@@ -66,7 +67,7 @@ const initialState: ListingState = {
         images: [],
         title: "",
         condition: "",
-        mileage: -1,
+        mileage: 0,
         transmission: "",
         fuelType: "",
         bodyType: "",
@@ -99,8 +100,7 @@ const initialState: ListingState = {
         numberOfSeats: 0,
     },
     errors: initialErrors,
-    uploadFiles: [],
-    uploadedImages: []
+    dataNeedToBeSaved: false,
 };
 
 
@@ -108,38 +108,21 @@ export const listingSlice = createSlice({
     name: 'listing',
     initialState,
     reducers: {
-        updateFieldHandler: (state: ListingState, action) => {
+        updateAndValidateFieldHandler: (state: ListingState, action) => {
             const { field, value } = action.payload;
 
-            // filter nested object paths by splitting the field string by '.'
-            if (field.includes(".")) {
-                const [parent, child] = field.split(".");
-                const parentObject = state.data[parent as keyof ListingSchema];
-                if (parentObject) {
-                    parentObject[child as keyof typeof parentObject] = value as never;
-                }
-                return;
+            state.data = updateObjectField<ListingSchema>(state.data, field, value);
+
+            const error = validateSchemaField<ListingSchema>(listingSchema, field, value);
+
+            if(error){
+                state.errors = updateObjectField<ListingErrors>(state.errors, field, error);
+            }else{
+                state.errors = updateObjectField<ListingErrors>(state.errors, field, "");
             }
 
-            const fieldName = field as keyof ListingSchema;
-            state.data[fieldName] = value as never;
-        },
-        validateFieldHandler: (state, action) => {
-            const { field, value } = action.payload;
-
-            const error = validateField(field, value);
-
-            console.log("error", error);
-
-            if (field.includes(".")) {
-                const [parent, child] = field.split(".");
-                const parentObject = state.errors[parent as keyof ListingErrors];
-                if (parentObject) {
-                    parentObject[child as keyof typeof parentObject] = error ? error as never : "" as never;
-                }
-            } else {
-                state.errors[field as keyof ListingErrors] = error ? error as never : "" as never;
-            }
+            // set the flag to indicate that the data has been changed
+            state.dataNeedToBeSaved = true;
         },
         clearListing: (state) => {
             state = initialState;
@@ -151,26 +134,28 @@ export const listingSlice = createSlice({
         setErrors: (state, action) => {
             state.errors = action.payload;
         },
-        addFilesToUpload: (state, action: {
-            payload: File[]
-        }) => {
-            state.uploadFiles = action.payload;
-        },
-        setUploadedImages: (state, action: {
-            payload: string[]
-        }) => {
-            state.uploadedImages = action.payload;
-        },
         setDraftData: (state, action: {
             payload: ListingSchema | GetSellerListingType
         }) => {
-            state.data = action.payload as ListingSchema;
-            console.log(action.payload);
+            // set only the fields that are present in the payload
+            state.data = {
+                ...state.data,
+                ...action.payload
+            }
+        },
+        setDataUpdateFlag: (state, action) => {
+            state.dataNeedToBeSaved = action.payload;
+        },
+        clearAuction: (state) => {
+            state.data.auction = initialState.data.auction;
+        },
+        clearOffer: (state) => {
+            state.data.offer = initialState.data.offer;
         }
     }
 });
 
-export const { setDraftData, setUploadedImages, addFilesToUpload, updateFieldHandler, setErrors, clearListing, validateFieldHandler, clearAllErrors } = listingSlice.actions;
+export const { clearAuction,clearOffer,setDraftData,setDataUpdateFlag, updateAndValidateFieldHandler, setErrors, clearListing, clearAllErrors } = listingSlice.actions;
 
 export default listingSlice.reducer;
 

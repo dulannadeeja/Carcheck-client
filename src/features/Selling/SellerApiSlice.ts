@@ -29,7 +29,7 @@ export const sellerApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ["Seller", "drafts", "active", "unsold"],
+    tagTypes: ["Seller", "Drafts", "Active", "Unsold", "Sold"],
     endpoints: (builder) => ({
         // get drafts of the seller's endpoint
         getDrafts: builder.query<GetSellerListingResponseType, ListingQueryParams>({
@@ -38,10 +38,12 @@ export const sellerApi = createApi({
                 method: "GET",
                 params: {
                     ...queryParams,
-                    status: ListingStates.draft
+                    status: ListingStates.draft,
+                    sortBy: "draftUpdatedAt",
+                    sortOrder: "desc"
                 }
             }),
-            providesTags: ["Seller", "drafts"],
+            providesTags: ["Seller", "Drafts"],
         }),
         // get active listings of the seller's endpoint
         getActiveListings: builder.query<GetSellerListingResponseType, ListingQueryParams>({
@@ -50,10 +52,12 @@ export const sellerApi = createApi({
                 method: "GET",
                 params: {
                     ...queryParams,
-                    status: ListingStates.active
+                    status: ListingStates.active,
+                    sortBy: "updatedAt",
+                    sortOrder: "desc"
                 }
             }),
-            providesTags: ["Seller", "active"],
+            providesTags: ["Seller", "Active"],
         }),
         // get unsold listings of the seller's endpoint
         getUnsoldListings: builder.query<GetSellerListingResponseType, ListingQueryParams>({
@@ -63,12 +67,14 @@ export const sellerApi = createApi({
                 params: {
                     ...queryParams,
                     status: ListingStates.unsold,
-                    sold: false
+                    sold: false,
+                    sortBy: "endDate",
+                    sortOrder: "desc"
                 }
             }),
-            providesTags: ["Seller", "unsold"],
+            providesTags: ["Seller", "Unsold"],
         }),
     }),
 });
 
-export const { useGetDraftsQuery, useGetActiveListingsQuery, useGetUnsoldListingsQuery } = sellerApi;  
+export const { useGetActiveListingsQuery, useGetUnsoldListingsQuery, useGetDraftsQuery, util } = sellerApi;  

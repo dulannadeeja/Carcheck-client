@@ -1,9 +1,8 @@
-import React from "react";
 import { SERVER_URL } from "../../../utils/constants";
 
 type Spec = {
   name: string;
-  value: string;
+  value: string | number;
 }
 
 type Props = {
@@ -16,7 +15,7 @@ function AboutThisItem({
   itemSpecs,
   description,
   images
-}) {
+}: Props) {
   return (
     <div>
       <section className="pb-6">

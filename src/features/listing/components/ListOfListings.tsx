@@ -1,10 +1,12 @@
-import { listingType } from "../clientListing";
-import listings from "../../../data/listings.json";
+import { useSelector } from "react-redux";
+import { GetListingType} from "../clientListing";
 import ListingCard from "./ListingCard";
 import { Fragment, ReactNode } from "react";
+import { RootState } from "../../../store/store";
 
 function ListOfListings() {
-  const makeListOfListings = (listings: listingType[]): ReactNode[] => {
+  const {listings} = useSelector((state: RootState) => state.clientListing);
+  const makeListOfListings = (listings: GetListingType[]): ReactNode[] => {
     return listings.map((listing) => {
       return (
         <Fragment key={listing._id}>
@@ -17,7 +19,9 @@ function ListOfListings() {
 
   return (
     <ul className="flex flex-col gap-4">
-      {makeListOfListings(listings.listings as listingType[])}
+      {
+        listings.length > 0 && makeListOfListings(listings)
+      }
     </ul>
   );
 }

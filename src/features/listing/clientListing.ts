@@ -1,11 +1,5 @@
-import { AccountStatus, AccountType, Address, BusinessInfo, FinancialInfo, PersonalInfo, UserDoc } from "../authentication/auth";
-import { ListingSchema } from "../Selling/listing/schema/listingSchema";
+import { AccountType, BusinessInfo } from "../authentication/auth";
 
-export type Auction = {
-    duration: number;
-    startingBid: number;
-    reservePrice: number;
-}
 
 export enum Conditions {
     brandNew = 'Brand New',
@@ -361,7 +355,46 @@ export const driveTypesArray = Object.values(DriveTypes);
 export const listingTypeArray = Object.values(ListingType);
 export const listingStateArray = Object.values(ListingState);
 
-export interface SellerDocument {
+
+export type GetListingType = {
+    _id: string,
+    status: string,
+    condition: string,
+    images: string[],
+    title: string,
+    make: string,
+    vehicleModel: string,
+    manufacturedYear: number,
+    registeredYear: number,
+    mileage: number,
+    transmission: string,
+    fuelType: string,
+    bodyType: string,
+    driveType: string,
+    numberOfDoors: number,
+    numberOfSeats: number,
+    exteriorColor: string,
+    interiorColor: string,
+    numberOfPreviousOwners: number,
+    engineCapacity: number,
+    description: string,
+    listingType: string,
+    fixedPrice: number,
+    auction: Auction,
+    location: Location,
+    isAllowedOffer: boolean,
+    createdAt: Date,
+    updatedAt: Date,
+    seller: ListingSeller,
+    sellerType: string;
+    draftCreatedAt: Date;
+    draftUpdatedAt: Date;
+    publishedAt: Date;
+    endDate: Date;
+    currentPrice: number;
+}
+
+export interface ListingSeller {
     _id: string;
     accountType: AccountType;
     phone?: string;
@@ -370,70 +403,88 @@ export interface SellerDocument {
     firstName: string;
     lastName: string;
     avatar?: string;
-    status: AccountStatus;
 }
 
-
-export interface ListingResponseType extends ListingSchema {
-    status: string;
-    _id: string;
-    condition: string;
-    images: string[];
-    title: string;
-    make: string;
-    vehicleModel: string;
-    manufacturedYear: number;
-    registeredYear: number;
-    mileage: number;
-    transmission: string;
-    fuelType: string;
-    bodyType: string;
-    driveType: string;
-    numberOfDoors: number;
-    numberOfSeats: number;
-    exteriorColor: string;
-    interiorColor: string;
-    numberOfPreviousOwners: number;
-    engineCapacity: number;
-    description: string;
-    listingType: string;
-    fixedPrice: number;
-    auction: AuctionDetails;
-    location: LocationDetails;
-    isAllowedOffer: boolean;
-    offer: OfferDetails;
-    seller: SellerDocument;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-}
-
-interface BidDetails {
-    listing: string;
-    bidder: string;
-    amount: number;
-}
-
-interface AuctionDetails {
+export interface Auction {
     duration: number;
     startingBid: number;
     reservePrice: number;
-    startingDate: Date,
+    startingDate: Date;
     bids: BidDetails[];
-    currentBid: number;
-    bidders: string[];
-    _id: string;
+    maxBid: number;
+    maxBidder: string;
 }
 
-interface LocationDetails {
+export interface Location {
     city: string;
     division: string;
     zipCode: string;
-    _id: string;
 }
 
-interface OfferDetails {
+export interface Offer {
     minimumOffer: number;
     autoAcceptOffer: number;
-    _id: string;
+}
+
+export interface BidDetails {
+    _id: string,
+    listing: string,
+    bidder: string,
+    amount: number,
+    isDeleted: boolean,
+    createdAt: Date,
+    updatedAt: Date,
+}
+
+export type ListingFilterOptions = {
+    limit?: number,
+    page?: number,
+    search?: string,
+    sortBy?: string,
+    sortOrder?: string,
+    condition?: string,
+    make?: string,
+    model?: string,
+    mileageMin?: string,
+    mileageMax?: string,
+    yearMin?: string,
+    yearMax?: string,
+    transmission?: string,
+    fuelType?: string,
+    driveType?: string,
+    listingType?: string,
+    priceMin?: string,
+    priceMax?: string,
+    bodyType?: string,
+    soldBy?: string,
+    city?: string,
+    division?: string,
+}
+
+export const sortOptions = [ {
+    title : "Sort: best match",
+    value : "",
+  },{
+    title : "Time: ending soonest",
+    value : "ending_soonest",
+  },
+{
+    title : "Time: newly listed",
+    value : "newly_listed",
+  },
+{
+    title : "Price: lowest first",
+    value : "price_lowest",
+  },
+{
+    title : "Price: highest first",
+    value : "price_highest",
+  } ]
+
+export enum SortOptionsType {
+    bestMatch = "best_match",
+    endingSoonest = "ending_soonest",
+    newlyListed = "newly_listed",
+    priceLowest = "price_lowest",
+    priceHighest = "price_highest",
 }

@@ -10,7 +10,7 @@ function Modal({ children, onClose, className }: TModalProps) {
     <>
       <div
         className={cn(
-          "fixed top-0 md:top-5 left-[50%] translate-x-[-50%] z-50 bg-white p-3 md:rounded-lg overflow-auto",
+          "fixed top-0 md:top-5 left-[50%] translate-x-[-50%] bg-white p-3 md:rounded-lg overflow-auto z-[100]",
           className
         )}
       >
@@ -18,7 +18,7 @@ function Modal({ children, onClose, className }: TModalProps) {
       </div>
       <div
         onClick={onClose}
-        className="bg-gray-500 flex justify-center items-center fixed top-0 left-0 w-full h-full bg-opacity-50"
+        className="bg-gray-500 flex justify-center items-center fixed top-0 left-0 w-full h-full bg-opacity-50 z-[50]"
       ></div>
     </>
   );

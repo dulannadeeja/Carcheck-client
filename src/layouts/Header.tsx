@@ -36,6 +36,8 @@ function Header() {
     console.log("User changed");
     console.log(user);
   }, [user]);
+  const {filterOptions  } = useSelector((state: RootState) => state.clientListing);
+  const {city, division} = filterOptions;
 
   const {
     setIsMobileNavOpen,
@@ -193,7 +195,7 @@ function Header() {
             <span className="text-2xl">
               <IoLocationSharp />
             </span>
-            <span>All of Srilanka</span>
+            <span>{city ? city : division ? division : "All of srilanka"}</span>
           </Button>
           <Button
             onClick={() => setIsCategoryModalOpen(true)}

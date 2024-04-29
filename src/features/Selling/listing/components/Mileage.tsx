@@ -1,45 +1,39 @@
 import Input from "../../../../components/ui/Input";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
 import { useEffect, useState } from "react";
 
 function Mileage() {
   const dispatch = useDispatch();
-  const { errors } = useSelector((state: RootState) => state.listing);
+  const { errors,data } = useSelector((state: RootState) => state.listing);
   const [tempMilage, setTempMilage] = useState<string>("");
-  const [isTouched, setIsTouched] = useState<boolean>(false);
+  const [needToUpdateState, setNeedToUpdateState] = useState<boolean>(false);
 
   useEffect(() => {
-    if (tempMilage === "") {
-      dispatch(updateFieldHandler({ field: "mileage", value: 0 }));
-      if (isTouched) {
+    if(needToUpdateState){
+      if (tempMilage === "") {
+        dispatch(updateAndValidateFieldHandler({ field: "mileage", value: 0 }));
+      } else {
         dispatch(
-          validateFieldHandler({
-            field: "mileage",
-            value: -1,
-          })
+          updateAndValidateFieldHandler({ field: "mileage", value: parseInt(tempMilage) })
         );
       }
-    } else {
-      dispatch(
-        updateFieldHandler({ field: "mileage", value: parseInt(tempMilage) })
-      );
-      dispatch(
-        validateFieldHandler({
-          field: "mileage",
-          value: parseInt(tempMilage),
-        })
-      );
     }
-  }, [tempMilage, dispatch]);
+  }, [tempMilage, dispatch, needToUpdateState]);
+
+  useEffect(() => {
+    if (data.mileage) {
+      setTempMilage(data.mileage.toString());
+      setNeedToUpdateState(false);
+    }
+  }, [data.mileage, needToUpdateState])
 
   const handleMileageChange = async (value: string) => {
-    setIsTouched(true);
     if (isNaN(Number(value)) && value !== "") {
       return;
     }
-
+    setNeedToUpdateState(true);
     setTempMilage(value);
   };
   return (

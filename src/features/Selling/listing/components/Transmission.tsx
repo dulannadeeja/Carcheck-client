@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 import { useGetSpecsQuery } from "../listingApiSlice";
 
 function Transmission() {
@@ -14,8 +14,7 @@ function Transmission() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const handleChange = (value: string) => {
-    dispatch(updateFieldHandler({ field: "transmission", value }));
-    dispatch(validateFieldHandler({ field: "transmission", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "transmission", value }));
   };
 
   return (

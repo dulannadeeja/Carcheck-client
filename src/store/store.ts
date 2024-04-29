@@ -18,6 +18,9 @@ import downloaderReducer from "../features/download/downloaderSlice";
 import { notificationApi } from "../features/notification/notificationApiSlice";
 import notificationReducer from "../features/notification/notificationSlice";
 import { listingApi } from "../features/Selling/listing/listingApiSlice";
+import clientListingApi from "../features/listing/clientListingApi";
+import clientListingSlice from "../features/listing/clientListingSlice";
+import clientApi from "../api/clientApiSlice";
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +32,7 @@ export const store = configureStore({
     uploadDocs: uploadDocsReducer,
     downloader: downloaderReducer,
     notification: notificationReducer,
+    clientListing: clientListingSlice,
     [authApi.reducerPath]: authApi.reducer,
     [listingApi.reducerPath]: listingApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,
@@ -37,7 +41,9 @@ export const store = configureStore({
     [sellingAccountApi.reducerPath]: sellingAccountApi.reducer,
     [uploadDocsApi.reducerPath]: uploadDocsApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
-    [notificationApi.reducerPath]: notificationApi.reducer
+    [notificationApi.reducerPath]: notificationApi.reducer,
+    [clientListingApi.reducerPath]: clientListingApi.reducer,
+    [clientApi.reducerPath]: clientApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -51,6 +57,8 @@ export const store = configureStore({
         adminApi.middleware,
         notificationApi.middleware,
         listingApi.middleware,
+        clientListingApi.middleware,
+        clientApi.middleware
       )
 });
 

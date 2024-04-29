@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetActiveListingsQuery } from "../SellerApiSlice";
 import PaginationController from "../../../components/PaginationController";
 import { SERVER_URL } from "../../../utils/constants";
-import { useUpdateListingMutation } from "../listing/listingApiSlice";
-import { ListingResponseType, ListingState } from "../../listing/clientListing";
+import { useEndListingMutation} from "../listing/listingApiSlice";
 import Button from "../../../components/ui/Button";
 import { toast } from "react-toastify";
-import { limitString } from "../../../utils/format";
+import { GetSellerListingType } from "../listing/sellerListing";
+import { ErrorResponse } from "react-router-dom";
+import useInvalidateListings from "../../../hooks/useInvalidateListings";
 
 const Active = () => {
+  const [listings, setListings] = useState<GetSellerListingType[]>([]);
   const [page, setPage] = useState(1);
-  const { data, isLoading, refetch } = useGetActiveListingsQuery({
+  const { data, isLoading, refetch, isError, isSuccess} = useGetActiveListingsQuery({
     page,
     limit: 10,
   });
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 });
-  const [updateListing, { isLoading: updating }] = useUpdateListingMutation();
+  const [endListing,{isLoading:ending}] = useEndListingMutation();
+  const invalidateListings = useInvalidateListings();
 
   const toggleDropdown = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -29,27 +32,38 @@ const Active = () => {
     setDropdownOpen(selectedId !== id || !dropdownOpen);
   };
 
-  const onEndListing = async (data: ListingResponseType) => {
+  const onEndListing = async (id:string) => {
     try {
-      if (selectedId) {
-        await updateListing({
-          data: {
-            ...data,
-            status: ListingState.unsold,
-          },
-          id: selectedId,
-        });
-
+        await endListing(id).unwrap();
         toast.success("Listing moved to unsold listings.");
-      }
     } catch (error) {
       console.log(error);
-      toast.error("Failed to end listing.");
+      const err = error as ErrorResponse;
+      toast.error(err.data.message || "Failed to end listing");
     } finally {
+      invalidateListings();
       refetch();
       setDropdownOpen(false);
     }
   };
+
+  const onEditListing = (id: string) => {
+    window.open(`/selling/edit-listing?listingId=${id}`);
+  }
+
+  useEffect(()=>{
+    if(!isLoading && isSuccess){
+      setListings(data.data)
+      console.log(data)
+    }else if(isError){
+      setListings([])
+    }
+  },[data, isError, isLoading, isSuccess])
+
+  useEffect(()=>{
+    refetch()
+  
+  },[refetch])
 
   if (isLoading) {
     return <div className="text-center mt-5">Loading...</div>;
@@ -86,6 +100,12 @@ const Active = () => {
                 className="py-3 px-6 text-left truncate overflow-hidden text-ellipsis whitespace-nowrap"
               >
                 Make/Model
+              </th>
+              <th
+                scope="col"
+                className="py-3 px-6 text-right truncate overflow-hidden text-ellipsis whitespace-nowrap"
+              >
+                Bids
               </th>
               <th
                 scope="col"
@@ -156,8 +176,8 @@ const Active = () => {
             </tr>
           </thead>
           <tbody>
-            {data &&
-              data.data.map((row) => (
+            {listings && listings.length > 0 &&
+              listings.map((row) => (
                 <tr key={row._id} className="bg-white border-b">
                   <td className="py-4 px-6">
                     <button
@@ -198,8 +218,8 @@ const Active = () => {
                             size={"none"}
                             className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full justify-start"
                             role="menuitem"
-                            onClick={() => onEndListing(row)}
-                            disabled={updating}
+                            onClick={() => onEndListing(row._id)}
+                            disabled={ending}
                           >
                             End Listing
                           </Button>
@@ -207,6 +227,7 @@ const Active = () => {
                             href="#"
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             role="menuitem"
+                            onClick={() => onEditListing(row._id)}
                           >
                             Edit Listing
                           </a>
@@ -214,6 +235,7 @@ const Active = () => {
                             href="#"
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             role="menuitem"
+                            onClick={() => window.open(`/listing/${row._id}`)}
                           >
                             View
                           </a>
@@ -229,11 +251,22 @@ const Active = () => {
                     />
                   </td>
                   <td className="py-4 px-6">
-                    <p className="text-blue-300 underline">
-                      {limitString(row.title, 60)}
+                    <p className="text-blue-300 underline max-w-[20rem] break-words overflow-hidden">
+                      {row.title}
                     </p>
                   </td>
                   <td className="py-4 px-6 truncate overflow-hidden text-ellipsis whitespace-nowrap">{`${row.make} ${row.vehicleModel}`}</td>
+                  <td className="py-4 px-6 text-right truncate overflow-hidden text-ellipsis whitespace-nowrap"
+                  onClick={
+                    ()=> window.open(`/viewbids/${row._id}`)
+                  }
+                  >
+                  <span className={
+                    row.auction.bids.length > 0 ? "text-blue-300 underline cursor-pointer" : ""
+                  }>
+                  {row.auction.bids.length > 0 ? row.auction.bids.length : "No bids"}
+                  </span>
+                  </td>
                   <td className="py-4 px-6 text-right truncate overflow-hidden text-ellipsis whitespace-nowrap">
                     {row.manufacturedYear}
                   </td>

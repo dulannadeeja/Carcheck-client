@@ -2,8 +2,8 @@ import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
 import { useGetBrandsQuery } from "../listingApiSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 
 function Make() {
   const dispatch = useDispatch();
@@ -31,10 +31,7 @@ function Make() {
                   className="cursor-pointer hover:bg-gray-100 py-2 px-4"
                   onClick={() => {
                     dispatch(
-                      updateFieldHandler({ field: "make", value: make.name })
-                    );
-                    dispatch(
-                      validateFieldHandler({ field: "make", value: make.name })
+                      updateAndValidateFieldHandler({ field: "make", value: make.name })
                     );
                     setShowDropdown(false);
                   }}

@@ -1,16 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store/store";
 import { SERVER_URL } from "../utils/constants";
-
-type BidData = {
-    listingId: string;
-    bidAmount: number;
-}
-
-type BidResponse = {
-    message: string;
-    success: boolean;
-}
+import { BrandDocument, SpecDocument } from "../features/admin/admin";
+import { Vehicle } from "../features/listing/clientListing";
+import { SpecsType } from "../features/admin/admin";
 
 
 export const clientApi = createApi({
@@ -33,12 +26,43 @@ export const clientApi = createApi({
     }),
     tagTypes: ["client", "Makes", "Models", "Specs"],
     endpoints: (builder) => ({
-        putBid: builder.mutation<BidResponse, BidData>({
-            query: (data) => ({
-                url: `/listing/bid`,
-                method: "PUT",
-                body: data
+        // endpoint for getting all brands
+        getBrands: builder.query<BrandDocument[], void>({
+            query: () => ({
+                url: `/brands`,
+                method: "GET",
             }),
-        })
+            providesTags: ["Makes"],
+        }),
+        getVehicleModelsByMake: builder.query<{
+            data: Vehicle[],
+            total: number
+        }, {
+            make: string
+        }>({
+            query: ({
+                make
+            }) => ({
+                url: `/vehicles/?make=${make}`,
+                method: "GET",
+            }),
+            providesTags: ["client"],
+        }),
+        getSpecs: builder.query<SpecDocument[],SpecsType>({
+            query: (specType) => ({
+                url: `/specs/${specType}`,
+                method: "GET",
+            }),
+            providesTags: ["client"],
+        }),
     }),
+    
 })
+
+export const {
+    useGetBrandsQuery,
+    useGetVehicleModelsByMakeQuery,
+    useGetSpecsQuery,
+} = clientApi;
+
+export default clientApi;

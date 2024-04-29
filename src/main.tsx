@@ -5,7 +5,6 @@ import "react-calendar/dist/Calendar.css";
 import "./styles/Calendar.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
-  AddListing,
   BidsAndOffers,
   Home,
   Listing,
@@ -43,8 +42,11 @@ import AdminProtectedRoutes from "./components/protectedRoutes/AdminProtectedRou
 import Brands from "./features/admin/components/Brands.tsx";
 import VehicleModels from "./features/admin/components/VehicleModels.tsx";
 import Specifics from "./features/admin/components/Specifics.tsx";
-import { ListingAction } from "./features/Selling/listing/listing.ts";
 import Unsold from "./features/Selling/components/Unsold.tsx";
+import BidHistory from "./features/listing/bidding/pages/BidHistory.tsx";
+import PreListing from "./features/Selling/listing/pages/PreListing.tsx";
+import CreateListing from "./features/Selling/listing/pages/CreateListing.tsx";
+import UpdateListing from "./features/Selling/listing/pages/UpdateActiveListing.tsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/listing/:id",
     element: <Listing />,
+  },
+  {
+    path: "/viewbids/:listingId",
+    element: <BidHistory />,
   },
   {
     path: "/signin",
@@ -89,18 +95,26 @@ const router = createBrowserRouter([
   },
   // Selling routes
   {
-    path: `/selling/listing/:action/:listingId`,
+    path: "/selling/pre-listing",
     element: (
       <BuyerProtectedRoute>
-        <AddListing />
+        <PreListing />
       </BuyerProtectedRoute>
     ),
   },
   {
-    path: `/selling/listing/:action`,
+    path: `/selling/create-listing`,
     element: (
       <BuyerProtectedRoute>
-        <AddListing />
+        <CreateListing/>
+      </BuyerProtectedRoute>
+    ),
+  },
+  {
+    path: "/selling/edit-listing",
+    element: (
+      <BuyerProtectedRoute>
+        <UpdateListing/>
       </BuyerProtectedRoute>
     ),
   },    

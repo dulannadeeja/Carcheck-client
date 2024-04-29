@@ -3,7 +3,8 @@ import { ListingSchema } from "./schema/listingSchema";
 import { RootState } from "../../../store/store";
 import { SERVER_URL } from "../../../utils/constants";
 import { BrandDocument, SpecDocument, SpecsType } from "../../admin/admin";
-import { GetSingleListingResposeType, ListingStates, Vehicle } from "./sellerListing";
+import { GetSellerListingType, GetSingleListingResposeType, ImageResponse, Vehicle } from "./sellerListing";
+
 
 
 export const listingApi = createApi({
@@ -27,18 +28,53 @@ export const listingApi = createApi({
     tagTypes: ["listing", "Makes", "Models", "Specs"],
     endpoints: (builder) => ({
         // endpoint for creating a new listing
-        createListing: builder.mutation({
+        createListing: builder.mutation<GetSellerListingType,{
+            data: ListingSchema
+            draftId: string
+        }>({
             query: (data) => ({
                 url: `/listings`,
                 method: "POST",
-                body: data
+                body: {
+                    ...data.data,
+                    draftId: data.draftId
+                }
             }),
+        }),
+        // endpoint for create a draft
+        createDraft: builder.mutation<GetSellerListingType, void>({
+            query: () => ({
+                url: `/listings/draft`,
+                method: "POST",
+            }),
+        }),
+        // endpoint for updating a draft
+        updateDraft: builder.mutation<GetSingleListingResposeType, {
+            data: Partial<ListingSchema>
+            id: string
+        }>({
+            query: ({ id,
+                data
+            }) => ({
+                url: `/listings/draft/${id}`,
+                method: "PUT",
+                body: {
+                    ...data
+                }
+            }),
+            invalidatesTags: ["listing"],
+        }),
+        // endpoint for ending a listing
+        endListing: builder.mutation<GetSingleListingResposeType, string>({
+            query: (id) => ({
+                url: `/listings/end/${id}`,
+                method: "PUT",
+            }),
+            invalidatesTags: ["listing"],
         }),
         // endpoint for updating a listing
         updateListing: builder.mutation<GetSingleListingResposeType, {
-            data: ListingSchema & {
-                status: ListingStates
-            }
+            data: Partial<ListingSchema>
             id: string
         }>({
             query: ({ id,
@@ -65,7 +101,7 @@ export const listingApi = createApi({
             }),
             invalidatesTags: ["listing"],
         }),
-        uploadImages: builder.mutation({
+        uploadImages: builder.mutation<ImageResponse,FormData>({
             query: (data) => ({
                 url: `/listings/images`,
                 method: "POST",
@@ -116,4 +152,4 @@ export const listingApi = createApi({
     }),
 });
 
-export const { useDeleteListingMutation, useUpdateListingMutation, useGetListingQuery, useCreateListingMutation, useUploadImagesMutation, useGetVehicleModelsByMakeQuery, useGetBrandsQuery, useGetSpecsQuery } = listingApi;
+export const { useEndListingMutation,useUpdateDraftMutation,useDeleteListingMutation,useCreateDraftMutation, useUpdateListingMutation, useGetListingQuery, useCreateListingMutation, useUploadImagesMutation, useGetVehicleModelsByMakeQuery, useGetBrandsQuery, useGetSpecsQuery } = listingApi;

@@ -3,7 +3,7 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { numberOfSeatsOptions } from "../../../listing/clientListing";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 
 function NumberOfSeats() {
   const dispatch = useDispatch();
@@ -12,8 +12,7 @@ function NumberOfSeats() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const handleChange = (value: number) => {
-    dispatch(updateFieldHandler({ field: "numberOfSeats", value }));
-    dispatch(validateFieldHandler({ field: "numberOfSeats", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "numberOfSeats", value }));
     setShowDropdown(false);
   };
 

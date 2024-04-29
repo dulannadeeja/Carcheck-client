@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { useGetSpecsQuery } from "../listingApiSlice";
 
@@ -14,8 +14,7 @@ function DriveType() {
   const { data: driveTypeData, isSuccess } = useGetSpecsQuery("driveType");
 
   const handleChange = (value: string) => {
-    dispatch(updateFieldHandler({ field: "driveType", value }));
-    dispatch(validateFieldHandler({ field: "driveType", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "driveType", value }));
     setShowDropdown(false);
   };
 

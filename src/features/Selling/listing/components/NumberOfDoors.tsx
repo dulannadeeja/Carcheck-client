@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 import { numberOfDoorsOptions } from "../../../listing/clientListing";
 
 function NumberOfDoors() {
@@ -12,8 +12,7 @@ function NumberOfDoors() {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const handleChange = (value: number) => {
-    dispatch(updateFieldHandler({ field: "numberOfDoors", value }));
-    dispatch(validateFieldHandler({ field: "numberOfDoors", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "numberOfDoors", value }));
     setShowDropdown(false);
   };
 

@@ -1,5 +1,3 @@
-import { AuctionSchema, ListingSchema, LocationSchema, OfferSchema } from "./schema/listingSchema";
-
 
 export enum Conditions {
     brandNew = 'Brand New',
@@ -244,37 +242,6 @@ export enum ListingActions {
   }
 
 
-interface ListingInput extends ListingSchema {
-    images: string[];
-    title: string;
-    make: string;
-    condition: string;
-    vehicleModel: string;
-    manufacturedYear: number;
-    registeredYear: number;
-    mileage: number;
-    transmission: string;
-    fuelType: string;
-    bodyType: string;
-    driveType: string;
-    numberOfPreviousOwners: number;
-    exteriorColor: string;
-    numberOfSeats: number;
-    numberOfDoors: number;
-    interiorColor: string;
-    maxFuelConsumption: number;
-    minFuelConsumption: number;
-    engineCapacity: number;
-    description: string;
-    listingType: string;
-    fixedPrice: number;
-    auction: AuctionSchema;
-    location: LocationSchema;
-    isAllowedOffer: boolean;
-    offer: OfferSchema;
-}
-
-
 export type GetSellerListingType = {
     _id: string,
     status: string,
@@ -299,10 +266,87 @@ export type GetSellerListingType = {
     description: string,
     listingType: string,
     fixedPrice: number,
-    auction: AuctionSchema,
-    location: LocationSchema,
+    auction: Auction,
+    location: Location,
     isAllowedOffer: boolean,
-    offer: OfferSchema,
+    offer: Offer,
+    sellerType: string;
+    draftCreatedAt: Date;
+    draftUpdatedAt: Date;
+    publishedAt: Date;
+    endDate: Date;
+    currentPrice: number;
+    updatedAt: Date;
+    createdAt: Date;
+}
+
+export type GetDraftListingType = {
+    _id: string,
+    status: string,
+    condition?: string,
+    images?: string[],
+    title?: string,
+    make?: string,
+    vehicleModel?: string,
+    manufacturedYear?: number,
+    registeredYear?: number,
+    mileage?: number,
+    transmission?: string,
+    fuelType?: string,
+    bodyType?: string,
+    driveType?: string,
+    numberOfDoors?: number,
+    numberOfSeats?: number,
+    exteriorColor?: string,
+    interiorColor?: string,
+    numberOfPreviousOwners?: number,
+    engineCapacity?: number,
+    description?: string,
+    listingType?: string,
+    fixedPrice?: number,
+    auction?: Auction,
+    location?: Location,
+    isAllowedOffer?: boolean,
+    offer?: Offer,
+    sellerType?: string;
+    draftCreatedAt: Date;
+    draftUpdatedAt: Date;
+    publishedAt?: Date;
+    endDate?: Date;
+    currentPrice?: number;
+    updatedAt: Date;
+    createdAt: Date;
+}
+
+export interface Auction {
+    duration: number;
+    startingBid: number;
+    reservePrice: number;
+    startingDate: Date;
+    bids: BidDetails[];
+    maxBid: number;
+    maxBidder: string;
+}
+
+export interface Location {
+    city: string;
+    division: string;
+    zipCode: string;
+}
+
+export interface Offer {
+    minimumOffer: number;
+    autoAcceptOffer: number;
+}
+
+interface BidDetails {
+    _id: string,
+    listing: string,
+    bidder: string,
+    amount: number,
+    isDeleted: boolean,
+    createdAt: Date,
+    updatedAt: Date,
 }
 
 export type GetSingleListingResposeType = {
@@ -316,10 +360,15 @@ export type GetSellerListingResponseType = {
     data: GetSellerListingType[],
     message: string,
     statusCode: number,
-    success: boolean,
+    success: boolean
     page: number,
     total: number,
     totalPages: number
 }
+
+export type ImageResponse = {
+        fileNames: string[];
+        message: string;
+};
 
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler} from "../listingSlice";
 
 import {
   divisionsOfSrilanka,
@@ -24,13 +24,11 @@ function ItemLocation() {
   const [showCityDropdown, setShowCityDropdown] = useState<boolean>(false);
 
   const clearCityFromState = useCallback(() => {
-    dispatch(validateFieldHandler({ field: "location.city", value: "" }));
-    dispatch(updateFieldHandler({ field: "location.city", value: "" }));
+    dispatch(updateAndValidateFieldHandler({ field: "location.city", value: "" }));
   }, [dispatch]);
 
   const clearZipCodeFromState = useCallback(() => {
-    dispatch(validateFieldHandler({ field: "location.zipCode", value: "" }));
-    dispatch(updateFieldHandler({ field: "location.zipCode", value: "" }));
+    dispatch(updateAndValidateFieldHandler({ field: "location.zipCode", value: "" }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -43,8 +41,7 @@ function ItemLocation() {
   }, [division]);
 
   const handleDivisionChange = (value: string) => {
-    dispatch(updateFieldHandler({ field: "location.division", value }));
-    dispatch(validateFieldHandler({ field: "location.division", value }));
+    dispatch(updateAndValidateFieldHandler({ field: "location.division", value }));
     setShowDivisionDropdown(false);
     if (division !== "") {
       clearCityFromState();
@@ -64,15 +61,9 @@ function ItemLocation() {
     city: string;
     zipCode: string;
   }) => {
-    dispatch(updateFieldHandler({ field: "location.city", value: city }));
-    dispatch(validateFieldHandler({ field: "location.city", value: city }));
     setShowCityDropdown(false);
-
-    // set zip code
-    dispatch(updateFieldHandler({ field: "location.zipCode", value: zipCode }));
-    dispatch(
-      validateFieldHandler({ field: "location.zipCode", value: zipCode })
-    );
+    dispatch(updateAndValidateFieldHandler({ field: "location.city", value: city }));
+    dispatch(updateAndValidateFieldHandler({ field: "location.zipCode", value: zipCode }));
   };
 
   return (
@@ -105,7 +96,7 @@ function ItemLocation() {
             </div>
           )}
         </div>
-        {errors.location.division && (
+        {errors.location && errors.location.division && (
           <p className="text-red-300 text-sm">
             {errors["location"]["division"]}
           </p>
@@ -143,7 +134,7 @@ function ItemLocation() {
             </div>
           )}
         </div>
-        {errors.location.city && (
+        {errors.location && errors.location.city && (
           <p className="text-red-300 text-sm">{errors["location"]["city"]}</p>
         )}
       </div>
@@ -154,7 +145,7 @@ function ItemLocation() {
         <div className="relative  flex justify-between items-center border border-gray-200 px-2 py-1 rounded-md bg-gray-50 pointer-events-none h-10">
           <p>{zipCode || ""}</p>
         </div>
-        {errors.location.zipCode && (
+        {errors.location && errors.location.zipCode && (
           <p className="text-red-300 text-sm">
             {errors["location"]["zipCode"]}
           </p>
