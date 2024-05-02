@@ -1,110 +1,79 @@
 import { useCallback, useEffect, useState } from "react";
-import { usePredictMutation } from "../predictionApiSlice";
-import { RootState } from "../../../../store/store";
-import { useSelector } from "react-redux";
+import { usePredictMutation } from "../../../../api/predictionApiSlice";
 import { formatCurrency } from "../../../../utils/format";
 
-function PredictedPrice() {
-  const { data, errors } = useSelector((state: RootState) => state.listing);
+type PredictedPriceProps = {
+  data: {
+    make: string;
+    vehicleModel: string;
+    manufacturedYear: number;
+    registeredYear: number;
+    mileage: number;
+    numberOfPreviousOwners: number;
+    exteriorColor: string;
+    condition: string;
+    bodyType: string;
+    engineCapacity: number;
+    fuelType: string;
+    transmission: string;
+  };
+};
+
+function PredictedPrice({ data }: PredictedPriceProps) {
   const [PredictedPrice, setPredictedPrice] = useState(0);
-  const {
-    make,
-    vehicleModel,
-    manufacturedYear,
-    registeredYear,
-    mileage,
-    numberOfPreviousOwners,
-    exteriorColor,
-    condition,
-    bodyType,
-    engineCapacity,
-    fuelType,
-    transmission,
-  } = data;
-  const {
-    make: makeError,
-    vehicleModel: modelError,
-    manufacturedYear: manufacturedYearError,
-    registeredYear: registeredYearError,
-    mileage: mileageError,
-    numberOfPreviousOwners: numberOfPreviousOwnersError,
-    exteriorColor: exteriorColorError,
-    condition: conditionError,
-    bodyType: bodyTypeError,
-    engineCapacity: engineCapacityError,
-    fuelType: fuelTypeError,
-    transmission: transmissionError,
-  } = errors;
+
   const [predict] = usePredictMutation();
 
   const handlePredict = useCallback(async () => {
     try {
       const response = await predict({
-        make,
-        model: vehicleModel,
-        manufacturedYear,
-        registeredYear,
-        mileage,
-        previousOwners: numberOfPreviousOwners,
-        exteriorColor,
-        condition: "used",
-        bodyType,
-        engineCapacity,
-        fuelType,
-        transmission,
+        ...data,
       }).unwrap();
       const noDecimals = response.predicted_price.toFixed(0);
       setPredictedPrice(noDecimals);
     } catch (error) {
       return;
     }
-  }, [
-    bodyType,
-    engineCapacity,
-    exteriorColor,
-    fuelType,
-    make,
-    manufacturedYear,
-    mileage,
-    numberOfPreviousOwners,
-    predict,
-    registeredYear,
-    transmission,
-    vehicleModel,
-  ]);
+  }, [data, predict]);
 
   useEffect(() => {
     // check if all fields are valid
     handlePredict();
-  }, [
-    data,
-    errors,
-    make,
-    vehicleModel,
-    manufacturedYear,
-    registeredYear,
-    mileage,
-    numberOfPreviousOwners,
-    exteriorColor,
-    condition,
-    bodyType,
-    engineCapacity,
-    fuelType,
-    transmission,
-    makeError,
-    modelError,
-    manufacturedYearError,
-    registeredYearError,
-    mileageError,
-    numberOfPreviousOwnersError,
-    exteriorColorError,
-    conditionError,
-    bodyTypeError,
-    engineCapacityError,
-    fuelTypeError,
-    transmissionError,
-    handlePredict,
-  ]);
+  }, [handlePredict, data]);
+
+  const getNormalizedOutput = (value: number) => {
+    // if the value is greater than 100000000, round it to the nearest 10000000
+    if (value >= 100000000) {
+      return Math.ceil(value / 10000000) * 10000000;
+    }
+
+    // if the value is greater than 10000000, round it to the nearest 1000000
+    if (value >= 10000000) {
+      return Math.ceil(value / 1000000) * 1000000;
+    }
+
+    // if the value is greater than 1000000, round it to the nearest 100000
+    if (value >= 1000000) {
+      return Math.ceil(value / 100000) * 100000;
+    }
+
+    // if the value is greater than 100000, round it to the nearest 10000
+    if (value >= 100000) {
+      return Math.ceil(value / 10000) * 10000;
+    }
+
+    // if the value is greater than 10000, round it to the nearest 1000
+    if (value >= 10000) {
+      return Math.ceil(value / 1000) * 1000;
+    }
+
+    // if the value is greater than 1000, round it to the nearest 100
+    if (value >= 1000) {
+      return Math.ceil(value / 100) * 100;
+    }
+
+    return value;
+  };
 
   return (
     <div className="flex flex-col gap-10">
@@ -119,7 +88,7 @@ function PredictedPrice() {
         <div className="flex gap-4 items-center mt-4">
           {PredictedPrice > 0 ? (
             <p className="text-green-600 text-lg font-medium">
-              {formatCurrency(PredictedPrice, "LKR")}
+              {formatCurrency(getNormalizedOutput(PredictedPrice), "LKR")}
             </p>
           ) : (
             <p className="text-gray-300">Calculating...</p>

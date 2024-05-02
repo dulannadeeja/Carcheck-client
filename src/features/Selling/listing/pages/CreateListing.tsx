@@ -18,6 +18,7 @@ import useCreateListing from "../hooks/useListingCreate";
 import { RootState } from "../../../../store/store";
 import { GetDraftListingType, ListingStates } from "../sellerListing";
 import Preview from "./Preview";
+import PredictedPrice from "../components/PredictedPrice";
 
 function CreateListing() {
   const dispatch = useDispatch();
@@ -86,7 +87,7 @@ function CreateListing() {
           <Condition />
           <VehicleItemSpecifics />
           <Description />
-          {/* <PredictedPrice /> */}
+          <PredictedPrice data={data}/>
           <ListingFormatAndPricing />
           <ItemLocation />
           <div className="flex flex-col gap-3 md:w-60 mx-auto mb-40">

@@ -47,6 +47,7 @@ import BidHistory from "./features/listing/bidding/pages/BidHistory.tsx";
 import PreListing from "./features/Selling/listing/pages/PreListing.tsx";
 import CreateListing from "./features/Selling/listing/pages/CreateListing.tsx";
 import UpdateListing from "./features/Selling/listing/pages/UpdateActiveListing.tsx";
+import SystemConfig from "./features/admin/components/SystemConfig.tsx";
 
 const router = createBrowserRouter([
   {
@@ -177,6 +178,10 @@ const router = createBrowserRouter([
       {
         path: "accounts",
         element: <PendingAccounts />,
+      },
+      {
+        path: "system-settings",
+        element: <SystemConfig />,
       }
     ],
   },

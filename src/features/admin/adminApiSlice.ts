@@ -179,7 +179,7 @@ export const adminApi = createApi({
                 body: data
             }),
             invalidatesTags: ["vehicles"],
-        }),
+        })
     }),
 })
 

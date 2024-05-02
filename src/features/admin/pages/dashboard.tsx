@@ -73,6 +73,14 @@ function Dashborad() {
                 >
                   Accounts
                 </Link>
+                <Link 
+                  to="/admin/system-settings"
+                  className={cn("px-3 py-2 font-medium", {
+                    "text-blue-300 bg-gray-150": pathName === "/admin/system-settings",
+                  })}
+                >
+                  System Settings
+                </Link>
               </div>
             </div>
             <div className="col-span-10">

@@ -4,7 +4,7 @@ import authReducer from "../features/authentication/authSlice";
 import listingReducer from "../features/Selling/listing/listingSlice";
 import { authApi } from "../features/authentication/authApiSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { predictionApi } from "../features/Selling/listing/predictionApiSlice";
+import { predictionApi } from "../api/predictionApiSlice";
 import { sellerApi } from "../features/Selling/SellerApiSlice";
 import inspectionReqReducer from "../features/Selling/inspectionReqSlice";
 import { inspectionApi } from "../features/Selling/inspectionReqApiSlice";

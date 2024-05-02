@@ -11,6 +11,7 @@ import { GetListingType, ListingType } from "../clientListing";
 import verifiedSellerSvg from "../../../assets/svg/verifiedSellerBadge.svg";
 import { useNavigate } from "react-router-dom";
 import { SERVER_URL } from "../../../utils/constants";
+import { AccountType } from "../../authentication/auth";
 
 function ListingCard({ listing }: { listing: GetListingType }) {
   const navigate = useNavigate();
@@ -23,8 +24,11 @@ function ListingCard({ listing }: { listing: GetListingType }) {
     return diffDays <= 7;
   };
 
+  console.log(listing);
+
   return (
-    <ListItem className="flex items-start gap-2 text-sm font-medium lg:text-base lg:font-normal cursor-pointer"
+    <ListItem
+      className="flex items-start gap-2 text-sm font-medium lg:text-base lg:font-normal cursor-pointer"
       onClick={() => {
         navigate(`/listing/${listing._id}`);
       }}
@@ -85,12 +89,13 @@ function ListingCard({ listing }: { listing: GetListingType }) {
             </p>
             <p>
               <span>
-                {listing.seller.businessInfo.businessName ||
-                  `${listing.seller.firstName} ${listing.seller.lastName}`}{" "}
+                {listing.seller.businessInfo && listing.seller.businessInfo.businessName
+                  ? listing.seller.businessInfo.businessName
+                  : `${listing.seller.firstName} ${listing.seller.lastName}`}{" "}
                 ({16}) {formatFeedbackPercentage(100)}
               </span>
             </p>
-            {listing.seller.businessInfo.businessName && (
+            {listing.seller.accountType === AccountType.sellerBusiness || listing.seller.accountType === AccountType.serviceProvider  && (
               <img src={verifiedSellerSvg} alt="" className="w-[7rem]" />
             )}
           </div>
