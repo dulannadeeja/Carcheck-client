@@ -30,10 +30,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: pull image from docker hub
-        run: docker pull dulannadeeja/carcheck-client:latest
+        run: sudo docker pull dulannadeeja/carcheck-client:latest
 
       - name: delete existing container
-        run: docker rm -f carcheck-client-container || true
+        run: sudo docker rm -f carcheck-client-container || true
 
       - name: run the container
-        run: docker run -d -p 3000:80 --name carcheck-client-container dulannadeeja/carcheck-client
+        run: sudo docker run -d -p 3000:80 --name carcheck-client-container dulannadeeja/carcheck-client

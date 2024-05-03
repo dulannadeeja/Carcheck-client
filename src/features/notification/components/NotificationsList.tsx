@@ -3,29 +3,16 @@ import { cn } from "../../../utils/mergeClasses";
 import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { limitString } from "../../../utils/format";
-// import { useMarkAllAsReadReqMutation } from "../notificationApiSlice";
+
 
 
 type TNotificationListProps = React.HTMLAttributes<HTMLDivElement>;
 
-function NotificationList({ className, ...rest }: TNotificationListProps) {
+function NotificationsList({ className, ...rest }: TNotificationListProps) {
   
-  // const [markAllAsReadReq] = useMarkAllAsReadReqMutation();
   const { notifications } = useSelector(
     (state: RootState) => state.notification
   );
-// need to be completed by using the slice for the header component
-//   // on this component dispose, set all the notifications to read
-//   useEffect(() => {
-//     return () => {
-//         console.log("Component disposed, setting all notifications to read");
-//         (async () => {
-//             await markAllAsReadReq();
-//             toast.success("All notifications marked as read");
-//             dispatch(markAllAsRead());
-//         })();
-//     };
-// }, [dispatch, markAllAsReadReq]);
 
   return (
     <div className={cn("overflow-y-scroll", className)} {...rest}>
@@ -48,4 +35,4 @@ function NotificationList({ className, ...rest }: TNotificationListProps) {
   );
 }
 
-export default NotificationList;
+export default NotificationsList;
