@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { AccountType, typeOfOwnershipArray } from "../../auth";
+import { typeOfOwnershipArray } from "../../auth";
 import Input from "../../../../components/ui/Input";
 import { IoChevronDownOutline } from "react-icons/io5";
 import {

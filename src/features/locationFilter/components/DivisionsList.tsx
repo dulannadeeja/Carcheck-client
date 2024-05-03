@@ -9,7 +9,7 @@ import { divisionsOfSrilanka, TDivision } from "../location";
 type TDivisionsListProps = React.HTMLAttributes<HTMLUListElement>;
 
 function DivisionsList({ className }: TDivisionsListProps) {
-  const { divisionsList, setSelectedDivision } = useLocationContext();
+  const { setSelectedDivision } = useLocationContext();
 
   const makeDivisionItemsArray = () => {
     return divisionsOfSrilanka.map((division, index) => {

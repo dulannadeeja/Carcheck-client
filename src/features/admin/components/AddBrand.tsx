@@ -5,7 +5,6 @@ import Button from "../../../components/ui/Button";
 import { useAddBrandMutation, useEditBrandMutation } from "../adminApiSlice";
 import { ErrorResponse } from "../../../types";
 import { toast } from "react-toastify";
-import { set } from "lodash";
 
 type AddBrandProps = {
   setShowAddBrand: (showAddBrand: boolean) => void;

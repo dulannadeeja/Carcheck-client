@@ -3,7 +3,7 @@ import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import Button from "../../../../components/ui/Button";
 import { FiTrash } from "react-icons/fi";
 import { cn } from "../../../../utils/mergeClasses";
-import { updateFieldHandler, validateFieldHandler } from "../listingSlice";
+import { updateAndValidateFieldHandler } from "../listingSlice";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,8 +17,7 @@ function UploadImages() {
 
   useEffect(() => {
     if (touched) {
-      dispatch(updateFieldHandler({ field: "images", value: droppedImages }));
-      dispatch(validateFieldHandler({ field: "images", value: droppedImages }));
+      dispatch(updateAndValidateFieldHandler({ field: "images", value: droppedImages }));
     }
   }, [droppedImages, dispatch, touched]);
 

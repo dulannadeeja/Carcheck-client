@@ -1,13 +1,13 @@
 import Address from "./Address";
 import PersonalInfo from "./PersonalInfo";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
 import BusinessInfo from "./BusinessInfo";
 import { AccountType } from "../../auth";
 
 function IdentityInfo() {
-  const dispatch = useDispatch();
-  const { data, errors } = useSelector(
+  
+  const { data} = useSelector(
     (state: RootState) => state.sellingAccount
   );
 

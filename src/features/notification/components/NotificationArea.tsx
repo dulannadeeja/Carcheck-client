@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useGetNotificationsQuery } from "../notificationApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";

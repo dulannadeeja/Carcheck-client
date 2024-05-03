@@ -11,7 +11,6 @@ import {
 } from "../../../api/predictionApiSlice";
 import { CiWarning } from "react-icons/ci";
 import { useState } from "react";
-import { set } from "lodash";
 
 function SystemConfig() {
   const [
@@ -59,7 +58,7 @@ function SystemConfig() {
       reset: resetTrainModel,
     },
   ] = useTrainModelMutation();
-  const { data, isLoading, isError,refetch } = useGetModelInfoQuery();
+  const { data, isLoading, refetch } = useGetModelInfoQuery();
 
   const [showResetProcess, setShowResetProcess] = useState(false);
   const [showSyncProcess, setShowSyncProcess] = useState(false);

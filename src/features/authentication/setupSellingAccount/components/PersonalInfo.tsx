@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Input from "../../../../components/ui/Input";
 import { RootState } from "../../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,16 +27,16 @@ function PersonalInfo() {
     dispatch(
       updateFieldHandler({
         field: "personalInfo.firstName",
-        value: user.firstName,
+        value: user?.firstName,
       })
     );
     dispatch(
       updateFieldHandler({
         field: "personalInfo.lastName",
-        value: user.lastName,
+        value: user?.lastName,
       })
     );
-  }, [dispatch, user.firstName, user.lastName]);
+  }, [dispatch, user?.firstName, user?.lastName]);
 
   const onContinue = async () => {
     // validate personal info

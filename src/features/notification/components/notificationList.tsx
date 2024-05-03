@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../../../utils/mergeClasses";
 import { RootState } from "../../../store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { limitString } from "../../../utils/format";
-import { useMarkAllAsReadReqMutation } from "../notificationApiSlice";
-import { markAllAsRead } from "../notificationSlice";
-import { toast } from "react-toastify";
+// import { useMarkAllAsReadReqMutation } from "../notificationApiSlice";
+
 
 type TNotificationListProps = React.HTMLAttributes<HTMLDivElement>;
 
 function NotificationList({ className, ...rest }: TNotificationListProps) {
-  const dispatch = useDispatch();
-  const [markAllAsReadReq] = useMarkAllAsReadReqMutation();
+  
+  // const [markAllAsReadReq] = useMarkAllAsReadReqMutation();
   const { notifications } = useSelector(
     (state: RootState) => state.notification
   );

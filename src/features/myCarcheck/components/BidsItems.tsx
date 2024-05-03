@@ -1,24 +1,24 @@
-import React from "react";
-import { listings } from "../../../data/listings.json";
-import {
-  formatCurrency,
-  formatFeedbackPercentage,
-  formatTimeLeft,
-  limitString,
-} from "../../../utils/format";
-import Button from "../../../components/ui/Button";
-import { Link } from "react-router-dom";
 
-const listingsArray: listingType[] = [];
+// import { listings } from "../../../data/listings.json";
+// import {
+//   formatCurrency,
+//   formatFeedbackPercentage,
+//   formatTimeLeft,
+//   limitString,
+// } from "../../../utils/format";
+// import Button from "../../../components/ui/Button";
+// import { Link } from "react-router-dom";
 
-listings.forEach((listing) => {
-  listingsArray.push(listing as listingType);
-});
+// const listingsArray: listingType[] = [];
+
+// listings.forEach((listing) => {
+//   listingsArray.push(listing as listingType);
+// });
 
 function BidsItems() {
   return (
     <div className="flex flex-col gap-6 my-10">
-      {listingsArray.map((listing) => (
+      {/* {listingsArray.map((listing) => (
         <div
           key={listing._id}
           className="text-sm flex flex-col md:grid grid-cols-12 gap-6 border p-4 rounded-lg shadow-sm md:border-none md:shadow-none"
@@ -82,7 +82,7 @@ function BidsItems() {
             </Button>
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 }

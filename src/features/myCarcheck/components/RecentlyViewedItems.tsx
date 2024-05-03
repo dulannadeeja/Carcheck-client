@@ -1,23 +1,22 @@
-import React from "react";
-import { listings } from "../../../data/listings.json";
-import {
-  formatCurrency,
-  formatTimeLeft,
-  limitString,
-} from "../../../utils/format";
-import { listingType } from "../../listing/clientListing";
 
-const listingsArray: listingType[] = [];
+// import { listings } from "../../../data/listings.json";
+// import {
+//   formatCurrency,
+//   formatTimeLeft,
+//   limitString,
+// } from "../../../utils/format";
 
-listings.forEach((listing) => {
-  listingsArray.push(listing as listingType);
-});
+// // const listingsArray: listingType[] = [];
+
+// // listings.forEach((listing) => {
+// //   listingsArray.push(listing as listingType);
+// // });
 
 function RecentlyViewedItems() {
   return (
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-2">
-        {listingsArray.map((listing) => (
+        {/* {listingsArray.map((listing) => (
           <div key={listing._id} className="p-4 text-sm">
             <div className="bg-gray-100 shadow-sm rounded-lg aspect-square">
               <img
@@ -39,7 +38,7 @@ function RecentlyViewedItems() {
               <p>{formatTimeLeft(new Date(listing.auction.endDateTime))}</p>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

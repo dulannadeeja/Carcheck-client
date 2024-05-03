@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Categories from './Categories'
 import TransmissionType from './TransmissionType'
 import FuelType from './FuelType'

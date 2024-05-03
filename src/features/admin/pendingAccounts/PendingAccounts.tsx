@@ -100,8 +100,8 @@ const columns = [
 
 function PendingAccounts() {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(20);
-  const { data, isLoading, error,isSuccess } = useGetPendingAccountsQuery({
+  const [limit] = useState(20);
+  const { data, error,isSuccess } = useGetPendingAccountsQuery({
     page,
     limit
   });

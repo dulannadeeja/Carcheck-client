@@ -1,15 +1,12 @@
-import { CellContext } from "@tanstack/react-table";
-import { TData } from "../PendingAccounts";
+import { Cell, Column, Getter, Row, } from "@tanstack/react-table";
 import Button from "../../../../components/ui/Button";
 import { useDispatch } from "react-redux";
 import {
-  approveAccount,
-  updatePendingAccount,
   updateStatus,
 } from "../pendingAccountsSlice";
 import { IoIosMore } from "react-icons/io";
 import { useEffect, useRef, useState } from "react";
-import { AccountStatus } from "../../../authentication/auth";
+import { AccountStatus, UserDocument } from "../../../authentication/auth";
 import {
   useApproveAccountMutation,
   useRejectAccountMutation,
@@ -18,12 +15,17 @@ import { toast } from "react-toastify";
 import { SERVER_URL } from "../../../../utils/constants";
 import { UserDoc } from "../../../authentication/auth";
 import { addTask, DownloadTask } from "../../../download/downloaderSlice";
-import { random } from "lodash";
-import { v4 as uuidv4 } from 'uuid';
 
-type ActionsProps = CellContext<TData, unknown>;
+export interface TData 
+  { 
+    cell: Cell<UserDocument, unknown>; 
+    column: Column<UserDocument, unknown>; 
+    getValue: Getter<unknown>; 
+    renderValue: Getter<unknown>; 
+    row: Row<UserDocument>; 
+  }   
 
-function Actions(props: ActionsProps) {
+function Actions(props: TData) {
   const [approveAccount, { isLoading }] = useApproveAccountMutation();
   const [rejectAccount, { isLoading: isRejecting }] =
     useRejectAccountMutation();
@@ -87,12 +89,12 @@ function Actions(props: ActionsProps) {
   const onDownloadDocs = () => {
     const { userDocs } = props.row.original;
     // check if the user has uploaded any documents
-    if (userDocs === 0) {
+    if (userDocs && userDocs.length === 0) {
       toast.error("No documents uploaded by the user.");
       return;
     }
     // download all the documents uploaded by the user
-    userDocs.forEach((doc: UserDoc) => {
+    userDocs?.forEach((doc: UserDoc) => {
       // prepare the download url
       let url = ''
       if(doc.docName.match(/(jpg|jpeg|png|gif)$/)) {
@@ -167,3 +169,7 @@ function Actions(props: ActionsProps) {
 }
 
 export default Actions;
+function uuidv4(): string {
+  throw new Error("Function not implemented.");
+}
+

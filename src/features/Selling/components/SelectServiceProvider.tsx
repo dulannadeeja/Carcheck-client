@@ -1,5 +1,5 @@
-import { error } from "console";
-import React, { useEffect, useState } from "react";
+
+import { useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";

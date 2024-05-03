@@ -117,7 +117,7 @@ function RequestInspection() {
           {isSuccess && data && (
             <>
               <div className="flex flex-col gap-10">
-                <VehicleDetails listing={data} />
+                <VehicleDetails listing={data.data} />
                 <SelectServiceProvider />
                 <Calendar />
                 <TimePicker />

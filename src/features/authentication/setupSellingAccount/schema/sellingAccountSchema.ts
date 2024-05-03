@@ -1,6 +1,5 @@
 
 import { z } from 'zod';
-import { AccountType, typeOfOwnerships } from '../../auth';
 
 export enum VerificationType {
     email = 'email',

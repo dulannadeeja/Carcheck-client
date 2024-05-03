@@ -16,10 +16,10 @@ function VehicleModels() {
   const [showAddVehicleModel, setShowAddVehicleModel] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [sort, setSort] = useState("make");
-  const [make, setMake] = useState("");
-  const [category, setCategory] = useState("");
+  const [limit] = useState(10);
+  const [sort] = useState("make");
+  const [make] = useState("");
+  const [category] = useState("");
   const { data, error, isSuccess } = useGetVehiclesModelsQuery({
     make,
     category,

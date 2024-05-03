@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import { ErrorResponse } from "react-router-dom";
 import { formatCurrency } from "../../../../utils/format";
 import { RxCross2 } from "react-icons/rx";
-import { set } from "lodash";
 
 type Props = {
   onClose: () => void;

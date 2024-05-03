@@ -1,14 +1,14 @@
-import React from "react";
-import { ListingResponseType } from "../../listing/clientListing";
+
 import { SERVER_URL } from "../../../utils/constants";
 import {
   formatEngineCapacity,
   formatMileage,
   mapOwners,
 } from "../../../utils/format";
+import { GetSellerListingType } from "../listing/sellerListing";
 
 type VehicleDetailsProps = {
-  listing: ListingResponseType | undefined;
+  listing: GetSellerListingType | undefined;
 };
 
 function VehicleDetails({ listing }: VehicleDetailsProps) {
