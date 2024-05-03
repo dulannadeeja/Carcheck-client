@@ -59,7 +59,11 @@ function SubmitRegistration() {
   };
 
   const validateSellingAccount = () => {
-    const result = sellingAccountSchema.safeParse(data);
+    const result = sellingAccountSchema.safeParse(data) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: typeof data
+   };
     if (!result.success) {
       return handleValidationErrors(result.error.issues);
     }

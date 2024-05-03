@@ -5,7 +5,7 @@ import List from "../../../components/ui/List";
 
 // utils
 import { cn } from "../../../utils/mergeClasses";
-import { TCitiesOfDivision } from "../location";
+import { City, TCitiesOfDivision } from "../location";
 import useLocationContext from "../hooks/useLocationContext";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
@@ -28,7 +28,7 @@ function CitiesList({ className, onClose }: CitiesListProps) {
       `All of ${selectedDivision} division`,
     ];
 
-    citiesOfDivision.forEach((city) => {
+    citiesOfDivision.forEach((city: City) => {
       modifiedCitiesOfDivision.push(city.city);
     });
 

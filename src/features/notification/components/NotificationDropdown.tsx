@@ -1,6 +1,8 @@
 import React from "react";
 import HeaderDropdownModal from "../../../components/HeaderDropdownModal";
-import NotificationList from "./NotificationList";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import NotificationList from "./NotificationList.tsx";
 
 type TNotificationDropdownProps = React.HTMLAttributes<HTMLDivElement>;
 

@@ -87,7 +87,11 @@ function FinancialInfo() {
   };
 
   const validateFinancialInfo = () => {
-    const result = financialInfoSchema.safeParse(data.financialInfo);
+    const result = financialInfoSchema.safeParse(data.financialInfo) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: typeof data.financialInfo
+   };
     if (!result.success) {
       return handleFinancialInfoValidationErrors(result.error.issues);
     }

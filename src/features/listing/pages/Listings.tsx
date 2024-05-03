@@ -30,7 +30,7 @@ function Listings() {
   useEffect(() => {
     if (isSuccess && data) {
       dispatch(setListings(data.data));
-      dispatch(setTotalListings(data.total) || 0);
+      dispatch(setTotalListings(data.total));
     } else if (isError) {
       dispatch(setListings([]));
     }

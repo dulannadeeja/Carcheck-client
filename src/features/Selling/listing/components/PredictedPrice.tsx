@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePredictMutation } from "../../../../api/predictionApiSlice";
 import { formatCurrency } from "../../../../utils/format";
 
-type PredictedPriceProps = {
+export type PredictedPriceProps = {
   data: {
     make: string;
     vehicleModel: string;

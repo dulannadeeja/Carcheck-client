@@ -82,7 +82,11 @@ function RequestInspection() {
       inspectionDate,
       contactNumber,
       inspectionTime,
-    });
+    }) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: typeof data
+   };
     if (!result.success) {
       toast.error(
         "There are some errors in your listing. Please fix them before submitting."

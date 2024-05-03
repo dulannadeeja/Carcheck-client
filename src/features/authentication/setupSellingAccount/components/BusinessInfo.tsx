@@ -79,7 +79,11 @@ function BusinessInfo() {
 
   const ValidateBusinessInfo = () => {
     // validate business info
-    const result = businessInfoSchema.safeParse(data.businessInfo);
+    const result = businessInfoSchema.safeParse(data.businessInfo) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: typeof data.businessInfo
+   };
     if (!result.success) {
       return handleBusinessInfoValidationErrors(result.error.issues);
     }

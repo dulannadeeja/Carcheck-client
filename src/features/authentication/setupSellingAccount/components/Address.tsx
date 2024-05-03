@@ -99,7 +99,11 @@ function Address() {
   };
 
   const validateAddress = () => {
-    const result = businessAddressSchema.safeParse(businessAddress);
+    const result = businessAddressSchema.safeParse(businessAddress) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: typeof businessAddress
+   };
     if (!result.success) {
       const addressErrors = handleAddressValidationErrors(result.error.issues);
       return addressErrors;

@@ -82,7 +82,11 @@ function PersonalInfo() {
   };
 
   const validatePersonalInfo = async () => {
-    const result = personalInfoSchema.safeParse(data.personalInfo);
+    const result = personalInfoSchema.safeParse(data.personalInfo) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: typeof data
+   };
     if (!result.success) {
       const errors = handlePersonalInfoValidationErrors(result.error.issues);
       return errors;

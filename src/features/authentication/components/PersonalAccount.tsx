@@ -37,7 +37,11 @@ function PersonalAccount({ handleSignup }: { handleSignup: (data:PersonalUserFor
       lastName: e.currentTarget.lastName.value,
     };
 
-    const result = personalUserSchema.safeParse(formData);
+    const result = personalUserSchema.safeParse(formData) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: PersonalUserFormFields
+   };
 
     if (result.success) {
       // Form is valid

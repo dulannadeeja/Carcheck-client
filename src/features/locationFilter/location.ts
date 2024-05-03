@@ -16,6 +16,11 @@ export type TCitiesOfDivision = {
     code: string
 }[] | [];
 
+export type City = {
+    city: string;
+    code: string;
+}
+
 export const divisionsOfSrilanka = Object.keys(divisionsList);
 
 export const getCitiesOfDivision = (division: TDivision) => {

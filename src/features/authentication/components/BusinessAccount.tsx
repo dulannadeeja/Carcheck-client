@@ -39,7 +39,11 @@ function BusinessAccount({
       lastName: e.currentTarget.lastName.value
     };
 
-    const result = businessUserSchema.safeParse(formData);
+    const result = businessUserSchema.safeParse(formData) as { 
+      success: boolean; 
+      error: { issues: ZodIssue[] },
+      data: BusinessUserFormFields
+   };
 
     if (result.success) {
       // Form is valid

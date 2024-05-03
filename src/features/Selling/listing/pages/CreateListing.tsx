@@ -87,7 +87,22 @@ function CreateListing() {
           <Condition />
           <VehicleItemSpecifics />
           <Description />
-          <PredictedPrice data={data}/>
+          <PredictedPrice
+            data={{
+              make: data.make,
+              vehicleModel: data.vehicleModel,
+              manufacturedYear: data.manufacturedYear,
+              registeredYear: data.registeredYear,
+              mileage: data.mileage,
+              numberOfPreviousOwners: data.numberOfPreviousOwners,
+              exteriorColor: data.exteriorColor,
+              condition: data.condition,
+              bodyType: data.bodyType,
+              engineCapacity: data.engineCapacity,
+              fuelType: data.fuelType,
+              transmission: data.transmission,
+            }}
+          />
           <ListingFormatAndPricing />
           <ItemLocation />
           <div className="flex flex-col gap-3 md:w-60 mx-auto mb-40">

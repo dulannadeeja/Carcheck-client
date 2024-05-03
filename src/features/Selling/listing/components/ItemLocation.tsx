@@ -5,6 +5,7 @@ import { RootState } from "../../../../store/store";
 import { updateAndValidateFieldHandler} from "../listingSlice";
 
 import {
+  City,
   divisionsOfSrilanka,
   getCitiesOfDivision,
   TCitiesOfDivision,
@@ -47,8 +48,8 @@ function ItemLocation() {
       clearCityFromState();
       clearZipCodeFromState();
       const cities = getCitiesOfDivision(division as TDivision);
-      setCitiesOfDivision(cities as unknown as TCitiesOfDivision);
-      citiesOfDivision.forEach((city) => {
+      setCitiesOfDivision(cities as TCitiesOfDivision);
+      citiesOfDivision.forEach((city:City) => {
         console.log(city.city);
       });
     }
