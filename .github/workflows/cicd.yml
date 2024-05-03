@@ -16,24 +16,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: login to docker hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-      - name: Build the Docker image
-        run: docker build -t dulannadeeja/carcheck-client .
-
-      - name: Push the Docker image
-        run: docker push dulannadeeja/carcheck-client:latest
-
-  deploy:
-    needs: build
-    runs-on: self-hosted
-    steps:
-      - name: pull image from docker hub
-        run: sudo docker pull dulannadeeja/carcheck-client:latest
-
-      - name: delete existing container
-        run: sudo docker rm -f carcheck-client-container || true
-
-      - name: run the container
-        run: sudo docker run -d -p 3000:80 --name carcheck-client-container dulannadeeja/carcheck-client
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build the app
+        run: npm run build
