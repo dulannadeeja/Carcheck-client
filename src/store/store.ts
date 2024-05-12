@@ -21,6 +21,7 @@ import { listingApi } from "../features/Selling/listing/listingApiSlice";
 import clientListingApi from "../features/listing/clientListingApi";
 import clientListingSlice from "../features/listing/clientListingSlice";
 import clientApi from "../api/clientApiSlice";
+import advancedSearchSlice from "../features/listing/advancedSearch/advancedSearchSlice";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     downloader: downloaderReducer,
     notification: notificationReducer,
     clientListing: clientListingSlice,
+    advancedSearch: advancedSearchSlice,
     [authApi.reducerPath]: authApi.reducer,
     [listingApi.reducerPath]: listingApi.reducer,
     [predictionApi.reducerPath]: predictionApi.reducer,

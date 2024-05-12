@@ -18,12 +18,19 @@ import MobileListingTypeQuickFilter from "../filters/components/MobileListingTyp
 import { useDispatch, useSelector } from "react-redux";
 import { useGetListingsQuery } from "../clientListingApi";
 import { RootState } from "../../../store/store";
-import { setListings, setTotalListings } from "../clientListingSlice";
-
+import {
+  resetFilterOptions,
+  setListings,
+  setTotalListings,
+} from "../clientListingSlice";
+import useSyncWithUrl from "../filters/hooks/useSyncWithUrl";
 
 function Listings() {
   const dispatch = useDispatch();
-  const { filterOptions } = useSelector((state: RootState) => state.clientListing);
+  const { filterOptions, isNeedToUpdateURL } = useSelector(
+    (state: RootState) => state.clientListing
+  );
+  useSyncWithUrl(filterOptions);
   const [isModelOpen, setIsModelOpen] = useState(false);
   const { data, isSuccess, isError } = useGetListingsQuery(filterOptions);
 

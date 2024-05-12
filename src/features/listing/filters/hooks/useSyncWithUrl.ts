@@ -1,20 +1,19 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ListingFilterOptions } from "../../clientListing";
 import { setFilterOptions } from "../../clientListingSlice";
 import { RootState } from "../../../../store/store";
 
 
-function useSyncWithUrl(filterOptions:ListingFilterOptions) {
-    const {isNeedToUpdateURL} = useSelector((state:RootState) => state.clientListing);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
-    
-    // get the filter options from the URL
+function useSyncWithUrl(filterOptions: ListingFilterOptions) {
+  const { isNeedToUpdateURL } = useSelector((state: RootState) => state.clientListing);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // get the filter options from the URL
   useEffect(() => {
-    if(isNeedToUpdateURL) return;
     const searchParams = new URLSearchParams(location.search);
 
     const filterOptions: ListingFilterOptions = {
@@ -52,7 +51,7 @@ function useSyncWithUrl(filterOptions:ListingFilterOptions) {
   }, [dispatch, isNeedToUpdateURL, location.search]);
 
   useEffect(() => {
-    if(!isNeedToUpdateURL) return;
+    if (!isNeedToUpdateURL) return;
     // Push changes to the URL
     const searchParams = new URLSearchParams();
 
