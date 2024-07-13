@@ -2,6 +2,9 @@
 
 ## [View full thesis report here](https://drive.google.com/file/d/1rKPBHpf-QTOJL44wN93ktj6cltljZkEm/view?usp=sharing) 
 
+## [Backend](https://github.com/dulannadeeja/Carcheck-server.git)
+## [ML Server](https://github.com/dulannadeeja/carcheck-ML-api.git)
+
 ## 1 Abstract
 
 The project aimed to address transparency and efficiency issues in the Sri Lankan automotive market through the development of a comprehensive online vehicle trading platform. Leveraging modern web technologies, the platform incorporated features like real-time auctions and accurate price predictions, enhancing the buying and selling process. Frontend development utilized React.js and TypeScript, while the backend was built with Node.js, Express, and TypeScript, with MongoDB serving as the database. A dedicated machine learning server, powered by Python and FastAPI, handled vehicle price predictions using linear regression, scikit-learn, pandas, uvicorn, and pymongo. The platform introduced a robust user verification system for secure transactions and community safety. By enhancing efficiency and transparency, the platform sets a framework for advanced data analytics in automotive market assessments, with implications for predictive analytics research. The report details the development process, technologies used, and evaluates the project's success in meeting its objectives.
